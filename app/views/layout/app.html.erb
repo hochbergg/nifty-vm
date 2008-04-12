@@ -17,17 +17,20 @@
 		<img src="/ext/resources/images/default/shared/blue-loading.gif" width="32" height="32" style="margin-right:8px;" align="absmiddle"/>Loading...</div>
 	</div>
 	
+	<div id="header">
+	</div>
+	<div id="content">
+		<div id="side"></div>
+		<div id="main"></div>
+	</div>	
 	
 	<%= ext_js_include_tag %>
 	<%= js_include_tag	'nifty/core',
+											'nifty/data/entity_store',
+											'nifty/widgets/entity_panel',
+											'nifty/widgets/field_panel',
+											'nifty/widgets/field_instance_panel',
 											'nifty/init',
-											'nifty/data/entity.js',
-											'nifty/data/list.js',
-											'nifty/data/fieldlet.js',
-											'nifty/data/tree.js',
-											'nifty/form/field.js',
-											'nifty/generated_fieldlets.js',
-											'nifty/generated.js',
 														  :bundle => 'nifty' %>
 </body>
 </html>

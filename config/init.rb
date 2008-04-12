@@ -64,5 +64,5 @@ Merb::BootLoader.after_app_loads do
 	 VM::Schema.load
 	
 	# build JS
-	VM::JsGenerator.build
+	#VM::JsGenerator.build
 end

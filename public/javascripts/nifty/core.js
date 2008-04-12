@@ -4,117 +4,74 @@
   */
  
 
-Ext.namespace('Nifty', 
-			  'Nifty.Utils', 
-			  'Nifty.Data', 
-			  'Nifty.Data.Entity', 
-			  'Nifty.Data.Fieldlet',
-			  'Nifty.form');
+Ext.namespace('Nifty',
+			  'Nifty.data',
+			  'Nifty.widgets');
 
-
-
-
-// A panel with a replace ability
-Nifty.Utils.ReplaceablePanel = Ext.extend(Ext.Panel, {
-	layout: 'card',
-	activeItem: 0,
-   	defaults: {
-       border:false
-   	},
-
-	replace: function(panel){
-		if (this.items.first()){
-			this.remove(this.items.first())
-		}
-
-		this.add(panel)
-		this.layout.setActiveItem(0)
-		this.doLayout();
-	}
-})
 
 
 // create application
 Nifty.app = function() {
     // do NOT access DOM from here; elements don't exist yet
- 
+ 	
+	
     // private variables
  
     // private functions
+
+	function hideLoaders(){
+		 setTimeout(function(){
+		    	Ext.get('loading').remove();
+		    	Ext.get('loading-mask').fadeOut({remove:true});
+		    }, 250);
+	}
+	
+	
+	function drawLayout(){
+		var ep = new Nifty.widgets.EntityPanel({
+			title: 'EntityPanel',
+			el: 'main',
+			items: {
+				xtype: 'tabPanel',
+				items: [
+					{title: 'Product Information', xtype: 'panel'},
+					{title: 'Order History', xtype: 'panel'}
+				]
+			}
+			//tabItems: [
+			//	new Ext.Panel({title: 'Product Information'}),
+			//	new Ext.Panel({title: 'Order History'})
+			//]
+		});
+		
+		
+		
+		ep.render();
+	}
+
+	function prepareEntityStore(){
+		var entityStore = new Nifty.data.EntityStore();
+		entityStore.on('load',function(){
+			alert('loaded!');
+		});
+		
+		return entityStore;
+	}
  
     // public space
     return {
- 
-        // public methods
-		hideLoaders: function(){
-		   setTimeout(function(){
-		    	Ext.get('loading').remove();
-		    	Ext.get('loading-mask').fadeOut({remove:true});
-		    }, 250);	
-		},
-
-
         init: function() {
 			// Hide Loader
-			this.hideLoaders()
-			this.setLayout()
+			hideLoaders();
 			
-			this.centerPanel.replace(new Entity2(
-				{
-					items: [
-						{
-							id: 'field_1',
-							title: 'Field1',
-							xtype: 'niftyField',
-							items:[
-								{
-									id: 'entity[7][0]',
-									xtype: 'Fieldlet7'
-								},
-								{
-									id: 'entity[8][0]',
-									xtype: 'Fieldlet8'
-								}
-
-							]
-						}   
-					]
-				}
-				))
-        },
-
-
-		setLayout: function(){
-			new Ext.Viewport({
-				scope:this,
-			    layout: 'border',
-			    defaults: {
-			        activeItem: 0,
-			    },
-			    items: [this.centerPanel,this.sidePanel]
-			});
+			this.entityStore = prepareEntityStore();
 			
+			drawLayout();
+	 	},
+	
+		loadEntity: function(id){
+			this.entityStore.load({id: id});
 		}
-		,
-		
-		
-		
-		
-		// Our Center Panel, Display the main info
-		centerPanel: new Nifty.Utils.ReplaceablePanel({
-            region: 'center',
-            margins: '0 0 0 0',
-			id: 'center_panel',
-		
-		}),
-		
-		sidePanel: new Ext.Panel({
-		   region: 'east',
-		   xtype: 'panel',
-		   title: 'Side',
-		   width: 200
-		})
-		
-    };
+	}
 }(); // end of app
  

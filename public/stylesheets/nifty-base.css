@@ -33,3 +33,30 @@ margin:0pt;
 padding:10px;
 text-align:center;
 }
+
+DIV#header{
+	height: 80px;
+	background: url(/images/header.jpg) repeat-x;
+	margin-bottom:13px;
+}
+
+DIV#main{
+	width:69%;
+	float:left;
+}
+
+DIV#content{
+	margin:3px 15px;
+}
+
+DIV#side{
+	float:right;
+	width:29%;
+}
+
+BODY{
+	background:#EFEFEF;
+}
+
+
+

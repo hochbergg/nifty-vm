@@ -18,7 +18,7 @@ module App
 			{:id 					=> self.id,
 			 :type				=> "Fieldlet#{self.kind}",
 			 :value				=> self.value,
-			 :field				=> "Field#{self.class.field_id}",
+			 :field_id		=> self.class.field_id,
 			 :instance_id => self.instance_id
 			 }.to_json
 		end
