@@ -64,14 +64,8 @@ Nifty.app = function() {
 			// Hide Loader
 			hideLoaders();
 			
-			this.entityStore = prepareEntityStore();
-			
-			drawLayout();
+			Nifty.Router.registerUrlPolling();
 	 	},
-	
-		loadEntity: function(id){
-			this.entityStore.load({id: id});
-		}
 	}
 }(); // end of app
  

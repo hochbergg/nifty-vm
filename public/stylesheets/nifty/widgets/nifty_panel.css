@@ -1,0 +1,279 @@
+/*
+ * Ext JS Library 2.0.2
+ * Copyright(c) 2006-2008, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://extjs.com/license
+ */
+
+
+.x-product-icon{
+	background-image:url(/images/product.png);
+}
+
+.x-panel-nifty-main {
+    border: none;
+		padding-right:8px;
+		background:url(/images/nifty-panel-bg.png) repeat-y right top;
+}
+
+
+.x-panel-nifty-main-header {
+    overflow:hidden;
+    zoom:1;
+    color:#fff;
+		font:normal 11px verdana,arial,verdana,sans-serif;
+    background: #9197A3;
+}
+
+.x-panel-nifty-main-header span{
+	display:block;
+  padding:13px 13px 8px 13px;
+}
+
+.x-panel-nifty-main-header h4 {
+	font-weight:normal;
+	font-size:13px;
+  line-height: 16px;
+}
+
+.x-panel-nifty-main-header h2 {
+	font-weight:normal;
+	font-size:30px;
+  line-height: 36px;
+}
+
+.x-panel-nifty-main-body {
+    border-top:0 none;
+    overflow:hidden;
+    background:white;
+    position: relative; /* added for item scroll positioning */
+}
+
+.x-panel-nifty-main-bbar .x-toolbar {
+    border:1px solid #99bbe8;
+    border-top:0 none;
+    overflow:hidden;
+    padding:2px;
+}
+
+
+.x-panel-nifty-main-tbar .x-toolbar {
+    border:1px solid #99bbe8;
+    border-top:0 none;
+    overflow:hidden;
+    padding:2px;
+}
+
+.x-panel-nifty-main-tbar-noheader .x-toolbar, .x-panel-nifty-main-mc .x-panel-nifty-main-tbar .x-toolbar {
+    border-top:1px solid #99bbe8;
+    border-bottom: 0 none;
+}
+.x-panel-nifty-main-body-noheader, .x-panel-nifty-main-mc .x-panel-nifty-main-body {
+    border-top:1px solid #99bbe8;
+}
+.x-panel-nifty-main-header {
+    overflow:hidden;
+    zoom:1;
+}
+.x-panel-nifty-main-tl .x-panel-nifty-main-header {
+    color:#15428b;
+	 font:bold 11px tahoma,arial,verdana,sans-serif;
+    padding:5px 0 4px 0;
+    border:0 none;
+    background:transparent;
+}
+
+.x-panel-nifty-main-icon {
+    padding-left:77px !important;
+    background-repeat:no-repeat;
+    background-position: 15px 17px;
+    zoom:1;
+}
+.x-panel-nifty-main-inline-icon {
+    width:16px;
+	 height:16px;
+    background-repeat:no-repeat;
+    background-position:0 0;
+	 vertical-align:middle;
+	 margin-right:4px;
+	 margin-top:-1px;
+	 margin-bottom:-1px;
+}
+.x-panel-nifty-main-tc {
+	background: transparent url(../images/default/panel/top-bottom.gif) repeat-x 0 0;
+	overflow:hidden;
+}
+/* fix ie7 strict mode bug */
+.ext-strict .ext-ie7 .x-panel-nifty-main-tc {
+    overflow: visible;
+}
+.x-panel-nifty-main-tl {
+	background: transparent url(../images/default/panel/corners-sprite.gif) no-repeat 0 0;
+	padding-left:6px;
+    zoom:1;
+    border-bottom:1px solid #99bbe8;
+}
+.x-panel-nifty-main-tr {
+	background: transparent url(../images/default/panel/corners-sprite.gif) no-repeat right 0;
+	zoom:1;
+    padding-right:6px;
+}
+.x-panel-nifty-main-bc {
+	background: transparent url(../images/default/panel/top-bottom.gif) repeat-x 0 bottom;
+    zoom:1;
+}
+.x-panel-nifty-main-bc .x-panel-nifty-main-footer {
+    zoom:1;
+}
+
+.x-panel-nifty-main-bl {
+	background: transparent url(../images/default/panel/corners-sprite.gif) no-repeat 0 bottom;
+	padding-left:6px;
+    zoom:1;
+}
+.x-panel-nifty-main-br {
+	background: transparent url(../images/default/panel/corners-sprite.gif) no-repeat right bottom;
+	padding-right:6px;
+    zoom:1;
+}
+.x-panel-nifty-main-mc {
+    border:0 none;
+    padding:0;
+    margin:0;
+    font: normal 11px tahoma,arial,helvetica,sans-serif;
+    padding-top:6px;
+    background:#dfe8f6;
+}
+.x-panel-nifty-main-mc .x-panel-nifty-main-body {
+    background:transparent;
+    border: 0 none;
+}
+.x-panel-nifty-main-ml {
+	background: #fff url(../images/default/panel/left-right.gif) repeat-y 0 0;
+	padding-left:6px;
+    zoom:1;
+}
+.x-panel-nifty-main-mr {
+	background: transparent url(../images/default/panel/left-right.gif) repeat-y right 0;
+	padding-right:6px;
+    zoom:1;
+}
+.x-panel-nifty-main-bc .x-panel-nifty-main-footer {
+    padding-bottom:6px;
+}
+.x-panel-nifty-main-nofooter .x-panel-nifty-main-bc {
+	height:6px;
+    font-size:0;
+    line-height:0;
+}
+
+.x-panel-nifty-main-bwrap {
+    overflow:hidden;
+    zoom:1;
+}
+.x-panel-nifty-main-body {
+    overflow:hidden;
+    zoom:1;
+}
+
+.x-panel-nifty-main-collapsed .x-resizable-handle{
+    display:none;
+}
+
+.ext-gecko .x-panel-nifty-main-animated div {
+    overflow:hidden !important;
+}
+
+
+/* Ghosting */
+.x-panel-nifty-main-ghost {
+    background:#cbddf3;
+    z-index:12000;
+    overflow:hidden;
+    position:absolute;
+    left:0;top:0;
+    opacity:.65;
+    -moz-opacity:.65;
+    filter:alpha(opacity=65);
+}
+
+.x-panel-nifty-main-ghost ul {
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    font-size:0;
+    line-height:0;
+    border:1px solid #99bbe8;
+    border-top:0 none;
+    display:block;
+}
+
+.x-panel-nifty-main-ghost * {
+    cursor:move !important;
+}
+
+.x-panel-nifty-main-dd-spacer {
+    border:2px dashed #99bbe8;
+}
+/* Buttons */
+
+.x-panel-nifty-main-btns-ct {
+    padding:5px;
+}
+
+.x-panel-nifty-main-btns-ct .x-btn{
+	float:right;
+	clear:none;
+}
+.x-panel-nifty-main-btns-ct .x-panel-nifty-main-btns td {
+	border:0;
+	padding:0;
+}
+.x-panel-nifty-main-btns-ct .x-panel-nifty-main-btns-right table{
+	float:right;
+	clear:none;
+}
+.x-panel-nifty-main-btns-ct .x-panel-nifty-main-btns-left table{
+	float:left;
+	clear:none;
+}
+.x-panel-nifty-main-btns-ct .x-panel-nifty-main-btns-center{
+	text-align:center; /*ie*/
+}
+.x-panel-nifty-main-btns-ct .x-panel-nifty-main-btns-center table{
+	margin:0 auto; /*everyone else*/
+}
+.x-panel-nifty-main-btns-ct table td.x-panel-nifty-main-btn-td{
+	padding:3px;
+}
+
+.x-panel-nifty-main-btns-ct .x-btn-focus .x-btn-left{
+	background-position:0 -147px;
+}
+.x-panel-nifty-main-btns-ct .x-btn-focus .x-btn-right{
+	background-position:0 -168px;
+}
+.x-panel-nifty-main-btns-ct .x-btn-focus .x-btn-center{
+	background-position:0 -189px;
+}
+
+.x-panel-nifty-main-btns-ct .x-btn-over .x-btn-left{
+	background-position:0 -63px;
+}
+.x-panel-nifty-main-btns-ct .x-btn-over .x-btn-right{
+	background-position:0 -84px;
+}
+.x-panel-nifty-main-btns-ct .x-btn-over .x-btn-center{
+	background-position:0 -105px;
+}
+
+.x-panel-nifty-main-btns-ct .x-btn-click .x-btn-center{
+	background-position:0 -126px;
+}
+.x-panel-nifty-main-btns-ct .x-btn-click  .x-btn-right{
+	background-position:0 -84px;
+}
+.x-panel-nifty-main-btns-ct .x-btn-click .x-btn-left{
+	background-position:0 -63px;
+}
