@@ -58,5 +58,20 @@ BODY{
 	background:#EFEFEF;
 }
 
+DIV#header h1{
+	font-size:30px;
+	color:#fff;
+	padding:18px 18px;
+	font-family:verdana,tahoma;
+	font-weight:normal;
+}
 
-
+DIV#page_loading{
+	clear:both;
+	padding:10px;
+	background:#D0DCEA;
+	border: 1px solid #6A788B;
+	font-family:verdana,tahoma;
+	font-size:13px;
+	margin:5px 0;
+}

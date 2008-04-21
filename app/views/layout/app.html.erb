@@ -7,7 +7,11 @@
 	<title></title>
 	<%= ext_css_include_tag %>
 	
-	<%= css_include_tag 'nifty-base.css' %>
+	<%= css_include_tag 'nifty-base.css',
+	 										'nifty/widgets/nifty_panel.css',
+											'nifty/widgets/nifty_tab_panel.css',
+											'nifty/widgets/nifty_field_panel.css'
+	 %>
 
 </head>
 <body>
@@ -18,18 +22,27 @@
 	</div>
 	
 	<div id="header">
+		<h1>Sample Nifty App</h1>
 	</div>
 	<div id="content">
+		<div id="page_loading">Loading...</div>
 		<div id="side"></div>
 		<div id="main"></div>
 	</div>	
 	
-	<%= ext_js_include_tag %>
+	<%= js_include_tag('../ext/ext-base', "../ext/ext-all.js", :bundle => 'ext') %>
 	<%= js_include_tag	'nifty/core',
+											'nifty/router',
 											'nifty/data/entity_store',
+											'nifty/widgets/info_bar',
+											'nifty/widgets/nifty_main_panel',
+											'nifty/widgets/nifty_side_panel',
 											'nifty/widgets/entity_panel',
 											'nifty/widgets/field_panel',
 											'nifty/widgets/field_instance_panel',
+											'nifty/widgets/page',
+											'nifty/widgets/entity_page',										
+											'nifty/generated',
 											'nifty/init',
 														  :bundle => 'nifty' %>
 </body>
