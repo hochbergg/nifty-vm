@@ -21,7 +21,11 @@ module App
 	    @entity = Entity.get_subclass_by_id(params[:id]).new
 			@entity.set_fieldlets(params[:entity])
 	    if @entity.save
-	      redirect url(:entity, @entity)
+				if params[:format] == 'js'
+					render
+				else
+	      	redirect url(:entity, @entity)
+				end
 	    else
 	      render :action => :new
 	    end

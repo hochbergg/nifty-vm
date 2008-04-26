@@ -1,3 +1,36 @@
+Nifty.entities = {};
+Nifty.entities.actions = {};
+
+Nifty.entities.kinds = [
+	{id: 2, singleName: 'Person', multiName: 'People'},
+	{id: 3, singleName: 'Product', multiName: 'Products'},
+];
+
+Nifty.entities.actions.new = function(){
+	var actions = [];
+	
+	Ext.each(Nifty.entities.kinds, function(kind){
+		actions.push({
+			text: kind.singleName,
+			iconCls: 'small-entity' + kind.id,
+			handler: function(){
+				Nifty.Router.go('#/entities/new/' + kind.id);
+			}
+		})
+	});
+	
+	return actions;
+}();
+
+Nifty.entities.newEntityButton = {
+	xtype: 'button', 
+	text: 'Create New',
+	menu: {
+		xtype: 'menu',
+		items: 	Nifty.entities.actions.new
+	}
+}
+
 
 Nifty.pages.home = function(){
 	return new Nifty.Page({
@@ -37,6 +70,7 @@ Nifty.pages.Page2 = function(){
 Nifty.panels['Entity2'] = {
 	subtitle: 'People',
 	title: 'Loading',
+	newItemTitle: 'New person',
 	renderTo: 'main',
 	iconCls: 'x-person-icon',
 	items: {xtype: 'tabpanel',
@@ -63,11 +97,13 @@ Nifty.panels['Entity2'] = {
 
 Nifty.panels['Entity2side'] = {
 	title: 'Side Panel',
+	items: [Nifty.entities.newEntityButton],
 	renderTo: 'side'
 };
 
 Nifty.panels['Entity3'] = {
 	subtitle: 'Products',
+	newItemTitle: 'New product',
 	title: 'Loading',
 	renderTo: 'main',
 	iconCls: 'x-product-icon',
@@ -89,6 +125,7 @@ Nifty.panels['Entity3'] = {
 
 Nifty.panels['Entity3side'] = {
 	title: 'Products Panels',
+	items: [Nifty.entities.newEntityButton],
 	renderTo: 'side'
 };
 
@@ -119,13 +156,6 @@ Nifty.fieldlets.Fieldlet4 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 
 Ext.reg('Fieldlet4', Nifty.fieldlets.Fieldlet4);
 
-
-
-
-
-
-
-
 Nifty.fieldlets.Fieldlet5 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 	editItemOptions: {
 		allowBlank: false,
@@ -153,11 +183,19 @@ Nifty.fieldlets.Fieldlet7 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 Ext.reg('Fieldlet7', Nifty.fieldlets.Fieldlet7);
 
 Nifty.fieldlets.Fieldlet8 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
+	editItemOptions: {
+		allowBlank: false,
+		emptyText: 'Type'
+	}
 })
 
 Ext.reg('Fieldlet8', Nifty.fieldlets.Fieldlet8);
 
 Nifty.fieldlets.Fieldlet9 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
+	editItemOptions: {
+		allowBlank: false,
+		emptyText: 'Info'
+	}
 })
 
 Ext.reg('Fieldlet9', Nifty.fieldlets.Fieldlet9);
@@ -244,7 +282,3 @@ Nifty.fields.fieldset1 = Ext.extend(Nifty.widgets.FieldPanel, {
 })
 
 Ext.reg('fieldset1', Nifty.fields.fieldset1);
-
-
-
-

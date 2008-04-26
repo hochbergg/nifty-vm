@@ -36,6 +36,8 @@ Nifty.data.EntityStore = function(config){
     );
 
 
+	this.fields = {}; //clear the fields
+	this.data = {} // empty data
 	
     Nifty.data.EntityStore.superclass.constructor.call(this);
 
@@ -44,6 +46,7 @@ Ext.extend(Nifty.data.EntityStore, Ext.util.Observable, {
     
 
     load : function(options){
+		this.isNew = false;
         options = options || {};
         if(this.fireEvent("beforeload", this, options) !== false){
 
@@ -80,7 +83,6 @@ Ext.extend(Nifty.data.EntityStore, Ext.util.Observable, {
     },
 
 	fetchFieldlets: function(){
-		this.fields = {}; //clear the fields
 		this.fieldlets = this.data['fieldlets'];
 		
 		for(i=0;i<this.fieldlets.length;i++){
@@ -95,6 +97,12 @@ Ext.extend(Nifty.data.EntityStore, Ext.util.Observable, {
 			
 			this.fields[fieldlet.field_id][fieldlet.instance_id][fieldlet.type] = fieldlet;	
 		}
+	},
+	
+	// manually set the type of the entity
+	setNew: function(type){
+		this.data.type = 'Entity' + type;
+		this.data.isNew = true;
 	}
 
 });

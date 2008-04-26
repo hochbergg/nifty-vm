@@ -14,12 +14,12 @@ Nifty.widgets.FieldPanel = Ext.extend(Ext.Panel, {
 	initComponent: function(){
 		// set the tools
 		
-		//Ext.apply(this, {tools: [{
-		//	id: 'gear',
-		//	handler: function(event, toolEl, panel){
-		//		panel.toggleEdit();
-		//	}
-		//}]});
+		Ext.apply(this, {tools: [{
+			id: 'gear',
+			handler: function(event, toolEl, panel){
+				panel.toggleEdit();
+			}
+		}]});
 		
 		Nifty.widgets.FieldPanel.superclass.initComponent.apply(this, arguments);
 	},
@@ -36,6 +36,9 @@ Nifty.widgets.FieldPanel = Ext.extend(Ext.Panel, {
         Nifty.widgets.FieldPanel.superclass.onRender.apply(this, arguments);
    
         // After parent code
+
+		// set as edit if this is new entity
+		this.setEditIfnew();
 	}, 
 	
 	load: function(){
@@ -84,5 +87,12 @@ Nifty.widgets.FieldPanel = Ext.extend(Ext.Panel, {
 			this.addClass('x-panel-nifty-field-edited');
 			this.editing = true;
 		}
+	},
+	
+	
+	// check if new, if true, set as edit
+	setEditIfnew: function(){
+		if (Nifty.pages.EntityPage.entityStore.data.isNew)
+			this.toggleEdit();
 	}
 });

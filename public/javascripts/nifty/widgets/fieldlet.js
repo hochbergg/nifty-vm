@@ -32,7 +32,6 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 	},
 	
 	updateDisplayWithEditValue: function(){
-		
 		this.setDisplayValue(this.getDisplayCmp(), this.getEditValue());
 	},
 	
@@ -53,19 +52,10 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 		this.initEvents();
 	},
 	
-	initEvents: function(){
-		
-		// update the display value when changed!
-		this.getEditCmp().on('change', this.updateDisplayWithEditValue, this);
-		
-		// mark the instance as dirty
-		this.getEditCmp().on('change', this.markInstnaceAsDirty, this);
-	},
-	
     // set our instance to be dirty!
-	markInstnaceAsDirty: function(editItem){
+	isDirty: function(editItem){
 		if(editItem.isDirty()){
-			this.instance.setDirty();
+			this.fireEvent('dirty', this, editItem);
 		}
 	},
 
@@ -76,13 +66,15 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 		})
 		
 		// apply options to items:
-		Ext.apply(this.displayItem, this.displayItemOptions);
-		Ext.apply(this.editItem, this.editItemOptions);		
+		Ext.apply(this.displayItem, this.displayItemOptions || {});
+		Ext.apply(this.editItem, this.editItemOptions || {});		
 		
 		// sets the display item & inital value if xTemplate
 		this.setDisplayItemIfXTemplate();
 		
-		this.on('add', this.addEditItemToForm);
+		this.initEvents(); /// setup events
+		
+		
 		this.setId(this.formId);
 		
 		if(!this.displayItem.cls)
@@ -95,7 +87,78 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 
 		this.add(this.displayItem);
 		this.add(this.editItem);
+		
+		this.bindEditItemEvents();
 	},
+	
+	// setup all the events
+	initEvents: function(){
+	
+		this.addEvents(
+            /**
+             * @event focus
+             * Fires when the fieldinstance is in focus (one of the fieldlets is in focus)
+             * @param {Ext.Container} this
+             * @param {ContainerLayout} layout The ContainerLayout implementation for this container
+             */
+            'focus',
+
+            /**
+             * @event blur
+             * Fires when non of the fieldlets are in focus (after they were)
+             * @param {Ext.Container} this
+             * @param {ContainerLayout} layout The ContainerLayout implementation for this container
+             */
+
+			'blur',
+			
+			
+			/**
+             * @event dirty
+             * Fires when one of the fieldlet is dirty
+             * @param {Ext.Container} this
+             * @param {ContainerLayout} layout The ContainerLayout implementation for this container
+             */			
+			'dirty', 
+			
+			
+			/**
+             * @event invalid
+             * Fires when one (or more) of the fieldlets is invalid
+             * @param {Ext.Container} this
+             * @param {ContainerLayout} layout The ContainerLayout implementation for this container
+             */
+			'invalid'
+		)
+		
+		
+		// add the editItem to the form
+		this.on('add', this.addEditItemToForm);
+		
+		
+		// toggle focused status
+		this.on('focus', function(){
+			this.focused = true;
+		}, this)
+		
+		this.on('blur', function(){
+			this.focused = false;
+		}, this)
+	},
+	
+	
+	// relay events to the edit item
+	bindEditItemEvents: function(){
+		this.relayEvents(this.getEditCmp(), ['focus', 'blur','invalid']);
+		
+		
+		// update the display value when changed!
+		this.getEditCmp().on('change', this.updateDisplayWithEditValue, this);
+        
+		// mark the instance as dirty
+		this.getEditCmp().on('change', this.isDirty, this);
+	},
+	
 	
 	addEditItemToForm: function(container, component, index){
 		if(component.xtype != 'box'){

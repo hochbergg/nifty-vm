@@ -23,6 +23,11 @@ Nifty.Router = function(){
 			})
 		},
 		
+		go: function(hash){
+			document.location.hash = hash;
+			this.route();
+		},
+		
 		
 		// find the needed route, call to it's constructor
 		routeAndCall: function(url){

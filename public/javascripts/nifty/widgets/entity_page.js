@@ -26,21 +26,36 @@ Ext.extend(Nifty.EntityPage, Nifty.Page,{
 	sidePanel: null,
 	
 	
-	load: function(entity_id){
-		this.entityStore.load({'id': entity_id})
+	load: function(entityId){
+		this.isCreate = false;
+		this.createId = null;
+		this.entityStore.load({'id': entityId})
+	},
+	
+	create: function(entityKindId){
+		this.isCreate = true;
+		this.createId = entityKindId;
+		
+		this.entityStore.setNew(entityKindId);
+		this.render(this.entityStore, this.entityStore.data)
 	},
 	
 
 	render: function(entityStore, data, entityStoreOptions){
-		this.clear();		
-		this.setupForm();
+		this.clear();
+		this.setupForm(this.isCreate);
 		
 		// Load panels from hash
 		// set the entity store for the panels
 		// render!
 		
-		if ( mainPanel = Nifty.panels[data.type]){
-			mainPanel.entityStore = entityStore;
+		if (mainPanel = Nifty.panels[data.type]){
+			mainPanel.entityStore = this.entityStore;
+			mainPanel.tools = [{
+				id: 'save',
+				handler: function(event, toolEl, panel){
+					Nifty.pages.current.submit();
+				}}];
 			this.mainPanel = new Nifty.widgets.EntityPanel(mainPanel);
 			this.mainPanel.render();
 		} else {
@@ -48,7 +63,7 @@ Ext.extend(Nifty.EntityPage, Nifty.Page,{
 		}
 		
 		if (sidePanel = Nifty.panels[data.type + 'side']){
-			sidePanel.entityStore = entityStore;
+			sidePanel.entityStore = this.entityStore;
 			this.sidePanel = new Ext.Panel(sidePanel);
 			this.mainPanel.render();
 		} else {
@@ -58,29 +73,57 @@ Ext.extend(Nifty.EntityPage, Nifty.Page,{
 		this.hideLoading();
 	},
 	
-	setupForm: function(){
-		this.form = new Ext.form.BasicForm('form', {
-			url: String.format('/entities/{0}.js', this.entityStore.data.id),
-			method: 'put'
-		});
+	setupForm: function(create){		
+		if(create){
+			formOptionHash = {
+				url: '/entities.js',
+				method: 'post',
+				baseParams: {
+					id: this.createId
+				}
+			};
+						
+		} else {
+			formOptionHash = {
+				url: String.format('/entities/{0}.js', this.entityStore.data.id),
+				method: 'put'
+			};
+		}
 		
-		this.form.on('actioncomplete', function(){alert('saved!')});
-		this.form.on('actionfailed', function(){alert('failed!')});
+		
+		this.form = new Ext.form.BasicForm('form', formOptionHash);
+		
+		
+		this.form.on('actioncomplete', this.formSuccess, this);
+		this.form.on('actionfailed', this.formFailed, this);
 	},
 	
+	
+	// a callback for a successful form submission
+	formSuccess: function(form, action){
+		alert('success');
+		
+		if(action.result.redirect){
+			Nifty.Router.go(action.result.redirect);
+		}
+	},
+	
+	// a callback for failed form submission
+	formFailed: function(form, action){
+		alert(action.failureType);
+	},
+	
+	submit: function(){
+		this.form.submit();
+	},
 		
 	error: function(){
 		alert('error!');
 	},
 	
 	checkDirtyAndOrValidBeforeLeave: function(){
-		if (!this.form.isValid()){
-			alert('Not Valid!');
-			return false;
-		}
-		
 		if (this.form.isDirty()){
-			alert('Dirty!');
+			console.log('dirty!')
 		}
 		
 	},
