@@ -104,7 +104,6 @@ module App
 				@values[:display]
 			end
 			
-			
 			#
 			# save entity with it's fieldlets
 			#
@@ -112,6 +111,7 @@ module App
 			def save
 				return super unless @fieldlets # if no fieldlets, save the normal way
 				return false unless @fieldlets.validate
+				
 				self.db.transaction do
 					super #call for the inherited save action - saves the entity
 					@fieldlets.save!

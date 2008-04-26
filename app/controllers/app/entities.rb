@@ -28,15 +28,19 @@ module App
 	  end
 	  
 	  def edit
-	    @entity = Entity.load(params[:id])
+	    @entity = Entity.one_with_fieldlets(params[:id])
 	    render
 	  end
 	  
 	  def update
-	    @entity = Entity.load(params[:id])
+	    @entity = Entity.one_with_fieldlets(params[:id])
 			@entity.set_fieldlets(params[:entity])
 	    if @entity.save
-	      redirect url(:entity, @entity)
+				if params[:format] == 'js'
+					render
+				else
+	      	redirect url(:entity, @entity)
+				end
 	    else
 	      raise BadRequest
 	    end

@@ -10,7 +10,10 @@
 	<%= css_include_tag 'nifty-base.css',
 	 										'nifty/widgets/nifty_panel.css',
 											'nifty/widgets/nifty_tab_panel.css',
-											'nifty/widgets/nifty_field_panel.css'
+											'nifty/widgets/nifty_field_panel.css',
+											'nifty/widgets/nifty_field_instance.css',
+											'nifty/widgets/nifty_fieldlet.css'
+											
 	 %>
 
 </head>
@@ -26,8 +29,10 @@
 	</div>
 	<div id="content">
 		<div id="page_loading">Loading...</div>
-		<div id="side"></div>
-		<div id="main"></div>
+		<form id="form" action="javascript:false;">
+			<div id="side"></div>
+			<div id="main"></div>
+		</form>
 	</div>	
 	
 	<%= js_include_tag('../ext/ext-base', "../ext/ext-all.js", :bundle => 'ext') %>
@@ -41,7 +46,9 @@
 											'nifty/widgets/field_panel',
 											'nifty/widgets/field_instance_panel',
 											'nifty/widgets/page',
-											'nifty/widgets/entity_page',										
+											'nifty/widgets/entity_page',
+											'nifty/widgets/fieldlet',
+											'nifty/fieldlets/string_fieldlet',										
 											'nifty/generated',
 											'nifty/init',
 														  :bundle => 'nifty' %>

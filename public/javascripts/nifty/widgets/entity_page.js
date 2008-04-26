@@ -15,33 +15,25 @@ Nifty.EntityPage = function(options){
 	})
 	
 	this.entityStore = new Nifty.data.EntityStore();
-	this.entityStore.on('beforeload', 	 this.mask);
-	this.entityStore.on('loadexception', this.error);
-	this.entityStore.on('load', this.render); //evented loading
+	this.entityStore.on('beforeload', 	 this.showLoading, this);
+	this.entityStore.on('loadexception', this.error, this);
+	this.entityStore.on('load', this.render, this); //evented loading
 }
 
 
-Ext.extend(Nifty.EntityPage, Ext.util.Observable,{
+Ext.extend(Nifty.EntityPage, Nifty.Page,{
+	mainPanel: null,
+	sidePanel: null,
 	
-	load: function(entity_id){		
+	
+	load: function(entity_id){
 		this.entityStore.load({'id': entity_id})
 	},
 	
+
 	render: function(entityStore, data, entityStoreOptions){
-		Ext.fly('page_loading').setDisplayed(true)
-		Ext.fly('main').setDisplayed(false)
-		Ext.fly('side').setDisplayed(false)
-		
-		// clear
-		if (Nifty.pages.current){
-			var current = Nifty.pages.current;
-			if(current.mainPanel)
-				current.mainPanel.destroy();
-			
-			if(current.sidePanel)	
-				current.sidePanel.destroy();
-		}
-		
+		this.clear();		
+		this.setupForm();
 		
 		// Load panels from hash
 		// set the entity store for the panels
@@ -63,23 +55,41 @@ Ext.extend(Nifty.EntityPage, Ext.util.Observable,{
 			this.sidePanel = null;
 		}
 		
+		this.hideLoading();
+	},
+	
+	setupForm: function(){
+		this.form = new Ext.form.BasicForm('form', {
+			url: String.format('/entities/{0}.js', this.entityStore.data.id),
+			method: 'put'
+		});
 		
-		Ext.fly('page_loading').setDisplayed(false)
-		Ext.fly('main').setDisplayed(true)
-		Ext.fly('side').setDisplayed(true)
-		Nifty.pages.current = this;
+		this.form.on('actioncomplete', function(){alert('saved!')});
+		this.form.on('actionfailed', function(){alert('failed!')});
 	},
 	
-	mask: function(){
-		//alert('loading');
-	},
-	
+		
 	error: function(){
 		alert('error!');
 	},
 	
-	mainPanel: null,
-	sidePanel: null
+	checkDirtyAndOrValidBeforeLeave: function(){
+		if (!this.form.isValid()){
+			alert('Not Valid!');
+			return false;
+		}
+		
+		if (this.form.isDirty()){
+			alert('Dirty!');
+		}
+		
+	},
+	
+	
+	beforeLeave: function(){
+		return this.checkDirtyAndOrValidBeforeLeave();
+	}
+	
 });
 
 

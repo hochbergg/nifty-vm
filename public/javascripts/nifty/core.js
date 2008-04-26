@@ -26,38 +26,6 @@ Nifty.app = function() {
 		    }, 250);
 	}
 	
-	
-	function drawLayout(){
-		var ep = new Nifty.widgets.EntityPanel({
-			title: 'EntityPanel',
-			el: 'main',
-			items: {
-				xtype: 'tabPanel',
-				items: [
-					{title: 'Product Information', xtype: 'panel'},
-					{title: 'Order History', xtype: 'panel'}
-				]
-			}
-			//tabItems: [
-			//	new Ext.Panel({title: 'Product Information'}),
-			//	new Ext.Panel({title: 'Order History'})
-			//]
-		});
-		
-		
-		
-		ep.render();
-	}
-
-	function prepareEntityStore(){
-		var entityStore = new Nifty.data.EntityStore();
-		entityStore.on('load',function(){
-			alert('loaded!');
-		});
-		
-		return entityStore;
-	}
- 
     // public space
     return {
         init: function() {

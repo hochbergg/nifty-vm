@@ -41,7 +41,8 @@ module App
 						fieldlet = fieldlet[instance_id.to_i]
 						fieldlet ||= Fieldlet.get_subclass_by_id(key).new
 						fieldlet.value = instance_value
-						fieldlet.set(:instance_id => instance_id, :entity_id => @entity_id)
+						fieldlet[:instance_id] = instance_id
+						fieldlet[:entity_id] = @entity_id
 						@fieldlet_hash[key.to_i][instance_id] = fieldlet
 						
 						# add to the pending_for_save queue
@@ -52,7 +53,8 @@ module App
 					fieldlet = fieldlet[0]
 					fieldlet ||= Fieldlet.get_subclass_by_id(key).new
 					fieldlet.value = value
-					fieldlet.set(:instance_id => 0, :entity_id => @entity_id)
+					fieldlet[:instance_id] = 0
+					fieldlet[:entity_id] = @entity_id
 					@fieldlet_hash[key.to_i][0] = fieldlet
 					
 					# add to the pending_for_save queue
@@ -70,7 +72,7 @@ module App
 		def save!
 			# TODO: Add multiinsert here
 			@pending_for_save.each do |fieldlet|
-				fieldlet.set(:entity_id => @entity.id)
+				fieldlet[:entity_id] =  @entity.id
 				fieldlet.save
 			end
 		end

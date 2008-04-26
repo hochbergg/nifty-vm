@@ -47,7 +47,7 @@ Nifty.panels['Entity2'] = {
 				 title: 'Information',
 				 items: [
 					{xtype: 'Field5'},
-					{xtype: 'Field6'}
+					{xtype: 'fieldset1'}
 					]
 				},
 				{xtype: 'panel', 
@@ -96,29 +96,25 @@ Nifty.fieldlets = {};
 
 
 
-Nifty.fieldlets.Fieldlet1 = Ext.extend(Ext.form.TextField, {
-	id: 'entity[1]'
+Nifty.fieldlets.Fieldlet1 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 })
 
 Ext.reg('Fieldlet1', Nifty.fieldlets.Fieldlet1);
 
 
-Nifty.fieldlets.Fieldlet2 = Ext.extend(Ext.form.TextField, {
-	id: 'entity[2]'
+Nifty.fieldlets.Fieldlet2 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 })
 
 Ext.reg('Fieldlet2', Nifty.fieldlets.Fieldlet2);
 
 
-Nifty.fieldlets.Fieldlet3 = Ext.extend(Ext.form.TextField, {
-	id: 'entity[3]'
+Nifty.fieldlets.Fieldlet3 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 })
 
 Ext.reg('Fieldlet3', Nifty.fieldlets.Fieldlet3);
 
 
-Nifty.fieldlets.Fieldlet4 = Ext.extend(Ext.form.TextField, {
-	id: 'entity[4]'
+Nifty.fieldlets.Fieldlet4 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 })
 
 Ext.reg('Fieldlet4', Nifty.fieldlets.Fieldlet4);
@@ -130,40 +126,38 @@ Ext.reg('Fieldlet4', Nifty.fieldlets.Fieldlet4);
 
 
 
-Nifty.fieldlets.Fieldlet5 = Ext.extend(Ext.form.TextField, {
-	fieldLabel: 'Last',
-	emptyText: 'First',
-	allowBlank: false,
-	id: 'entity[5]'
+Nifty.fieldlets.Fieldlet5 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
+	editItemOptions: {
+		allowBlank: false,
+		emptyText: 'First'
+	}
 })
 
 Ext.reg('Fieldlet5', Nifty.fieldlets.Fieldlet5);
 
-Nifty.fieldlets.Fieldlet6 = Ext.extend(Ext.form.TextField, {
-	emptyText: 'Middle',
-	id: 'entity[6]'
+Nifty.fieldlets.Fieldlet6 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
+	editItemOptions: {
+		allowBlank: true,
+		emptyText: 'Middle'
+	}
 })
 Ext.reg('Fieldlet6', Nifty.fieldlets.Fieldlet6);
 
-Nifty.fieldlets.Fieldlet7 = Ext.extend(Ext.form.TextField, {
-	fieldLabel: 'Last',
-	emptyText: 'Last',
- 	allowBlank: false,
-	id: 'entity[7]'
+Nifty.fieldlets.Fieldlet7 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
+	editItemOptions: {
+		allowBlank: false,
+		emptyText: 'Last'
+	}
 })
 
 Ext.reg('Fieldlet7', Nifty.fieldlets.Fieldlet7);
 
-Nifty.fieldlets.Fieldlet8 = Ext.extend(Ext.form.TextField, {
-	fieldLabel: 'Last',
-	id: 'entity[8]'
+Nifty.fieldlets.Fieldlet8 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 })
 
 Ext.reg('Fieldlet8', Nifty.fieldlets.Fieldlet8);
 
-Nifty.fieldlets.Fieldlet9 = Ext.extend(Ext.form.TextField, {
-	fieldLabel: 'Last',
-	id: 'entity[9]'
+Nifty.fieldlets.Fieldlet9 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 })
 
 Ext.reg('Fieldlet9', Nifty.fieldlets.Fieldlet9);
@@ -177,7 +171,7 @@ Nifty.fields.field1 = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: 1,
 	title: 'Product Name',
 	fieldlets: [
-		{xtype: 'Fieldlet1'}
+		{kind: 1}
 	]
 })
 
@@ -187,7 +181,7 @@ Nifty.fields.field2 = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: 2,
 	title: 'SN',
 	fieldlets: [
-		{xtype: 'Fieldlet2'}
+		{kind: 2}
 	]
 })
 
@@ -197,7 +191,7 @@ Nifty.fields.field3 = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: 3,
 	title: 'Price',
 	fieldlets: [
-		{xtype: 'Fieldlet3'}
+		{kind: 3}
 	]
 })
 
@@ -207,7 +201,7 @@ Nifty.fields.field4 = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: 4,
 	title: 'Stock Quantity',
 	fieldlets: [
-		{xtype: 'Fieldlet4'}
+		{kind: 4}
 	]
 })
 
@@ -217,9 +211,9 @@ Nifty.fields.field5 = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: 5,
 	title: 'Full Name',
 	fieldlets: [
-		{xtype: 'Fieldlet5'},
-		{xtype: 'Fieldlet6'},
-		{xtype: 'Fieldlet7'},
+		{kind: 5},
+		{kind: 6},
+		{kind: 7},
 	]
 })
 
@@ -229,12 +223,27 @@ Nifty.fields.field6 = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: 6,
 	title: 'Contact Information',
 	fieldlets: [
-		{xtype: 'Fieldlet8'},
-		{xtype: 'Fieldlet9'}
+		{kind: 8},
+		{kind: 9}
 	]
 })
 
 Ext.reg('Field6', Nifty.fields.field6);
+
+Nifty.fields.fieldset1 = Ext.extend(Nifty.widgets.FieldPanel, {
+	title: 'Some Fun',
+	collapsible: true,
+	initComponent: function(){
+		Ext.apply(this, {items: [
+			{xtype: 'Field6'}
+		]});
+		
+		Nifty.fields.fieldset1.superclass.initComponent.apply(this, arguments);
+	}
+	
+})
+
+Ext.reg('fieldset1', Nifty.fields.fieldset1);
 
 
 

@@ -31,6 +31,10 @@ module VM
 			def self.fieldlet_kind_ids
 				[#{fieldlet_kinds.map(:id).join(',')}]
 			end
+			
+			def display_lambda
+				
+			end
 			CLASS_DEF
 		end
 		

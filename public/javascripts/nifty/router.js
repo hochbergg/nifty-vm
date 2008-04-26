@@ -61,7 +61,17 @@ Nifty.Router = function(){
 
 			if (current_hash == document.location.hash){ return;};
 			
+			// call the beforeLeave handler for the current page
+			
+			if (Nifty.pages.current && Nifty.pages.current.beforeLeave && (Nifty.pages.current.beforeLeave() === false))
+			{
+				document.location.hash = current_hash;
+				return;
+			}
+				
+
 			current_hash = document.location.hash;
+
 			this.routeAndCall(document.location.hash);
 		},
 		

@@ -277,3 +277,32 @@
 .x-panel-nifty-main-btns-ct .x-btn-click .x-btn-left{
 	background-position:0 -63px;
 }
+
+
+
+
+
+
+/* Fieldlet Editing */
+
+.fieldlet-edit-item, .fieldlet-display-item{
+	padding:2px;
+}
+
+.x-panel-nifty-field .fieldlet-edit-item{
+	display:none !important;
+}
+
+.x-panel-nifty-field .fieldlet-display-item{
+	display:inline !important;
+}
+
+.x-panel-nifty-field-edited .fieldlet-edit-item{
+	display:inline !important;
+}
+
+.x-panel-nifty-field-edited .fieldlet-display-item{
+	display:none !important;
+}
+
+

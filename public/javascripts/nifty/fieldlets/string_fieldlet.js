@@ -7,17 +7,8 @@ Nifty.widgets.fieldlets = {};
 Nifty.widgets.fieldlets.StringFieldlet = Ext.extend(Nifty.widgets.Fieldlet,{
 		
 	// set the display item to be a span
-	di: {xtype:'box'},
+	di: new Ext.XTemplate('{value}'),
 	
 	// edit item: simple text field
 	ei: {xtype: 'textfield'},
-	
-	
-	setDisplayValue: function(value){;
-		return {autoEl: {tag: 'span', html: value}};
-	},
-	
-	setEditValue: function(value){
-		return {value: value};
-	},
 })

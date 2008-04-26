@@ -1,0 +1,46 @@
+== Client Side
+
++ form submission & ajax saving
++ "dirty" instances
++ beforeLeaving event for pages
++ 'entity is dirty' warning for saving changes
+* fields with left labels
+* fieldsets
++ side panel fields
+* all sorts of rendering issues
+* entity-panel knows all the fields & fieldlets
+* no save if not valid.
+* Smart-tabing between instances
+* blur & focus events for instances
++ color dirty instances
+* update displayItem with values, via handlers. 
+* field can be single or multiple
+* show new empty instance on multiple edit fields
+* focus no the first editItem when editing instance
+* report for changes on the page
+* ability to save changes - graphicaly
+
++ clean up pages
+* clean up instances & fieldlets
+
+* nifty-window, looks like facebook's one.
+
+
+== Nifty Warnings & Errors: 
+* Not Found
+* No access
+* No internet connection
+
+
+== Server Side
++ proper response for successfully saved entity
++ optimize entity saving
+* set the display after save
+* generate fields, entities & fieldlets automaticaly
+
+== Fieldlets
+* proper folder tree
+* proper definition file
++ define options for displayitems & edit items via fieldlets
++ fieldlet with xtemplates/rendered items as their display
++ redrawing display value when field is updated

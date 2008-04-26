@@ -17,19 +17,12 @@ Nifty.Page = function(options){
 
 
 Ext.extend(Nifty.Page, Ext.util.Observable,{
+	mainPanel: null,
+	sidePanel: null,
 	
 	load: function(data){
-		Ext.fly('page_loading').setDisplayed(true)		
-		
-		// clear
-		if (Nifty.pages.current){
-			var current = Nifty.pages.current;
-			if(current.mainPanel)
-				current.mainPanel.destroy();
-			
-			if(current.sidePanel)	
-				current.sidePanel.destroy();
-		}
+		this.showLoading();
+		this.clear();
 		
 		
 		if (this.mainPanel)
@@ -38,18 +31,49 @@ Ext.extend(Nifty.Page, Ext.util.Observable,{
 		if (this.sidePanel)
 			this.sidePanel.render();
 
-		Ext.fly('page_loading').setDisplayed(false)
+		this.hideLoading();
+
+	},
+	
+	
+	clear: function(){
+		// clear
+		if (Nifty.pages.current){
+			var current = Nifty.pages.current;
+			if(current.mainPanel)
+				current.mainPanel.destroy();
+			
+			if(current.sidePanel)
+				current.sidePanel.destroy();
+		}
+		
 		Nifty.pages.current = this;
 	},
 	
-	mainPanel: null,
-	sidePanel: null,
 	
+	
+	showLoading: function(){
+		Ext.fly('page_loading').setDisplayed(true);
+		Ext.fly('main').setDisplayed(false);
+		Ext.fly('side').setDisplayed(false);
+	},
+	
+	hideLoading: function(){
+		Ext.fly('page_loading').setDisplayed(false);
+		Ext.fly('main').setDisplayed(true);
+		Ext.fly('side').setDisplayed(true);
+	},
+	
+	
+	// handler that is called before leaving a page. 
+	// if returns false, the routing will not happen, and 
+	// the page will not be left
+	beforeLeave: function(){
+		return true;
+	}
 });
 
-Nifty.pages = {};
-
-Nifty.pages.current = null;
+Nifty.pages = {current: null};
 
 // Panels
 Nifty.panels = {};
