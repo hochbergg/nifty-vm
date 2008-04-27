@@ -3,12 +3,12 @@ module App
 	  provides :html, :xml, :js
 	  
 	  def index
-	    @entities = Entity.all_with_fieldlets
+	    @entities = [] #Entity.all_with_fieldlets
 	    restful_render @entities
 	  end
 	  
 	  def show
-	    @entity = Entity.one_with_fieldlets(params[:id])
+	    @entity = Entity.with_fieldlets(params[:id])
 			restful_render @entity
 	  end
 	  
@@ -32,12 +32,12 @@ module App
 	  end
 	  
 	  def edit
-	    @entity = Entity.one_with_fieldlets(params[:id])
+	    @entity = Entity.with_fieldlets(params[:id])
 	    render
 	  end
 	  
 	  def update
-	    @entity = Entity.one_with_fieldlets(params[:id])
+	    @entity = Entity.with_fieldlets(params[:id])
 			@entity.set_fieldlets(params[:entity])
 	    if @entity.save
 				if params[:format] == 'js'

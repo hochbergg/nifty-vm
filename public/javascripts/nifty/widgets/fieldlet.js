@@ -1,6 +1,11 @@
 Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 	autoEl: {tag: 'span', cls: 'x-nifty-fieldlet'},
 	
+	editItemOptions: null,
+	displayItemOptions: null,
+	
+	defaultValue: null, 
+	
 	// sets the value for the display and the edit field
 	setValue: function(value){
 		this.setDisplayValue(this.getDisplayCmp(), value);
@@ -48,7 +53,7 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 	onRender: function(){
 		Nifty.widgets.Fieldlet.superclass.onRender.apply(this, arguments);
 		
-		this.setValue(this.value);
+		this.setValue(this.value || this.defaultValue);
 		this.initEvents();
 	},
 	
@@ -60,6 +65,9 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 	},
 
 	initComponent : function(){
+		delete this.displayItem;
+		delete this.editItem;
+		
 		Ext.apply(this, {
 			displayItem: this.di,
 			editItem: this.ei
@@ -67,7 +75,8 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 		
 		// apply options to items:
 		Ext.apply(this.displayItem, this.displayItemOptions || {});
-		Ext.apply(this.editItem, this.editItemOptions || {});		
+		Ext.apply(this.editItem, this.editItemOptions || {});
+		
 		
 		// sets the display item & inital value if xTemplate
 		this.setDisplayItemIfXTemplate();
@@ -89,6 +98,17 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 		this.add(this.editItem);
 		
 		this.bindEditItemEvents();
+		this.clear();
+	},
+	
+	// clear the already loaded data 
+	clear: function(){
+		//delete this.di;
+		//delete this.ei;
+		//delete this.displayItemOptions;
+		//delete this.editItemOptions;
+		//delete this.displayItem;
+		//delete this.editItem;
 	},
 	
 	// setup all the events
@@ -169,7 +189,8 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 	setDisplayItemIfXTemplate: function(){
 		if (Ext.type(this.displayItem.compileTpl) == 'function'){ // template? 
 			this.tpl = this.displayItem;
-			this.displayItem = {xtype:'box', autoEl: {tag: 'span', html: this.tpl.apply({value: this.value})}};
+			console.log(this.value || this.defaultValue);
+			this.displayItem = {xtype:'box', autoEl: {tag: 'span', html: this.tpl.apply({value: (this.value || this.defaultValue)})}};
 		}
 	}
 })

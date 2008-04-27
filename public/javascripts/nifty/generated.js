@@ -6,7 +6,7 @@ Nifty.entities.kinds = [
 	{id: 3, singleName: 'Product', multiName: 'Products'},
 ];
 
-Nifty.entities.actions.new = function(){
+Nifty.entities.actions.newItems = function(){
 	var actions = [];
 	
 	Ext.each(Nifty.entities.kinds, function(kind){
@@ -27,7 +27,7 @@ Nifty.entities.newEntityButton = {
 	text: 'Create New',
 	menu: {
 		xtype: 'menu',
-		items: 	Nifty.entities.actions.new
+		items: 	Nifty.entities.actions.newItems
 	}
 }
 
@@ -81,13 +81,8 @@ Nifty.panels['Entity2'] = {
 				 title: 'Information',
 				 items: [
 					{xtype: 'Field5'},
-					{xtype: 'fieldset1'}
-					]
-				},
-				{xtype: 'panel', 
-				 title: 'Extra',
-				 items: [
-					{xtype: 'Field6'}
+					{xtype: 'Field6'},
+					{xtype: 'Field7'}
 					]
 				}
 			]
@@ -200,6 +195,15 @@ Nifty.fieldlets.Fieldlet9 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 
 Ext.reg('Fieldlet9', Nifty.fieldlets.Fieldlet9);
 
+Nifty.fieldlets.Fieldlet10 = Ext.extend(Nifty.widgets.fieldlets.LinkFieldlet, {
+	editItemOptions: {
+		allowBlank: false,
+		emptyText: 'Product ID'
+	}
+})
+
+Ext.reg('Fieldlet10', Nifty.fieldlets.Fieldlet10);
+
 
 
 Nifty.fields = {};
@@ -268,17 +272,13 @@ Nifty.fields.field6 = Ext.extend(Nifty.widgets.FieldPanel, {
 
 Ext.reg('Field6', Nifty.fields.field6);
 
-Nifty.fields.fieldset1 = Ext.extend(Nifty.widgets.FieldPanel, {
-	title: 'Some Fun',
-	collapsible: true,
-	initComponent: function(){
-		Ext.apply(this, {items: [
-			{xtype: 'Field6'}
-		]});
-		
-		Nifty.fields.fieldset1.superclass.initComponent.apply(this, arguments);
-	}
-	
+Nifty.fields.field7 = Ext.extend(Nifty.widgets.FieldPanel, {
+	fieldId: 7,
+	title: 'Favorite Product',
+	fieldlets: [
+		{kind: 10}
+	]
 })
 
-Ext.reg('fieldset1', Nifty.fields.fieldset1);
+Ext.reg('Field7', Nifty.fields.field7);
+

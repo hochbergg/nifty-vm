@@ -123,40 +123,53 @@ module App
 		end # InstanceMethods
 		
 		module ClassMethods
-		
-				# load multi entities with their fieldlets
-				# 
-				# TODO: move to dataset
-				def all_with_fieldlets(fieldlet_filter = nil)
-					entities = self.all
-					fieldlets_set = Fieldlet.filter(:entity_id => entities.collect{|e| e.id})
-					fieldlets_set = fieldlets_set.filter(fieldlet_filter) if fieldlet_filter
-					
-					fieldlets = {}
-					
-					# index fieldlets per entity_id
-					fieldlets_set.all.each do |fieldlet|
-						fieldlets[fieldlet.entity_id] ||= []
-						fieldlets[fieldlet.entity_id] << fieldlet
-					end
-					
-					# fill entities with fieldlets
-					entities.each do |entity|
-						entity.init_fieldlets(fieldlets[entity.id] || [])
-					end
-					
-					# return the entities
-					return entities
-				end
 				
+				# load the entities and the fieldlets. 
+				# returns a single entity or an arry of entities
+				#
+				# first, loads all the fieldlets, fetch it to the entities
+				#
+				#
+				#
 				
-				# will load a specific entity with its fieldlets
-				def one_with_fieldlets(condition)
-					entity = Entity[condition]
-					raise App::EntityNotFoundException unless entity
+				def with_fieldlets(*ids)
+						ids = ids.collect{|x| x.to_i}
 					
-					entity.load_fieldlets
-					return entity
+						entities_to_load = {}
+						## setup hash for entities loading and callbacks
+						ids.each{|id| entities_to_load.merge!(id => [])}
+						
+						fieldlets_set = Fieldlet.filter(:entity_id => ids)
+						
+						fieldlets = {}
+						
+						fieldlets_set.all.each do |fieldlet|
+							entities_to_load = fieldlet.setup_entities_loading_and_callbacks(entities_to_load)
+							
+							fieldlets[fieldlet.entity_id] ||= []
+							fieldlets[fieldlet.entity_id] << fieldlet
+						end
+						
+						entities = Entity.filter(:id => entities_to_load.keys).all
+						
+						entities.each do |entity|
+							# run callbacks
+							if (!entities_to_load[entity.id].empty?)
+								entities_to_load[entity.id].each{|callback| callback.call(entity)}
+							end
+							
+							entity.init_fieldlets(fieldlets[entity.id] || [])
+						end
+						
+						
+						
+						# prepare result 
+						result = entities.find_all{|x| ids.include? x.id}
+						result = nil if result.empty?
+						result = result.first if result.size == 1
+						
+						
+						return result
 				end
 				
 				# creates an entity with a specific kind

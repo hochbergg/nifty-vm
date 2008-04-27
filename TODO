@@ -38,6 +38,9 @@
 * set the display after save
 * generate fields, entities & fieldlets automaticaly
 
+* smart loading of enitites via fieldlets - for usage with links.
+
+
 == Fieldlets
 * proper folder tree
 * proper definition file

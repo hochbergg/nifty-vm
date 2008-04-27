@@ -46,7 +46,8 @@ Ext.extend(Nifty.data.EntityStore, Ext.util.Observable, {
     
 
     load : function(options){
-		this.isNew = false;
+		this.clear();
+
         options = options || {};
         if(this.fireEvent("beforeload", this, options) !== false){
 
@@ -101,8 +102,15 @@ Ext.extend(Nifty.data.EntityStore, Ext.util.Observable, {
 	
 	// manually set the type of the entity
 	setNew: function(type){
+		this.clear();
 		this.data.type = 'Entity' + type;
 		this.data.isNew = true;
+	},
+	
+	clear: function(){
+		this.data = {};
+		this.fields = {};
+		this.fieldlets = {};
 	}
 
 });
