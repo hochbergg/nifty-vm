@@ -76,7 +76,7 @@ module Sequel
 			@for_cache = {}
 			@hash.each do |key, value_hash|
 				# UGLY!
-				if @model.modules.include? Inheritance
+				if @model.modules.include? InheritanceMixin
 					@for_cache[key] = @model.create_with_kind(value_hash) 
 				else	
 					@for_cache[key] = @model.create(value_hash) 

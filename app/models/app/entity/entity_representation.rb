@@ -4,6 +4,12 @@ require 'builder'
 # = EntityRepresentation
 # A module correspond to the representation of entity in diffrent data structures
 #
+# 
+# == Usage
+#
+# * <Entity>.to_xml => <xml representation of the entity with the fieldlets
+# * <Entity>.to_json => {JSON representation of the entity with the fieldlets}
+# 
 
 module App
 	module EntityRepresentation
@@ -16,7 +22,7 @@ module App
 		
 		module InstanceMethods
 		
-		
+			
 			def to_xml
 		    xml = Builder::XmlMarkup.new(:indent => 2)
 				xml.entity({:id => self.id, :type => "Entity#{self.kind}"}) do |xml|
@@ -54,7 +60,7 @@ module App
 				}
 
 				if fieldlet_loaded?
-					json_hash.update(:fieldlets => cached_fieldlets.all)
+					json_hash.update(:fieldlets => self.fieldlets.all)
 				end
 				
 				return json_hash.to_json

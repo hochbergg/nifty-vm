@@ -8,7 +8,7 @@ module App
 	  end
 	  
 	  def show
-	    @entity = Entity.with_fieldlets(params[:id])
+	    @entity = Entity.find_with_fieldlets(params[:id])
 			restful_render @entity
 	  end
 	  
@@ -32,12 +32,12 @@ module App
 	  end
 	  
 	  def edit
-	    @entity = Entity.with_fieldlets(params[:id])
+	    @entity = Entity.find_with_fieldlets(params[:id])
 	    render
 	  end
 	  
 	  def update
-	    @entity = Entity.with_fieldlets(params[:id])
+	    @entity = Entity.find_with_fieldlets(params[:id])
 			@entity.set_fieldlets(params[:entity])
 	    if @entity.save
 				if params[:format] == 'js'
@@ -51,9 +51,9 @@ module App
 	  end
 	  
 	  def destroy
-	    @entity = Entity(params[:id])
+	    @entity = Entity[params[:id]]
 	    if @entity.destroy
-	      redirect url(:entitys)
+	      redirect url(:entities)
 	    else
 	      raise BadRequest
 	    end

@@ -9,6 +9,20 @@ module VM
 		include PreferencesTools
 		include JsGenerateTools
 		
+		# set schema
+		
+		set_schema do 
+			primary_key :id
+			varchar			:name, :size => 255
+			int					:field_kind_id
+			int					:position
+			text				:preferences
+			varchar			:kind, :size => 255
+			
+			index [:field_kind_id, :position]
+		end	
+		
+		
 		 def build_model_extention
 		 	<<-CLASS_DEF	
 				# choose fieldlet & options

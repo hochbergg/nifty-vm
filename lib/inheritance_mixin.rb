@@ -1,22 +1,22 @@
+# = InheritanceMixin
 #
-# = Inheritance module. 
-# Enable STI-like abilities 
+# Allows for a model to have automatic integer based STI
+#
 
-module Inheritance
+module InheritanceMixin
 	# Include Hook
 	def self.included(base)
-		base.send(:include, InstanceMethods)
 		base.extend ClassMethods
 	end
-	
-	module InstanceMethods
-			
-	end # InstanceMethods
-	
+		
 	module ClassMethods
 
-		# = Inherited
+		# == Inherited callback
 		# 
+		# Called when a class inherit from the mixed-in class
+		#
+		# Sets the subclass' dataset, maps the superclass model for STI-ing to the 
+		# subclass model if the type matches
 		
 		def inherited(klass)
 			
@@ -35,7 +35,7 @@ module Inheritance
 			klass.set_dataset(klass.dataset.dup.filter(:kind => id))
 		end
 
-		# return the model
+		# gets a subclass model by an id
 		def get_subclass_by_id(id)
 			self.dataset.opts[:models][id.to_i]
 		end

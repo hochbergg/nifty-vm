@@ -9,6 +9,14 @@ require 'preferences_tools'
 
 module VM
 	class EntityKind < ::Sequel::Model
+		# set schema
+		set_schema do 
+			primary_key :id
+			varchar			:name, :size => 255
+			text				:preferences
+		end
+
+		
 		include ModelBuildTools
 		include PreferencesTools
 		

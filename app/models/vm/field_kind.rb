@@ -4,6 +4,19 @@ module VM
 		include PreferencesTools
 		
 		
+		# set schema
+		
+		set_schema do 
+			primary_key :id
+			varchar			:name, :size => 255
+			int					:entity_kind_id
+			int					:position
+			text				:preferences
+			
+			index [:entity_kind_id, :position]
+		end
+		
+		
 		# assocs:
 		def entity_kind
 			EntityKind[self.entity_kind_id]

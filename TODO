@@ -47,3 +47,13 @@
 + define options for displayitems & edit items via fieldlets
 + fieldlet with xtemplates/rendered items as their display
 + redrawing display value when field is updated
+
+== Cleaning up
+
+* Schema specified on models
+* rspecs
+* documentation for each class and mehtod, based on Merb's convention
+* fixtures and sample data
+
+
+

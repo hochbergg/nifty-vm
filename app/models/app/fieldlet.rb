@@ -1,11 +1,27 @@
 # must load namespaces
 require 'namespaces'
-require 'inheritance'
+require 'inheritance_mixin'
 
 module App
 	class Fieldlet < Sequel::Model
-		set_dataset self.db[:fieldlets]
-		include Inheritance
+		include InheritanceMixin
+		# set schema
+		
+		set_schema do 
+			primary_key :id
+			int					:kind
+			int					:instance_id
+			int					:entity_id
+			int					:int_value
+			varchar			:string_value, :size => 255
+			text				:text_value
+			
+			index [:entity_id, :kind]
+			index [:int_value]
+			index [:string_value]
+			index [:text_value]
+		end
+	
 	
 	
 		def instance_id

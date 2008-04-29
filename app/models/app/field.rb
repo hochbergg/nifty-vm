@@ -7,7 +7,7 @@ module App
 	class Field
 		def initialize(entity)
 			@entity = entity
-			@fieldlets = entity.cached_fieldlets.fieldlets.reject do |key,value| 
+			@fieldlets = entity.fieldlets.fieldlets.reject do |key,value| 
 				not self.class.fieldlet_kind_ids.include?(key)
 			end
 		end

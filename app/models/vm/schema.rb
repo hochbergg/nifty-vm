@@ -24,9 +24,6 @@ module VM
 			#	Aggregators
 			#VM::AggregatorKind,
 	
-			# Links
-			#VM::LinkKind, 
-	
 			# Lists
 			#VM::ListKind, 
 			

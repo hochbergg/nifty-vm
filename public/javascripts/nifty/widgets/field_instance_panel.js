@@ -4,6 +4,10 @@ Nifty.widgets.FieldInstancePanel = Ext.extend(Ext.Container, {
 	instanceId: null,
 	border: false,
 	autoEl: {tag: 'div', cls: 'x-nifty-field-instance'},
+	displayTpl: new Ext.XTemplate('<div class="x-nifty-field-instance">',
+		'<tpl for="fieldlets">',
+		'</tpl>',
+	'</div>'),
 	
 	initComponent: function(){
 		// set the ids & values of the fieldlets
@@ -140,10 +144,11 @@ Nifty.widgets.FieldInstancePanel = Ext.extend(Ext.Container, {
 	// mark self with "dirty" class
 	setDirty: function(){
 		this.addClass('x-nifty-field-instance-dirty')
+	},
+	
+	markupForDisplay: function(){
+		
 	}
-	
-	
-	
 });
 
 Ext.reg('fieldInstance', Nifty.widgets.FieldInstancePanel);
