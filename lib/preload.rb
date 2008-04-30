@@ -2,4 +2,4 @@
 
 # preload fieldlets:
 
-require 'nifty_fieldlets_base/nifty_fieldlets_base.rb'
+require 'nifty_base_fieldlets/lib/nifty_base_fieldlets.rb'

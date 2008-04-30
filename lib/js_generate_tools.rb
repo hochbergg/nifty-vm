@@ -9,9 +9,6 @@ module JsGenerateTools
 	def self.included(base)
 		base.send(:include, InstanceMethods)
 		base.extend ClassMethods
-		
-		# include preferences tools
-		#base.send(:include, PreferencesTools)
 	end
 	
 	

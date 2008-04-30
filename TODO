@@ -9,16 +9,19 @@
 + side panel fields
 * all sorts of rendering issues
 * entity-panel knows all the fields & fieldlets
-* no save if not valid.
++ no save if not valid.
 * Smart-tabing between instances
 * blur & focus events for instances
 + color dirty instances
 * update displayItem with values, via handlers. 
 * field can be single or multiple
 * show new empty instance on multiple edit fields
-* focus no the first editItem when editing instance
+* focus on the first editItem when editing instance
 * report for changes on the page
-* ability to save changes - graphicaly
++ ability to save changes - graphicaly
+
+* template-based markup generating for field, field-instnace & fieldlet, for using with grid (list)
+
 
 + clean up pages
 * clean up instances & fieldlets
@@ -36,9 +39,9 @@
 + proper response for successfully saved entity
 + optimize entity saving
 * set the display after save
-* generate fields, entities & fieldlets automaticaly
+* generate fields, entities & fieldlets automaticaly (JS side)
 
-* smart loading of enitites via fieldlets - for usage with links.
++ smart loading of enitites via fieldlets - for usage with links.
 
 
 == Fieldlets
@@ -47,13 +50,26 @@
 + define options for displayitems & edit items via fieldlets
 + fieldlet with xtemplates/rendered items as their display
 + redrawing display value when field is updated
+* extract nifty-base-fieldlets to merb-plugin 
+* rake tasks for packing, testing and generating fieldlets
+
+
+== Lists
+
+
+
 
 == Cleaning up
-
-* Schema specified on models
++ Schema specified on models
 * rspecs
 * documentation for each class and mehtod, based on Merb's convention
 * fixtures and sample data
 
+
+== Testing:
+* Rspec unit tests
+* many system fixtures
+* many stories
+* find a way to test fieldlets (maybe "interface-like" tests? (respond_to? :required_method))
 
 
