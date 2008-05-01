@@ -6,8 +6,17 @@
 
 Ext.namespace('Nifty',
 			  'Nifty.data',
-			  'Nifty.widgets');
+			  'Nifty.widgets',
+			  'Nifty.pages',
+			  'Nifty.fieldlets',
+			  'Nifty.entities',
+			  'Nifty.entities.actions',
+			  'Nifty.panels',
+			  'Nifty.fields'
+			);
 
+// placeholder
+Nifty.entities.kinds = [];
 
 
 // create application

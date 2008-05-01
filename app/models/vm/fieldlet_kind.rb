@@ -45,12 +45,11 @@ module VM
 		 # generate_js
 		def generate_js
 			<<-JSDEF
-Nifty.form.Fieldlet#{self.id} = Ext.extend(Nifty.form.#{self.kind.capitalize}Fieldlet, {
-	fieldLabel: '#{self.name}'
-})
-
-Ext.reg('Fieldlet#{self.id}', Nifty.form.Fieldlet#{self.id});
-			JSDEF
+Nifty.fieldlets.Fieldlet#{self.id} = Ext.extend(Nifty.widgets.fieldlets.#{self.kind.capitalize}Fieldlet, {
+	editItemOptions: {emptyText: '#{self.name}'}
+});
+Ext.reg('Fieldlet#{self.id}', Nifty.fieldlets.Fieldlet#{self.id});
+JSDEF
 		end
 	end
 end

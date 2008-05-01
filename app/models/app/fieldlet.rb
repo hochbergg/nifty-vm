@@ -45,7 +45,6 @@ module App
 			index [:entity_id, :kind]
 			index [:int_value]
 			index [:string_value]
-			index [:text_value]
 		end
 	
 		# Inheritance Mixin - for smart STI
@@ -141,13 +140,38 @@ module App
 		end
 		
 		
-		## callbacks
+		# ==== callbacks
+		#
+		#
 		
-		# used mostly by link fieldlet
-		def setup_entities_loading_and_callbacks(entities_to_load)
-			return entities_to_load
+		# entity_load_callback
+		# 
+		# calls for each loaded entity, before the loading the entities
+		# 
+		#
+		# returns a proc{|entities_to_load, loaded_fieldlets|}
+		# 
+		# * entities_to_load<Hash>:: from entity_id to array of callbacks, 
+		# which called upon loading of the entity with the entity_id of the key. the callbacks
+		# are from the type proc{|entity|}
+		#
+		# * loaded_fieldlets<Array>:: of fieldlets which have been loaded
+		#
+		
+		def entity_load_callback
 		end
 		
+		# entity_save_callback
+		#
+		# calls for each pending for save fieldlet before it being saved
+		# returns a proc{|entity, pending_for_save|}
+		# 
+		# * entity<Entity>:: The entity of the fieldlet
+		# * pending_for_save<Array>:: Array of the fieldlets that are pending to be saved
+		#
+		
+		def entity_save_callback
+		end
 		
 	end
 end

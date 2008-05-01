@@ -33,6 +33,7 @@ Ext.extend(Nifty.EntityPage, Nifty.Page,{
 	},
 	
 	create: function(entityKindId){
+		this.showLoading();
 		this.isCreate = true;
 		this.createId = entityKindId;
 		

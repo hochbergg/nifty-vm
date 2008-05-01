@@ -6,6 +6,8 @@
 
 require 'model_build_tools'
 require 'preferences_tools'
+require 'js_generate_tools'
+
 
 module VM
 	class EntityKind < ::Sequel::Model
@@ -19,6 +21,8 @@ module VM
 		
 		include ModelBuildTools
 		include PreferencesTools
+		include JsGenerateTools
+
 		
 		# assoc
 		def field_kinds
@@ -44,6 +48,36 @@ module VM
 				
 			end
 			CLASS_DEF
+		end
+		
+		def generate_js
+<<-JSDEF
+Nifty.entities.kinds.push({id: #{self.id}, singleName: '#{self.name}', multiName: '#{self.name}'});
+
+Nifty.panels['Entity#{self.id}'] = {
+	subtitle: '#{self.name}',
+	title: 'Loading',
+	newItemTitle: 'New #{self.name}',
+	renderTo: 'main',
+	iconCls: 'x-entity-icon-big-#{self.id}',
+	items: {xtype: 'tabpanel',
+			activeTab: 0,
+			defaults: {autoScroll:false},
+			items: [
+				{xtype: 'panel', 
+				 title: 'Information',
+				 items: [#{field_kinds.map(:id).collect{|x| "{xtype: 'Field#{x}'}"}.join(',')}]
+				}
+			]
+	}
+};
+
+Nifty.panels['Entity#{self.id}side'] = {
+	title: 'Side Panel',
+//	items: [Nifty.entities.newEntityButton],
+	renderTo: 'side'
+};
+JSDEF
 		end
 		
 	end

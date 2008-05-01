@@ -13,7 +13,7 @@ module VM
 			VM::FieldletKind,
 			
 			# Fields
-			#VM::FieldKind,
+			VM::FieldKind,
 			
 			# Fieldsets
 			#VM::FieldsetKind,
@@ -30,7 +30,7 @@ module VM
 			# Lists
 			#VM::ListKind, 
 			
-			#VM::EntityKind
+			VM::EntityKind
 			]
 			
 	
@@ -39,7 +39,7 @@ module VM
 		
 		# generate models from the loaded schema
 		def self.build
-			self.build_fieldlets_types
+			#self.build_fieldlets_types
 			self.load_klasses
 	 		generated = @@base_classes.collect{|klass| klass.generate_all_js}.flatten
 	

@@ -11,6 +11,8 @@
     border: none;
 		background:none;
 		margin:0 0 5px 0;
+		padding-left:12px;
+		clear:both;
 }
 
 
@@ -264,4 +266,40 @@
 }
 .x-panel-nifty-field-btns-ct .x-btn-click .x-btn-left{
 	background-position:0 -63px;
+}
+
+
+
+
+
+.x-nifty-field-side-title{
+	float:left;
+	width:100px;
+	margin:6px 0 0 0;
+	font-weight:bold;
+	font-family:arial;
+	font-size:12px;
+}
+
+.x-nifty-field-instance{
+	margin-left:100px;
+}
+
+.x-nifty-field-side-title .x-nifty-field-edit{
+	visibility:hidden;
+}
+
+.x-nifty-field-side-title-over .x-nifty-field-edit{
+	visibility:visible;
+}
+
+
+
+.x-nifty-field-edit{
+	display:block;
+	margin-left:-10px;
+	width:10px;
+	height:10px;
+	background:#fff url(/images/edit.png) no-repeat bottom center;
+	float:left;
 }

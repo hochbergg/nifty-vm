@@ -1,15 +1,13 @@
-Nifty.widgets.FieldPanel = Ext.extend(Ext.Panel, {
+Nifty.widgets.FieldPanel = Ext.extend(Ext.Container, {
 	fieldlets: [],
-	border: false,
 	subtitle: null,
 	sidetitle: null,
 	fieldId: null,
 	default_instances: 1,
 	maximum_instances: null,
-    baseCls : 'x-panel-nifty-field',
-    collapsedCls : 'x-panel-nifty-field-collapsed',
 	lastInstance: -1,
 	editing: false,
+	autoEl: {tag: 'div', cls: 'x-panel-nifty-field'},
 	
 	initComponent: function(){
 		// set the tools
@@ -28,7 +26,8 @@ Nifty.widgets.FieldPanel = Ext.extend(Ext.Panel, {
 	
 	// Override other inherited methods 
     onRender: function(){
-   
+   		this.addSideTitle();
+
         // Before parent code
 		this.load();
    
@@ -39,7 +38,29 @@ Nifty.widgets.FieldPanel = Ext.extend(Ext.Panel, {
 
 		// set as edit if this is new entity
 		this.setEditIfnew();
+		
+		// set title events
+		this.on('render', function(){
+			
+		})
 	}, 
+	
+	
+	
+	addSideTitle: function(){
+		this.add({xtype: 'box' ,cls: 'x-nifty-field-side-title', 
+				id: this.fieldId + '-side-title',
+				overCls: 'x-nifty-field-side-title-over',
+				listeners: {
+					'render': function(){
+						Ext.get(this.fieldId + '-Edit-But').on('click', this.toggleEdit, this)
+					},
+					scope: this
+				},
+				autoEl: {tag: 'div', 
+					html: String.format('<a id="{0}" class="x-nifty-field-edit"></a><span>{1}</span>', this.fieldId + '-Edit-But', this.title + ':')
+				}})
+	},
 	
 	load: function(){
 		// if only fieldset

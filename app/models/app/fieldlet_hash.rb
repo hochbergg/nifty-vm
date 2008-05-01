@@ -70,9 +70,9 @@ module App
 		
 		# saves all the pending fieldlets without validation
 		def save!
-			# TODO: Add multiinsert here
 			@pending_for_save.each do |fieldlet|
 				fieldlet[:entity_id] =  @entity.id
+				fieldlet.entity_save_callback.call(@entity, @pending_for_save) if fieldlet.entity_save_callback
 				fieldlet.save
 			end
 		end

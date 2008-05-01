@@ -2,6 +2,7 @@ module VM
 	class FieldKind < ::Sequel::Model
 		include ModelBuildTools
 		include PreferencesTools
+		include JsGenerateTools
 		
 		
 		# set schema
@@ -56,6 +57,18 @@ module VM
 						#{fieldlet_kinds_ids.inspect}
 					end
 			CLASS_DEF
+		end
+		
+			 # generate_js
+		def generate_js
+			<<-JSDEF
+Nifty.fields.field#{self.id} = Ext.extend(Nifty.widgets.FieldPanel, {
+	fieldId: #{self.id},
+	title: '#{self.name}',
+	fieldlets: [#{self.fieldlet_kinds.map(:id).collect{|x| "{kind: #{x}}"}.join(',')}]
+})
+Ext.reg('Field#{self.id}', Nifty.fields.field#{self.id});			
+JSDEF
 		end
 		
 	end

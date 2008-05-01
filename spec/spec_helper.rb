@@ -13,3 +13,5 @@ Spec::Runner.configure do |config|
   config.include(Merb::Test::RouteHelper)
   config.include(Merb::Test::ControllerHelper)
 end
+
+#require 'merb_sequel_fixtures/lib/spec_helper'

@@ -96,7 +96,7 @@ module App
 			#
 			
 			def load_fieldlets(filter = nil)
-				set = fieldlets
+				set = self.fieldlets_dataset
 				set = set.filter(filter) if filter
 				# generate indexed fieldlets hash
 				if self.new?
@@ -265,8 +265,9 @@ module App
 						fieldlets = {}
 						
 						# Load all the fieldlets, push them to a hash by the entity_id
-						fieldlets_set.all.each do |fieldlet|
-							entities_to_load = fieldlet.setup_entities_loading_and_callbacks(entities_to_load)
+						loaded_fieldets = fieldlets_set.all
+						loaded_fieldlets.each do |fieldlet|
+							fieldlet.load_callback.call(entities_to_load,loaded_fieldlets)
 							
 							fieldlets[fieldlet.entity_id] ||= []
 							fieldlets[fieldlet.entity_id] << fieldlet
@@ -285,7 +286,6 @@ module App
 							# init the fieldlets for the loaded entity, if there are fieldlets
 							entity.init_fieldlets(fieldlets[entity.id] || []) if fieldlets[entity.id] 
 						end
-						
 						
 						
 						# prepare result 
