@@ -12,7 +12,8 @@ Ext.namespace('Nifty',
 			  'Nifty.entities',
 			  'Nifty.entities.actions',
 			  'Nifty.panels',
-			  'Nifty.fields'
+			  'Nifty.fields',
+			  'Nifty.layout'
 			);
 
 // placeholder

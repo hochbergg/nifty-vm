@@ -64,7 +64,7 @@ module VM
 			<<-JSDEF
 Nifty.fields.field#{self.id} = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: #{self.id},
-	title: '#{self.name}',
+	fieldLabel: '#{self.name}',
 	fieldlets: [#{self.fieldlet_kinds.map(:id).collect{|x| "{kind: #{x}}"}.join(',')}]
 })
 Ext.reg('Field#{self.id}', Nifty.fields.field#{self.id});			

@@ -64,7 +64,8 @@ Nifty.panels['Entity#{self.id}'] = {
 			activeTab: 0,
 			defaults: {autoScroll:false},
 			items: [
-				{xtype: 'panel', 
+				{xtype: 'panel',
+				 layout: 'niftyForm',
 				 title: 'Information',
 				 items: [#{field_kinds.map(:id).collect{|x| "{xtype: 'Field#{x}'}"}.join(',')}]
 				}

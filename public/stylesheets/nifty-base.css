@@ -21,7 +21,6 @@ margin-bottom:5px;
 #loading .loading-indicator {
 background:white none repeat scroll 0%;
 color:#555555;
-font-family:tahoma,arial,helvetica;
 font-size:13px;
 font-size-adjust:none;
 font-style:normal;
@@ -56,13 +55,14 @@ DIV#side{
 
 BODY{
 	background:#EFEFEF;
+	font-family: "Lucida Grande",Verdana,Tahoma,Arial,sans-serif;
 }
 
 DIV#header h1{
 	font-size:30px;
 	color:#fff;
 	padding:18px 18px;
-	font-family:verdana,tahoma;
+	
 	font-weight:normal;
 }
 
@@ -71,7 +71,6 @@ DIV#page_loading{
 	padding:10px;
 	background:#D0DCEA;
 	border: 1px solid #6A788B;
-	font-family:verdana,tahoma;
 	font-size:13px;
 	margin:5px 0;
 }

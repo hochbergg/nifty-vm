@@ -55,56 +55,56 @@ Ext.reg('Fieldlet11', Nifty.fieldlets.Fieldlet11);
 
 Nifty.fields.field1 = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: 1,
-	title: 'Name',
+	fieldLabel: 'Name',
 	fieldlets: [{kind: 1}]
 })
 Ext.reg('Field1', Nifty.fields.field1);			
 
 Nifty.fields.field2 = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: 2,
-	title: 'Serial Number',
+	fieldLabel: 'Serial Number',
 	fieldlets: [{kind: 2}]
 })
 Ext.reg('Field2', Nifty.fields.field2);			
 
 Nifty.fields.field3 = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: 3,
-	title: 'Price',
+	fieldLabel: 'Price',
 	fieldlets: [{kind: 3}]
 })
 Ext.reg('Field3', Nifty.fields.field3);			
 
 Nifty.fields.field4 = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: 4,
-	title: 'Quantity',
+	fieldLabel: 'Quantity',
 	fieldlets: [{kind: 4}]
 })
 Ext.reg('Field4', Nifty.fields.field4);			
 
 Nifty.fields.field5 = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: 5,
-	title: 'Name',
+	fieldLabel: 'Name',
 	fieldlets: [{kind: 5},{kind: 6},{kind: 7}]
 })
 Ext.reg('Field5', Nifty.fields.field5);			
 
 Nifty.fields.field6 = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: 6,
-	title: 'Contacts',
+	fieldLabel: 'Contacts',
 	fieldlets: [{kind: 8},{kind: 9}]
 })
 Ext.reg('Field6', Nifty.fields.field6);			
 
 Nifty.fields.field7 = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: 7,
-	title: 'Favorite Product',
+	fieldLabel: 'Favorite Product',
 	fieldlets: [{kind: 10}]
 })
 Ext.reg('Field7', Nifty.fields.field7);			
 
 Nifty.fields.field8 = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: 8,
-	title: 'Favorited By Customers',
+	fieldLabel: 'Favorited By Customers',
 	fieldlets: [{kind: 11}]
 })
 Ext.reg('Field8', Nifty.fields.field8);			
@@ -121,7 +121,8 @@ Nifty.panels['Entity1'] = {
 			activeTab: 0,
 			defaults: {autoScroll:false},
 			items: [
-				{xtype: 'panel', 
+				{xtype: 'panel',
+				 layout: 'niftyForm',
 				 title: 'Information',
 				 items: []
 				}
@@ -147,7 +148,8 @@ Nifty.panels['Entity2'] = {
 			activeTab: 0,
 			defaults: {autoScroll:false},
 			items: [
-				{xtype: 'panel', 
+				{xtype: 'panel',
+				 layout: 'niftyForm',
 				 title: 'Information',
 				 items: [{xtype: 'Field5'},{xtype: 'Field6'},{xtype: 'Field7'}]
 				}
@@ -173,7 +175,8 @@ Nifty.panels['Entity3'] = {
 			activeTab: 0,
 			defaults: {autoScroll:false},
 			items: [
-				{xtype: 'panel', 
+				{xtype: 'panel',
+				 layout: 'niftyForm',
 				 title: 'Information',
 				 items: [{xtype: 'Field1'},{xtype: 'Field2'},{xtype: 'Field3'},{xtype: 'Field4'},{xtype: 'Field8'}]
 				}

@@ -32,7 +32,7 @@ module InheritanceMixin
 			self.dataset.set_model(:kind, models)
 			
 			# set the inheriting model to filter by the id
-			klass.set_dataset(klass.dataset.dup.filter(:kind => id))
+			klass.set_dataset(self.dataset.clone.filter(:kind => id))
 		end
 
 		# gets a subclass model by an id

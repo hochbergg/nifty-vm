@@ -22,7 +22,7 @@
     overflow:hidden;
     zoom:1;
     color:#fff;
-		font:normal 11px verdana,arial,verdana,sans-serif;
+		font-size: 11px;
     background: #9197A3;
 }
 
@@ -78,7 +78,7 @@
 }
 .x-panel-nifty-main-tl .x-panel-nifty-main-header {
     color:#15428b;
-	 font:bold 11px tahoma,arial,verdana,sans-serif;
+	 	font:bold 11px;
     padding:5px 0 4px 0;
     border:0 none;
     background:transparent;

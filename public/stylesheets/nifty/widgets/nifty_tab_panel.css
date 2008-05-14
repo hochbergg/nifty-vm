@@ -20,6 +20,7 @@
 	border: transparent;
 	background:none;
 	padding-bottom: 2px;
+	
 }
 
 .x-tab-panel-footer {
@@ -113,7 +114,7 @@ ul.x-tab-strip li.x-tab-edge {
 }
 
 .x-tab-strip span.x-tab-strip-text {
-	font:normal 11px verdana,tahoma,arial,helvetica;
+	font:normal 11px "Lucida Grande",Tahoma,Arial,sans-serif;
 	color:#C8CBD1;
 	white-space: nowrap;
 	cursor:pointer;
@@ -270,7 +271,7 @@ ul.x-tab-strip li.x-tab-edge {
 .x-tab-panel-body {
     border: transparent;
     background:#fff;
-		padding: 10px 15px;
+		padding: 10px 2px;
 }
 .x-tab-panel-body-top {
     border-top: 0 none;

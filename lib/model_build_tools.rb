@@ -70,7 +70,7 @@ module ModelBuildTools
 		# Return all the generated Models 
 		# gets them from the app namespace
 		def all_models
-			map(:id).collect do |i|
+			dataset.map(:id).collect do |i|
 				::App.const_get("#{regulated_name}#{i}")
 			end
 		end

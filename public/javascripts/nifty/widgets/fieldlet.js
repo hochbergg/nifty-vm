@@ -190,14 +190,14 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 		if (Ext.type(this.displayItem.compileTpl) == 'function'){ // template? 
 			this.tpl = this.displayItem;
 			console.log(this.value || this.defaultValue);
-			this.displayItem = {xtype:'box', autoEl: {tag: 'span', html: this.markupForDisplay()}};
+			this.displayItem = {xtype:'box', autoEl: {tag: 'span', html: this.markupForDisplay(this.value || this.defaultValue)}};
 		}
 	},
 	
 	
 	// return html markup for display items
-	markupForDisplay: function(){
-		return this.tpl.apply({value: (this.value || this.defaultValue)})
+	markupForDisplay: function(value){
+		return this.tpl.apply({value: value})
 	}
 	
 	

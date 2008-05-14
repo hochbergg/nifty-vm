@@ -2,7 +2,7 @@
 
 module App
 	class AppController < Application
-		self._layout = :app
+		layout :app
 		
 		
 	end

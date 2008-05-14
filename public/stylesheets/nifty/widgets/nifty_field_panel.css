@@ -11,15 +11,13 @@
     border: none;
 		background:none;
 		margin:0 0 5px 0;
-		padding-left:12px;
-		clear:both;
 }
 
 
 .x-panel-nifty-field-header {
     overflow:hidden;
     zoom:1;
-		font:normal 13px verdana,arial,verdana,sans-serif;
+		font:normal 13px;
 		line-height:16px;
     background: url(/images/fieldset_bg.png) repeat-x center left;
 		color: #000;
@@ -68,7 +66,7 @@
 }
 .x-panel-nifty-field-tl .x-panel-nifty-field-header {
     color:#15428b;
-	 font:bold 11px tahoma,arial,verdana,sans-serif;
+	 font:bold 11px;
     padding:5px 0 4px 0;
     border:0 none;
     background:transparent;
@@ -273,17 +271,12 @@
 
 
 .x-nifty-field-side-title{
-	float:left;
-	width:100px;
-	margin:6px 0 0 0;
+	background:#fff !important;
 	font-weight:bold;
-	font-family:arial;
-	font-size:12px;
+	color: #222222;
+	font-size:95%;
 }
 
-.x-nifty-field-instance{
-	margin-left:100px;
-}
 
 .x-nifty-field-side-title .x-nifty-field-edit{
 	visibility:hidden;
@@ -297,9 +290,15 @@
 
 .x-nifty-field-edit{
 	display:block;
-	margin-left:-10px;
-	width:10px;
-	height:10px;
-	background:#fff url(/images/edit.png) no-repeat bottom center;
+	margin-left:-16px;
+	width:16px;
+	height:16px;
+	background:#fff url(/images/edit.png) no-repeat center center;
 	float:left;
+	cursor: pointer;
+}
+
+.x-form-item{
+	font-family: "Lucida Grande",Tahoma,Arial,sans-serif;
+	padding-left: 16px;
 }

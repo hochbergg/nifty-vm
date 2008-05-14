@@ -259,15 +259,15 @@ module App
 						fieldlets_set = Fieldlet.filter(:entity_id => ids)
 						
 						# Apply a fieldlets filter if given
-						fieldlets_set.filter(options_hash[:fieldlets_set]) if options_hash[:fieldlets_set]
+						fieldlets_set = fieldlets_set.filter(options_hash[:fieldlets_set]) if options_hash[:fieldlets_set]
 						
 						
 						fieldlets = {}
 						
 						# Load all the fieldlets, push them to a hash by the entity_id
-						loaded_fieldets = fieldlets_set.all
+						loaded_fieldlets = fieldlets_set.all
 						loaded_fieldlets.each do |fieldlet|
-							fieldlet.load_callback.call(entities_to_load,loaded_fieldlets)
+							fieldlet.entity_load_callback.call(entities_to_load,loaded_fieldlets) if fieldlet.entity_load_callback
 							
 							fieldlets[fieldlet.entity_id] ||= []
 							fieldlets[fieldlet.entity_id] << fieldlet
@@ -294,7 +294,7 @@ module App
 						result = entities.find_all{|x| ids.include? x.id}
 						
 						# return nil if there are no results
-						result = nil if result.empty?
+						return result = nil if result.empty?
 						
 						# return only the entity if the result array size is 1
 						result = result.first if result.size == 1

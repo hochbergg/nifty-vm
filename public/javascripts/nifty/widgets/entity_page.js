@@ -45,6 +45,7 @@ Ext.extend(Nifty.EntityPage, Nifty.Page,{
 	render: function(entityStore, data, entityStoreOptions){
 		this.clear();
 		this.setupForm(this.isCreate);
+		this.setTitle(data);
 		
 		// Load panels from hash
 		// set the entity store for the panels
@@ -97,6 +98,13 @@ Ext.extend(Nifty.EntityPage, Nifty.Page,{
 		
 		this.form.on('actioncomplete', this.formSuccess, this);
 		this.form.on('actionfailed', this.formFailed, this);
+	},
+	
+	setTitle: function(data){
+		document.title = String.format("{0}: {1}", 
+			Nifty.panels[data.type].subtitle,
+			data.display
+		);
 	},
 	
 	

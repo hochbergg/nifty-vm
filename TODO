@@ -73,3 +73,38 @@
 * find a way to test fieldlets (maybe "interface-like" tests? (respond_to? :required_method))
 
 
+=== Fieldlets architecture
+
+* no instantce_id anymore => round robin loading for filling instances
+* to delete instance => send every fieldlet in it to be NULL valued
+* fieldlets are not deleted, their values are set to null instead
+* instance is deleted only if all it's fieldlets values are null
+* dual side links duplicates the instance also
+* every fieldlet saves it's second_fieldet_id for fast access on update & edit
+* dual sided fieldlets need to have a create-create-update mechanisem.
+
+
+Entity Cycle:
+
+* load: 
+		- fetch all the fieldlets by the entity_id(s)
+ 		- iterate over fieldlets
+			- call load_callback
+			- push to the FieldFactory and add/create instances
+			- push to the entities_to_fieldlets<entity_id => [<fieldlet,...>]>
+ 		
+		- fetch all entities required
+			- for each fieldlet in entities_to_fieldlets, call callback
+			- initiate with fields loaded
+		
+		- serve by fieldlet/field
+
+
+
+
+
+
+
+
+
+

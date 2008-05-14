@@ -1,32 +1,17 @@
 Nifty.widgets.FieldPanel = Ext.extend(Ext.Container, {
 	fieldlets: [],
 	subtitle: null,
-	sidetitle: null,
+	title: null,
 	fieldId: null,
 	default_instances: 1,
 	maximum_instances: null,
 	lastInstance: -1,
 	editing: false,
 	autoEl: {tag: 'div', cls: 'x-panel-nifty-field'},
-	
-	initComponent: function(){
-		// set the tools
-		
-		Ext.apply(this, {tools: [{
-			id: 'gear',
-			handler: function(event, toolEl, panel){
-				panel.toggleEdit();
-			}
-		}]});
-		
-		Nifty.widgets.FieldPanel.superclass.initComponent.apply(this, arguments);
-	},
-	
-	
+	isFormField: true, // for form layout
 	
 	// Override other inherited methods 
     onRender: function(){
-   		this.addSideTitle();
 
         // Before parent code
 		this.load();
@@ -39,10 +24,7 @@ Nifty.widgets.FieldPanel = Ext.extend(Ext.Container, {
 		// set as edit if this is new entity
 		this.setEditIfnew();
 		
-		// set title events
-		this.on('render', function(){
-			
-		})
+		
 	}, 
 	
 	
