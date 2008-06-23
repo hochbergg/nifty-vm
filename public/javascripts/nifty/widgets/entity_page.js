@@ -132,7 +132,7 @@ Ext.extend(Nifty.EntityPage, Nifty.Page,{
 	
 	checkDirtyAndOrValidBeforeLeave: function(){
 		if (this.form.isDirty()){
-			console.log('dirty!')
+	//		console.log('dirty!')
 		}
 		
 	},

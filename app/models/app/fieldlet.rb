@@ -36,7 +36,6 @@ module App
 		set_schema do 
 			primary_key :id
 			int					:kind
-			int					:instance_id
 			int					:entity_id
 			int					:int_value
 			varchar			:string_value, :size => 255
@@ -51,12 +50,7 @@ module App
 		include InheritanceMixin
 	
 	
-	
-		# accessor for instance_id, defaults to 0
-		def instance_id
-			@values[:instance_id] || 0
-		end
-		
+
 
 		# ==== Representations 
 		#
@@ -68,11 +62,9 @@ module App
 		# JSON representation
 		# @overrideable
 		def to_json
-			{:id 					=> self.id,
+			{:id 					=> self.pk,
 			 :type				=> "Fieldlet#{self.kind}",
-			 :value				=> self.value_to_json,
-			 :field_id		=> self.class.field_id,
-			 :instance_id => self.instance_id
+			 :value				=> self.value_to_json
 			 }.to_json
 		end
 	
@@ -124,6 +116,14 @@ module App
 		#  end
 		#
 		#
+
+
+		# returns true if any of the value fields has any value
+		# used for checking if having any value, without using the getter
+		def value?
+			[self.int_value, self.text_value, self.string_value].any?{|x| !x.nil?}
+		end
+
 
 		# Value Getter
 		# gets the proper value, from the fieldlet row

@@ -56,13 +56,10 @@ module App
 					:type => "Entity#{self.kind}",
 					:display => self.display,
 					:created_at => self.created_at,
-					:updated_at	=> self.updated_at
+					:updated_at	=> self.updated_at,
+					:fields => self.fields.keys.inject({}){|hash, key| hash.merge!(key.to_i => self.fields[key])}
 				}
 
-				if fieldlet_loaded?
-					json_hash.update(:fieldlets => self.fieldlets.all)
-				end
-				
 				return json_hash.to_json
 			end
 		

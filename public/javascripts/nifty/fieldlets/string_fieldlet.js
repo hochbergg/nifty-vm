@@ -11,5 +11,5 @@ Nifty.widgets.fieldlets.StringFieldlet = Ext.extend(Nifty.widgets.Fieldlet,{
 	di: new Ext.XTemplate('{value}'),
 	
 	// edit item: simple text field
-	ei: {xtype: 'textfield'},
+	ei: {xtype: 'textfield'}
 })

@@ -33,6 +33,7 @@ module InheritanceMixin
 			
 			# set the inheriting model to filter by the id
 			klass.set_dataset(self.dataset.clone.filter(:kind => id))
+			klass.set_primary_key :id # set the default primary key
 		end
 
 		# gets a subclass model by an id

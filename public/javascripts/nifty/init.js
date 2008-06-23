@@ -21,11 +21,11 @@ Nifty.Router.add(/#\/entities\/(\d+)/, function(x){
 });
 		
 Nifty.Router.add(/#\/inbox/, function(){
-	p = new Nifty.pages.Page2()
+	p = new Nifty.pages.Page2();
 	p.load();
 });
 
 Nifty.Router.add(/#/, function(){
-	p = new Nifty.pages.home()
+	p = new Nifty.pages.home();
 	p.load();
 });

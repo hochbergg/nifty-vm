@@ -17,6 +17,6 @@ Nifty.widgets.fieldlets.LinkFieldlet = Ext.extend(Nifty.widgets.Fieldlet,{
 	// overrideable
 	getEditValue: function(){
 		return {id: this.getEditCmp().getValue(), display: 'link', kind: ''};
-	},
+	}
 	
 })

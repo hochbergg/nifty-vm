@@ -8,16 +8,22 @@ Nifty.widgets.FieldInstancePanel = Ext.extend(Ext.Container, {
 	
 	initComponent: function(){
 		// set the ids & values of the fieldlets
+		
 		Ext.each(this.items,function(item){
-			item.xtype = 'Fieldlet' + item.kind;
-			item.formId = String.format('entity[{0}][{1}]', item.kind, this.instanceId);
-			item.instance = this;
-			
 			delete item.value;
 			
-			if(this.field && this.field[item.xtype]){
-				item.value = this.field[item.xtype].value;
+			if(this.field && this.field[item.kind]){
+				item.value = this.field[item.kind].value;
+				item.formId = String.format('entity[{0}]', this.field[item.kind].id);
+			} else {
+				item.formId = String.format('entity[new][{0}]', item.kind);
 			}
+			
+			item.xtype = 'Fieldlet' + item.kind;
+			item.instance = this;
+			
+			
+
 		}, this);
 		
 		
@@ -33,7 +39,7 @@ Nifty.widgets.FieldInstancePanel = Ext.extend(Ext.Container, {
 	// sets events on the fieldlets
 	bindFieldletsEvents: function(){
 		
-		this.fieldletComponents[fieldletComponents.length - 1].on('blur', this.isTabbedOut, this);
+	//	this.fieldletComponents[fieldletComponents.length - 1].on('blur', this.isTabbedOut, this);
 	},
 	
 	

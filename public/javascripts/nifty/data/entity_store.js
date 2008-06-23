@@ -69,7 +69,7 @@ Ext.extend(Nifty.data.EntityStore, Ext.util.Observable, {
 
 	
 	failedLoading: function(options){
-		console.warn('failed loading: ' + options['id']);
+		//console.warn('failed loading: ' + options['id']);
 		this.fireEvent("loadexception", this, options);
 	},
 	
@@ -78,27 +78,10 @@ Ext.extend(Nifty.data.EntityStore, Ext.util.Observable, {
     loadRecords : function(response,options){
 		this.data = Ext.util.JSON.decode(response.responseText)
 		
-		this.fetchFieldlets();
-		
+		this.fields = this.data['fields'];
+
         this.fireEvent("load", this, this.data,options);
     },
-
-	fetchFieldlets: function(){
-		this.fieldlets = this.data['fieldlets'];
-		
-		for(i=0;i<this.fieldlets.length;i++){
-			fieldlet = this.fieldlets[i];
-			
-			if (this.fields[fieldlet.field_id] == null)
-				this.fields[fieldlet.field_id] = {};
-			
-			if (this.fields[fieldlet.field_id][fieldlet.instance_id] == null)
-				this.fields[fieldlet.field_id][fieldlet.instance_id] = {};
-			
-			
-			this.fields[fieldlet.field_id][fieldlet.instance_id][fieldlet.type] = fieldlet;	
-		}
-	},
 	
 	// manually set the type of the entity
 	setNew: function(type){

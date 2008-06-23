@@ -54,56 +54,56 @@ Nifty.fieldlets.Fieldlet11 = Ext.extend(Nifty.widgets.fieldlets.LinkFieldlet, {
 Ext.reg('Fieldlet11', Nifty.fieldlets.Fieldlet11);
 
 Nifty.fields.field1 = Ext.extend(Nifty.widgets.FieldPanel, {
-	fieldId: 1,
+	fieldId: '1',
 	fieldLabel: 'Name',
 	fieldlets: [{kind: 1}]
 })
 Ext.reg('Field1', Nifty.fields.field1);			
 
 Nifty.fields.field2 = Ext.extend(Nifty.widgets.FieldPanel, {
-	fieldId: 2,
+	fieldId: '2',
 	fieldLabel: 'Serial Number',
 	fieldlets: [{kind: 2}]
 })
 Ext.reg('Field2', Nifty.fields.field2);			
 
 Nifty.fields.field3 = Ext.extend(Nifty.widgets.FieldPanel, {
-	fieldId: 3,
+	fieldId: '3',
 	fieldLabel: 'Price',
 	fieldlets: [{kind: 3}]
 })
 Ext.reg('Field3', Nifty.fields.field3);			
 
 Nifty.fields.field4 = Ext.extend(Nifty.widgets.FieldPanel, {
-	fieldId: 4,
+	fieldId: '4',
 	fieldLabel: 'Quantity',
 	fieldlets: [{kind: 4}]
 })
 Ext.reg('Field4', Nifty.fields.field4);			
 
 Nifty.fields.field5 = Ext.extend(Nifty.widgets.FieldPanel, {
-	fieldId: 5,
+	fieldId: '5',
 	fieldLabel: 'Name',
 	fieldlets: [{kind: 5},{kind: 6},{kind: 7}]
 })
 Ext.reg('Field5', Nifty.fields.field5);			
 
 Nifty.fields.field6 = Ext.extend(Nifty.widgets.FieldPanel, {
-	fieldId: 6,
+	fieldId: '6',
 	fieldLabel: 'Contacts',
 	fieldlets: [{kind: 8},{kind: 9}]
 })
 Ext.reg('Field6', Nifty.fields.field6);			
 
 Nifty.fields.field7 = Ext.extend(Nifty.widgets.FieldPanel, {
-	fieldId: 7,
+	fieldId: '7',
 	fieldLabel: 'Favorite Product',
 	fieldlets: [{kind: 10}]
 })
 Ext.reg('Field7', Nifty.fields.field7);			
 
 Nifty.fields.field8 = Ext.extend(Nifty.widgets.FieldPanel, {
-	fieldId: 8,
+	fieldId: '8',
 	fieldLabel: 'Favorited By Customers',
 	fieldlets: [{kind: 11}]
 })

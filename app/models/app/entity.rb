@@ -59,5 +59,6 @@ module App
 		include EntitySecurity
 		include EntityTriggers
 		
+
 	end
 end

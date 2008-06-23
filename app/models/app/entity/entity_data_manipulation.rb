@@ -112,22 +112,53 @@ module App
       # fieldlets<Array>:: array of fieldlets to fill the fieldlethash
 			#
 			def init_fieldlets(fieldlets)
-				@fieldlets = FieldletHash.new(self,fieldlets)
+				@fieldlets = {}
+				
+				fieldlets.each do |fieldlet|
+					push_fieldlet_to_field(fieldlet)
+				
+					@fieldlets[fieldlet.id] = fieldlet
+				end
+				
 			end
 			
-			# Updates the fieldlets in the fieldlets hash with a new hash
+			def push_fieldlet_to_field(fieldlet)
+				field = self.fields[fieldlet.class.field_id].last
+				if field && !field.full?
+					field << (fieldlet)
+				else
+					field = fieldlet.class.field.new(self)
+					field << (fieldlet)
+					self.fields[fieldlet.class.field_id] << field
+				end
+			end
+			
+			# Updates the fieldlets and add new fieldlets to the fiedls
 			# 
 			# ==== Parameters
       # fieldlet_hash<Hash>:: a hash which will used to update the fieldlet hash
 			#
 			# ==== Example
 			#
-			# set_fieldlets({1 => 'Text', 2 => {0 => 'text1', 1 => 'text2'}})
+			# set_fieldlets({958 => 'value', 'new' => {10 => 'value', 11 => 'blalbla'}})
 			#
-			# More information can be obtained at FieldletHash#set
 
-			def set_fieldlets(fieldlet_hash)				
-				self.fieldlets.set(fieldlet_hash)
+			def set_fieldlets(fieldlet_hash)
+				if new_fieldlet_hash = fieldlet_hash['new']
+					fieldlet_hash.delete 'new'
+				end
+
+				fieldlet_hash.each do |key,value|
+					self.fieldlets[key.to_i].value = value
+				end
+				
+				new_fieldlet_hash ||= {}
+				new_fieldlet_hash.each do |key,value|
+					fieldlet = Fieldlet.get_subclass_by_id(key.to_i).new
+					fieldlet.value = value
+					
+					push_fieldlet_to_field(fieldlet)
+				end
 			end
 
 
@@ -149,7 +180,7 @@ module App
 			
 			# Initialize the fields
 			def init_fields
-				@fields = self.field_kinds.collect{|f| f.new(self)}
+				@fields = Hash.new{|hash, key| hash[key] = []}
 			end
 			
 			
@@ -174,13 +205,13 @@ module App
 			# * If the fieldlets do not validate, don't save and return false
 			# * Saves entity and fieldlets in a transaction
 			#
-			def save
-				return super unless @fieldlets # if no fieldlets, save the normal way
-				return false unless @fieldlets.validate
+			def save_changes
+				return super unless @fields # if no fieldlets, save the normal way
+				return false unless self.fields.values.all?{|field| field.all?{|instance| instance.valid?}}
 				
 				self.db.transaction do
 					super #call for the inherited save action - saves the entity
-					@fieldlets.save!
+					self.fields.values.each{|field| field.each{|instance| instance.save}}
 				end
 				return true
 			end
@@ -241,6 +272,7 @@ module App
 				# <Nil> :: 	If no result found
 				
 				def find_with_fieldlets(*args)
+
 						options_hash = {}
 						
 						if args.first.kind_of? Hash
@@ -256,11 +288,20 @@ module App
 						## setup hash for entities loading and callbacks
 						ids.each{|id| entities_to_load.merge!(id => [])}
 						
-						fieldlets_set = Fieldlet.filter(:entity_id => ids)
+						fieldlets_set = Fieldlet.order(:id).filter(:entity_id => ids)
 						
 						# Apply a fieldlets filter if given
-						fieldlets_set = fieldlets_set.filter(options_hash[:fieldlets_set]) if options_hash[:fieldlets_set]
+						fieldlets_set = fieldlets_set.filter(options_hash[:fieldlets_filter]) if options_hash[:fieldlets_filter]
 						
+						# load only given fields
+						if options_hash[:only_fields]
+							fieldlets_field_filter = options_hash[:only_fields].collect do |field_cls| 
+								field_cls.fieldlet_kind_ids
+							end
+							fieldlets_field_filter.uniq!
+							
+							fieldlets_set.filter(:kind => fieldlets_field_filter)
+						end						
 						
 						fieldlets = {}
 						

@@ -51,26 +51,25 @@ Nifty.widgets.FieldPanel = Ext.extend(Ext.Container, {
 		
 		
 		field = Nifty.pages.EntityPage.entityStore.fields[this.fieldId];
-		
+
 		if(field == null){
 			return this.addEmptyInstances();
 		}
-		
-		for(instance in field){
-			this.addInstance({id: instance,field: field[instance], fieldlets: this.fieldlets});
+
+
+		for(instance=0;instance<field.length;instance++){
+			this.addInstance({field: field[instance], fieldlets: this.fieldlets});
 		}
 	
 	},
 	
 	addEmptyInstances: function(){
-		this.addInstance({id: (this.lastInstance + 1), fieldlets: this.fieldlets});
+		this.addInstance({fieldlets: this.fieldlets});
 		return true;
 	},
 	
-	addInstance: function(options){
-		this.lastInstance = parseInt(options.id);
-		
-		this.add({	instanceId: options.id,
+	addInstance: function(options){		
+		this.add({
 					field: options.field,
 					items: options.fieldlets,
 					xtype: 'fieldInstance'
@@ -79,7 +78,7 @@ Nifty.widgets.FieldPanel = Ext.extend(Ext.Container, {
 	},
 	
 	removeInstance: function(instance_id){
-		console.log("removing: " + instance_id);
+	//	console.log("removing: " + instance_id);
 	},
 	
 	toggleEdit: function(){

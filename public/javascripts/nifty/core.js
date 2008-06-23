@@ -43,7 +43,7 @@ Nifty.app = function() {
 			hideLoaders();
 			
 			Nifty.Router.registerUrlPolling();
-	 	},
+	 	}
 	}
 }(); // end of app
  
