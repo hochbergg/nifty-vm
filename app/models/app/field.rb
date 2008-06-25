@@ -56,16 +56,19 @@ module App
 		end
 		
 		def save
-			return false if clean? # if new and null, we don't need to save anything
-			if removed?
+			
+			
+			return false if self.clean? # if new and null, we don't need to save anything
+			if self.removed?
 				self.each{|fieldlet| fieldlet.destroy} # remove all the fieldlets
 				return true
 			end
-				
-			puts "saving with #{self.all_fieldlets.inspect()}"
+			
+			# set the randomized key
+			@randomized_instance_id = (Time.now.to_i << 10) + rand(1024) if self.new?
 			self.all_fieldlets.each do |fieldlet| 
+				fieldlet.instance_id  = @randomized_instance_id if @randomized_instance_id
 				# set entity id for the new fieldlets
-				puts "set entitiy id: #{@entity.pk}"
 				fieldlet.entity_id = @entity.pk
 				fieldlet.save_changes
 			end # save the fieldlets

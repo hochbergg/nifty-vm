@@ -65,4 +65,6 @@ Merb::BootLoader.after_app_loads do
 	
 	# build JS
 	VM::JsGenerator.build
+	
+	require 'sequel_fixes'
 end

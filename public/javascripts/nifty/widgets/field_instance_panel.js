@@ -14,7 +14,7 @@ Nifty.widgets.FieldInstancePanel = Ext.extend(Ext.Container, {
 			
 			if(this.field && this.field[item.kind]){
 				item.value = this.field[item.kind].value;
-				item.formId = String.format('entity[{0}]', this.field[item.kind].id);
+				item.formId = String.format('entity[{0}][{1}]', this.field[item.kind].id, item.kind);
 			} else {
 				item.formId = String.format('entity[new][{0}]', item.kind);
 			}

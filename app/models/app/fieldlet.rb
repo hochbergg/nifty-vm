@@ -33,10 +33,12 @@ module App
 		
 		# set schema
 		
+		# primary key is composite of :entity_id, :instance_id, :kind
+		
 		set_schema do 
-			primary_key :id
-			int					:kind
-			int					:entity_id
+			bigint			:instance_id, :unsigned => true, :null => false
+			int					:kind, :unsigned => true, :null => false
+			int					:entity_id, :unsigned => true, :null => false
 			int					:int_value
 			varchar			:string_value, :size => 255
 			text				:text_value
@@ -44,10 +46,14 @@ module App
 			index [:entity_id, :kind]
 			index [:int_value]
 			index [:string_value]
+				
+			# we need to create primary key :(
 		end
 	
 		# Inheritance Mixin - for smart STI
 		include InheritanceMixin
+		# set the primary key
+		set_primary_key :entity_id, :instance_id, :kind
 	
 	
 
@@ -62,7 +68,7 @@ module App
 		# JSON representation
 		# @overrideable
 		def to_json
-			{:id 					=> self.pk,
+			{:id 					=> self.instance_id,
 			 :type				=> "Fieldlet#{self.kind}",
 			 :value				=> self.value_to_json
 			 }.to_json

@@ -28,6 +28,10 @@ module VM
 				# choose fieldlet & options
 				include ::Fieldlets::#{self.kind.capitalize}
 				
+				# set the primary key
+				set_primary_key :entity_id, :instance_id, :kind
+				
+				
 				def type
 					:#{self.kind}
 				end

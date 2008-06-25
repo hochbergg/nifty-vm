@@ -112,12 +112,13 @@ module App
       # fieldlets<Array>:: array of fieldlets to fill the fieldlethash
 			#
 			def init_fieldlets(fieldlets)
-				@fieldlets = {}
+				
+				@fieldlets = Hash.new({}) # set the default value to be hash
 				
 				fieldlets.each do |fieldlet|
 					push_fieldlet_to_field(fieldlet)
 				
-					@fieldlets[fieldlet.id] = fieldlet
+					@fieldlets[fieldlet.instance_id][fieldlet.kind] = fieldlet
 				end
 				
 			end
@@ -140,7 +141,7 @@ module App
 			#
 			# ==== Example
 			#
-			# set_fieldlets({958 => 'value', 'new' => {10 => 'value', 11 => 'blalbla'}})
+			# set_fieldlets({5691 => {10 => 'value'}, 'new' => {10 => 'value', 11 => 'blalbla'}})
 			#
 
 			def set_fieldlets(fieldlet_hash)
@@ -148,8 +149,11 @@ module App
 					fieldlet_hash.delete 'new'
 				end
 
-				fieldlet_hash.each do |key,value|
-					self.fieldlets[key.to_i].value = value
+				# update
+				fieldlet_hash.each do |instance_id,kinds_hash|
+					kinds_hash.each do |kind_id, value|
+						self.fieldlets[instance_id.to_i][kind_id.to_i].value = value
+					end
 				end
 				
 				new_fieldlet_hash ||= {}
@@ -288,7 +292,7 @@ module App
 						## setup hash for entities loading and callbacks
 						ids.each{|id| entities_to_load.merge!(id => [])}
 						
-						fieldlets_set = Fieldlet.order(:id).filter(:entity_id => ids)
+						fieldlets_set = Fieldlet.order(:instance_id).filter(:entity_id => ids)
 						
 						# Apply a fieldlets filter if given
 						fieldlets_set = fieldlets_set.filter(options_hash[:fieldlets_filter]) if options_hash[:fieldlets_filter]
