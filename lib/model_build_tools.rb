@@ -81,6 +81,7 @@ module ModelBuildTools
 			self.to_s.sub('Kind','').sub('VM::','')
 		end
 		
+		
 	end
 
 end

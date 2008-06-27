@@ -33,7 +33,7 @@ module App
 		
 		# set schema
 		
-		# primary key is composite of :entity_id, :instance_id, :kind
+		# primary key is composite of :entity_id, :kind, :instance_id
 		
 		set_schema do 
 			bigint			:instance_id, :unsigned => true, :null => false
@@ -43,10 +43,12 @@ module App
 			varchar			:string_value, :size => 255
 			text				:text_value
 			
-			index [:entity_id, :kind]
-			index [:int_value]
+			#index [:entity_id, :kind] not needed anymore - done by the primary key
+			index [:int_value, :kind]
 			index [:string_value]
-				
+			
+			index [:kind, :int_value]
+			index [:kind, :string_value]
 			# we need to create primary key :(
 		end
 	

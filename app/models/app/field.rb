@@ -18,6 +18,10 @@ module App
 		
 		# push fieldlets
 		def <<(fieldlet)
+			# set the randomized_instance_id
+			@randomized_instance_id ||= fieldlet.instance_id
+			
+			
 			@full = true if @pushed_fieldlets[fieldlet.kind]
 			@fieldlets[fieldlet.kind] = fieldlet
 			@pushed_fieldlets[fieldlet.kind] = true
@@ -55,6 +59,11 @@ module App
 			!self.new? && self.null? 
 		end
 		
+		# should we have duplication? 
+		def duplicate?
+			!@@duplication_options.nil?
+		end
+		
 		def save
 			
 			
@@ -65,7 +74,7 @@ module App
 			end
 			
 			# set the randomized key
-			@randomized_instance_id = (Time.now.to_i << 10) + rand(1024) if self.new?
+			@randomized_instance_id ||= (Time.now.to_i << 10) + rand(1024) if self.new?
 			self.all_fieldlets.each do |fieldlet| 
 				fieldlet.instance_id  = @randomized_instance_id if @randomized_instance_id
 				# set entity id for the new fieldlets
@@ -84,6 +93,11 @@ module App
 			@fieldlets.to_json(*args)
 		end
 		
+		
+		## class methods
+		def self.set_duplication(options)
+			@@duplication_options = options
+		end
 		
 	end # Field
 end # App

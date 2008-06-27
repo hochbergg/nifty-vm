@@ -18,6 +18,7 @@ module VM
 		end
 		
 		
+		
 		# assocs:
 		def entity_kind
 			EntityKind[self.entity_kind_id]
@@ -34,7 +35,7 @@ module VM
 		
 		
 		def build_model_extention
-			fieldlet_kinds_ids = fieldlet_kinds.map(:id)
+			fieldlet_kinds_ids = fieldlet_kinds.select(:id).map(:id)
 			
 			<<-CLASS_DEF
 					def kind
@@ -56,8 +57,18 @@ module VM
 					def self.fieldlet_kind_ids
 						#{fieldlet_kinds_ids.inspect}
 					end
+					
+					#{set_duplication_settings()}
 			CLASS_DEF
 		end
+		
+		def set_duplication_settings
+ 			if self.preferences && (hash = self.preferences[:duplicate])
+				return "set_duplication(#{hash.inspect})"
+			end
+			return "set_duplication(false)"
+		end
+		
 		
 			 # generate_js
 		def generate_js

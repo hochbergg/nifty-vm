@@ -210,6 +210,7 @@ module App
 			# * Saves entity and fieldlets in a transaction
 			#
 			def save_changes
+				set_display_value()
 				return super unless @fields # if no fieldlets, save the normal way
 				return false unless self.fields.values.all?{|field| field.all?{|instance| instance.valid?}}
 				
@@ -218,6 +219,11 @@ module App
 					self.fields.values.each{|field| field.each{|instance| instance.save}}
 				end
 				return true
+			end
+			
+			# sets the display value according to the given lambda
+			def set_display_value
+				self.display = display_lambda().call(self) if display_lambda()
 			end
 		
 			

@@ -55,13 +55,17 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 		
 		this.setValue(this.value || this.defaultValue);
 		this.initEvents();
+		
+		// by default, the fieldlets are disabled
+		this.getEditCmp().disable();
+		
 	},
 	
     // set our instance to be dirty!
 	isDirty: function(editItem){
-		if(editItem.isDirty()){
-			this.fireEvent('dirty', this, editItem);
-		}
+	    if(editItem.isDirty()){
+	    	this.fireEvent('dirty', this, editItem);
+	    }
 	},
 
 	initComponent : function(){
@@ -98,6 +102,8 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 		this.add(this.editItem);
 		
 		this.bindEditItemEvents();
+		
+		// by default, the editCmp is disabled
 		this.clear();
 	},
 	
@@ -148,12 +154,20 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
              * @param {Ext.Container} this
              * @param {ContainerLayout} layout The ContainerLayout implementation for this container
              */
-			'invalid'
+			'invalid',
+			
+			/**
+             * @event edited
+             * Fires when the fieldlet becomes ready for editing
+             * @param {Ext.Container} this
+             * @param {ContainerLayout} layout The ContainerLayout implementation for this container
+             */
+			'edited'
 		)
 		
 		
 		// add the editItem to the form
-		this.on('add', this.addEditItemToForm);
+		this.on('edited', this.addEditItemToForm)
 		
 		
 		// toggle focused status
@@ -164,8 +178,11 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 		this.on('blur', function(){
 			this.focused = false;
 		}, this)
+	
+		
 	},
 	
+		
 	
 	// relay events to the edit item
 	bindEditItemEvents: function(){
@@ -181,8 +198,11 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 	
 	
 	addEditItemToForm: function(container, component, index){
-		if(component.xtype != 'box'){
-			Nifty.pages.current.form.items.add(component);
+		console.log(component)
+		formItems = Nifty.pages.current.form.items
+		if(component.xtype != 'box' && !formItems.contains(component)){
+			formItems.add(component);
+			component.enable();
 		}
 	},
 	
@@ -198,8 +218,11 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 	// return html markup for display items
 	markupForDisplay: function(value){
 		return this.tpl.apply({value: value})
+	},
+	
+	// called by the field when entering to edit mode
+	beforeEnteringEditMode: function(){
+		this.fireEvent('edited', this, this.getEditCmp());
 	}
-	
-	
 	
 })

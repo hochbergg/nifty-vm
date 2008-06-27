@@ -45,7 +45,6 @@ module VM
 			end
 			
 			def display_lambda
-				
 			end
 			CLASS_DEF
 		end

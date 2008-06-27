@@ -83,11 +83,16 @@ Nifty.widgets.FieldPanel = Ext.extend(Ext.Container, {
 	
 	toggleEdit: function(){
 		if(this.editing){
-			this.removeClass('x-panel-nifty-field-edited');
+			this.removeClass('x-panel-nifty-field-edited');	
 			this.editing = false;
 		} else {
+			// call the beforeEdit for each instance
+			this.items.each(function(item){
+				item.beforeEnteringEditMode();
+			});
+			
 			this.addClass('x-panel-nifty-field-edited');
-			this.editing = true;
+			this.editing = true;	
 		}
 	},
 	

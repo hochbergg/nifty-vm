@@ -151,6 +151,12 @@ Nifty.widgets.FieldInstancePanel = Ext.extend(Ext.Container, {
 	
 	markupForDisplay: function(){
 		
+	},
+	
+	beforeEnteringEditMode: function(){
+		this.items.each(function(item){
+			item.beforeEnteringEditMode();
+		});
 	}
 });
 

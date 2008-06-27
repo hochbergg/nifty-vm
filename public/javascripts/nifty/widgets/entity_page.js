@@ -98,6 +98,7 @@ Ext.extend(Nifty.EntityPage, Nifty.Page,{
 		
 		this.form.on('actioncomplete', this.formSuccess, this);
 		this.form.on('actionfailed', this.formFailed, this);
+		this.form.on('beforeaction', this.beforeAction, this);
 	},
 	
 	setTitle: function(data){
@@ -107,6 +108,22 @@ Ext.extend(Nifty.EntityPage, Nifty.Page,{
 		);
 	},
 	
+	// called before form submission
+	// we want to check if we have any items to submit. 
+	// if not, we should not submit
+	beforeAction: function(form, action){
+		if (!form.isDirty()){
+			alert('nothing has changed!');
+			return false;
+		}
+		
+		// iterate over form items, disable all the not dirty ones
+		form.items.each(function(item){
+			if(!item.isDirty()){
+				item.disabled = true;
+			}
+		})
+	},
 	
 	// a callback for a successful form submission
 	formSuccess: function(form, action){
@@ -134,7 +151,6 @@ Ext.extend(Nifty.EntityPage, Nifty.Page,{
 		if (this.form.isDirty()){
 	//		console.log('dirty!')
 		}
-		
 	},
 	
 	
