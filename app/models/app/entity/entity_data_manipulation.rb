@@ -86,50 +86,33 @@ module App
 			# used for a cached access to loaded fieldlets. 
 			# if non loaded, load them
 			def fieldlets
-				@fieldlets || load_fieldlets
+				@fieldlets || init_fieldlets
 			end
 			
-			# load the fieldlets for this instance
-			#
-      # ==== Parameters
-			# filter<Hash>:: a hash filter, to filter on the loaded feildlets. defaults to nil
-			#
 			
-			def load_fieldlets(filter = nil)
-				set = self.fieldlets_dataset
-				set = set.filter(filter) if filter
-				# generate indexed fieldlets hash
-				if self.new?
-					return init_fieldlets([])
-				else
-					return init_fieldlets(set.all)
-				end
-			end
 			
-			# Sets the entity's fieldlet hash
-			#
-			# ==== Parameters
-      # fieldlets<Array>:: array of fieldlets to fill the fieldlethash
-			#
 			def init_fieldlets(fieldlets)
 				
-				@fieldlets = Hash.new({}) # set the default value to be hash
+				@fieldlets = {} # set the default value to be hash
 				
 				fieldlets.each do |fieldlet|
 					push_fieldlet_to_field(fieldlet)
 				
+					@fieldlets[fieldlet.instance_id] ||= {}
 					@fieldlets[fieldlet.instance_id][fieldlet.kind] = fieldlet
 				end
 				
 			end
 			
+			# push fieldlet to a running instance
 			def push_fieldlet_to_field(fieldlet)
+				debugger
 				field = self.fields[fieldlet.class.field_id].last
-				if field && !field.full?
-					field << (fieldlet)
+				if field && field.instance_id == fieldlet.instance_id
+					field.push(fieldlet)
 				else
 					field = fieldlet.class.field.new(self)
-					field << (fieldlet)
+					field.push(fieldlet)
 					self.fields[fieldlet.class.field_id] << field
 				end
 			end
@@ -141,11 +124,11 @@ module App
 			#
 			# ==== Example
 			#
-			# set_fieldlets({5691 => {10 => 'value'}, 'new' => {10 => 'value', 11 => 'blalbla'}})
+			# set_fieldlets({5691 => {10 => 'value'}, 'new' => [-1 => {10 => 'value', 11 => 'blalbla'}, -2 => {10 => 'value'}]})
 			#
 
 			def set_fieldlets(fieldlet_hash)
-				if new_fieldlet_hash = fieldlet_hash['new']
+				if new_fields_hash = fieldlet_hash['new']
 					fieldlet_hash.delete 'new'
 				end
 
@@ -156,12 +139,10 @@ module App
 					end
 				end
 				
-				new_fieldlet_hash ||= {}
-				new_fieldlet_hash.each do |key,value|
-					fieldlet = Fieldlet.get_subclass_by_id(key.to_i).new
-					fieldlet.value = value
-					
-					push_fieldlet_to_field(fieldlet)
+				new_fields_hash ||= {}
+				new_fields_hash.values.each do |new_field_fieldlets_hash|					
+					field = Field.create_new_with_fieldlets(self, new_field_fieldlets_hash)
+					self.fields[field.kind] << field 
 				end
 			end
 

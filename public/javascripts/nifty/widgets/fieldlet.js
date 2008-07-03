@@ -57,8 +57,13 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 		this.initEvents();
 		
 		// by default, the fieldlets are disabled
-		this.getEditCmp().disable();
-		
+		if(!this.dontDisable){
+			this.getEditCmp().disable();
+		} else {
+			// we are in new entity mode, let's add the fieldlet to the form items, 
+			// so it could be removed if not dirty when submitted
+			this.addEditItemToForm(this, this.getEditCmp());
+		}
 	},
 	
     // set our instance to be dirty!
@@ -198,7 +203,6 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 	
 	
 	addEditItemToForm: function(container, component, index){
-		console.log(component)
 		formItems = Nifty.pages.current.form.items
 		if(component.xtype != 'box' && !formItems.contains(component)){
 			formItems.add(component);
@@ -222,6 +226,7 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 	
 	// called by the field when entering to edit mode
 	beforeEnteringEditMode: function(){
+		this.dontDisable = true;
 		this.fireEvent('edited', this, this.getEditCmp());
 	}
 	

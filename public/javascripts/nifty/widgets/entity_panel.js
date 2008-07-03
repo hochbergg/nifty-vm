@@ -1,7 +1,8 @@
 
 
 Nifty.widgets.EntityPanel = Ext.extend(Nifty.widgets.MainPanel, {
-
+	frame: false, 
+	
     setTitle : function(title, iconCls){
 		title = (this.entityStore.data.isNew ?  this.newItemTitle : (this.entityStore.data.display || '(No Title)'));
 	
@@ -20,5 +21,5 @@ Nifty.widgets.EntityPanel = Ext.extend(Nifty.widgets.MainPanel, {
 	setSubTitle: function(subtitle){
 		this.subtitle = subtitle;
 		this.setTitle(this.title, this.iconCls);
-	},
+	}
 });

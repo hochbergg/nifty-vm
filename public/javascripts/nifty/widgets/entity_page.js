@@ -82,13 +82,15 @@ Ext.extend(Nifty.EntityPage, Nifty.Page,{
 				method: 'post',
 				baseParams: {
 					id: this.createId
-				}
+				},
+				waitMsgTarget: 'content'
 			};
 						
 		} else {
 			formOptionHash = {
 				url: String.format('/entities/{0}.js', this.entityStore.data.id),
-				method: 'put'
+				method: 'put',
+				waitMsgTarget: 'content'
 			};
 		}
 		

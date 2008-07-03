@@ -1,3 +1,6 @@
+// new field instance delimiter, used for grouping new fields when submitting to the server
+Nifty.fields.newFieldInstanceIdDelimiter = 0; 
+
 Nifty.widgets.FieldInstancePanel = Ext.extend(Ext.Container, {
 	fieldlets: [],
 	field: null,
@@ -8,6 +11,7 @@ Nifty.widgets.FieldInstancePanel = Ext.extend(Ext.Container, {
 	
 	initComponent: function(){
 		// set the ids & values of the fieldlets
+		this.instanceId = Nifty.fields.newFieldInstanceIdDelimiter++;
 		
 		Ext.each(this.items,function(item){
 			delete item.value;
@@ -16,7 +20,7 @@ Nifty.widgets.FieldInstancePanel = Ext.extend(Ext.Container, {
 				item.value = this.field[item.kind].value;
 				item.formId = String.format('entity[{0}][{1}]', this.field[item.kind].id, item.kind);
 			} else {
-				item.formId = String.format('entity[new][{0}]', item.kind);
+				item.formId = String.format('entity[new][{0}][{1}]', this.instanceId ,item.kind);
 			}
 			
 			item.xtype = 'Fieldlet' + item.kind;

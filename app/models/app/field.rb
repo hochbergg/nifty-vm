@@ -1,9 +1,9 @@
 # = Field
+# The field class 
 #
 #
 #
 #
-
 
 
 module App
@@ -12,28 +12,26 @@ module App
 		
 		def initialize(entity)
 			@entity = entity
-			@fieldlets = Hash.new{|hash, key| hash[key] = Fieldlet.get_subclass_by_id(key).new}
+			@fieldlets = {} #Hash.new{|hash, key| hash[key] = Fieldlet.get_subclass_by_id(key).new}
 			@pushed_fieldlets = {}
 		end
 		
 		# push fieldlets
-		def <<(fieldlet)
+		def push(fieldlet)
 			# set the randomized_instance_id
 			@randomized_instance_id ||= fieldlet.instance_id
 			
-			
-			@full = true if @pushed_fieldlets[fieldlet.kind]
 			@fieldlets[fieldlet.kind] = fieldlet
-			@pushed_fieldlets[fieldlet.kind] = true
+			
 		end
 		
 		# for usage with Enumerable mixin
 		def each(&block)
 			@fieldlets.values.each(&block)
 		end
-		
-		def full?
-			@full || @fieldlets.values.size == self.fieldlet_kinds.size
+
+		def instance_id
+			@randomized_instance_id
 		end
 		
 		def new?
@@ -50,7 +48,7 @@ module App
 		
 		# return all the fieldlets in this field
 		def all_fieldlets
-			self.class.fieldlet_kind_ids.collect{|kind_id| @fieldlets[kind_id]}
+			self.class.fieldlet_kind_ids.collect{|kind_id| @fieldlets[kind_id] || Fieldlet.get_subclass_by_id(kind_id).new}
 		end
 		
 		# when updated, and all the fieldlets are null, 
@@ -65,8 +63,6 @@ module App
 		end
 		
 		def save
-			
-			
 			return false if self.clean? # if new and null, we don't need to save anything
 			if self.removed?
 				self.each{|fieldlet| fieldlet.destroy} # remove all the fieldlets
@@ -94,9 +90,35 @@ module App
 		end
 		
 		
-		## class methods
+		## == class methods
 		def self.set_duplication(options)
 			@@duplication_options = options
+		end
+		
+		# create new field with new fieldlets hash
+		def self.create_new_with_fieldlets(entity, new_fieldlet_hash)
+			field_class = nil
+			
+			# initialize the fieldlets	
+			fieldlets = []
+			new_fieldlet_hash.each do |kind,value|
+				fieldlet = Fieldlet.get_subclass_by_id(kind.to_i).new
+				fieldlet.value = value
+				
+				# verify matching 
+				raise "FieldletKind mismatch: expected #{field_class} but got #{fieldlet.class.field}" if field_class && (field_class != fieldlet.class.field)
+				field_class ||= fieldlet.class.field
+	
+				fieldlets << fieldlet # return the fieldlet
+			end
+			
+			# create new field by the field_class
+			field = field_class.new(entity)
+			
+			# push fieldlets
+			fieldlets.each{|f| field.push(f)}
+			
+			return field
 		end
 		
 	end # Field

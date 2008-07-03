@@ -4,7 +4,7 @@
 + "dirty" instances
 + beforeLeaving event for pages
 + 'entity is dirty' warning for saving changes
-* fields with left labels
++ fields with left labels
 * fieldsets
 + side panel fields
 * all sorts of rendering issues
@@ -101,10 +101,10 @@ Entity Cycle:
 
 
 
+==== JS things:
 
-
-
-
-
-
-
+* Make sure all the base classes are preconfigured
+* clean up some messy code
+* make the JIT tabs work, etc
+* clean up events
+* refactor entity fields, instances & fieldlets
