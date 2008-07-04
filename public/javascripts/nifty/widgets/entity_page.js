@@ -122,7 +122,7 @@ Ext.extend(Nifty.EntityPage, Nifty.Page,{
 		// iterate over form items, disable all the not dirty ones
 		form.items.each(function(item){
 			if(!item.isDirty()){
-				item.disabled = true;
+				item.disable();
 			}
 		})
 	},

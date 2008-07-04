@@ -228,6 +228,7 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 	beforeEnteringEditMode: function(){
 		this.dontDisable = true;
 		this.fireEvent('edited', this, this.getEditCmp());
-	}
+	},
+
 	
 })
