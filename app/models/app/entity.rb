@@ -1,7 +1,7 @@
 # must load namespaces
 require 'namespaces'
 require 'inheritance_mixin'
-s
+
 # load all entity modules
 Dir.glob(Merb.root / 'app'/ 'models' / 'app' / 'entity' / '*.rb').each{|f| require f}
 

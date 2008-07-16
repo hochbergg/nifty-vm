@@ -9,6 +9,7 @@ module App
 		# Include Hook
 		def self.included(base)
 			base.send(:include, InstanceMethods)
+			base.extend(ClassMethods)
 			
 			# set the callbacks
 			base.before_create :set_create_time
@@ -26,5 +27,9 @@ module App
 				@values[:updated_at] = Time.now
 			end
 		end #InstanceMethods
+		
+		module ClassMethods
+			
+		end #ClassMethods
 	end
 end

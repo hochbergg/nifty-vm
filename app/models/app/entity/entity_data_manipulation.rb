@@ -72,11 +72,7 @@ module App
 		
 		module InstanceMethods			
 
-			# Datasets
-			def fieldlets_dataset
-				Fieldlet.filter(:entity_id => self.id)
-			end
-			
+		
 			# sets the fieldlets
 			def fieldlets=(value_hash)
 				set_fieldlets(value_hash)
@@ -92,7 +88,6 @@ module App
 			
 			
 			def init_fieldlets(fieldlets)
-				
 				@fieldlets = {} # set the default value to be hash
 				
 				fieldlets.each do |fieldlet|
@@ -106,7 +101,6 @@ module App
 			
 			# push fieldlet to a running instance
 			def push_fieldlet_to_field(fieldlet)
-				debugger
 				field = self.fields[fieldlet.class.field_id].last
 				if field && field.instance_id == fieldlet.instance_id
 					field.push(fieldlet)
@@ -145,29 +139,16 @@ module App
 					self.fields[field.kind] << field 
 				end
 			end
-
-
-			# Checks if the fieldlet hash has been initialized
-			#
-			# ==== Returns
-			# <Boolean>:: true if initialized, false if not
-			def fieldlet_loaded?
-				not @fieldlets.nil? 
-			end
 			
+			# alias
+			alias	:set_fieldlets :fieldlets=
+
 			
 			# Accessor for the fields
 			# if no fieldls were initialized, initalize the fields
 			def fields
-				@fields || init_fields
+				@fields ||= Hash.new{|hash, key| hash[key] = []}
 			end
-			
-			
-			# Initialize the fields
-			def init_fields
-				@fields = Hash.new{|hash, key| hash[key] = []}
-			end
-			
 			
 			
 			# Shortcut for self.class.field_kinds => generated information
