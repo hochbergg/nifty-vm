@@ -17,25 +17,23 @@ module VM
 			index [:entity_kind_id, :position]
 		end
 		
+		# assocs
+		belongs_to :entity_kind
+		has_many :fieldlet_kinds, :order => :position
 		
-		
-		# assocs:
 		def entity_kind
-			EntityKind[self.entity_kind_id]
+			@entity_kind ||= EntityKind[self.entity_kind_id]
 		end
 		
-		#def fieldset_kind_id
-		#	Fieldset[self.fieldset_kind_id]
-		#end
-		
-		# loads all the fieldlets
 		def fieldlet_kinds
-			FieldletKind.filter(:field_kind_id => self.id).order(:position)
+			@fieldlet_kinds ||= fieldlet_kinds_dataset.all
 		end
 		
+		def fieldlet_kinds_dataset
+			FieldletKind.filter(:field_kind_id => self.pk)
+		end
 		
 		def build_model_extention
-			fieldlet_kinds_ids = fieldlet_kinds.select(:id).map(:id)
 			
 			<<-CLASS_DEF
 					def kind
@@ -51,11 +49,11 @@ module VM
 					end
 					
 					def self.fieldlet_kinds
-						[#{fieldlet_kinds_ids.collect{|x| "Fieldlet#{x}"}.join(', ')}]
+						[#{fieldlet_kinds.collect{|x| "Fieldlet#{x.pk}"}.join(', ')}]
 					end
 					
 					def self.fieldlet_kind_ids
-						#{fieldlet_kinds_ids.inspect}
+						#{fieldlet_kinds.collect{|x| x.pk}.inspect}
 					end
 					
 					#{set_duplication_settings()}
@@ -76,9 +74,9 @@ module VM
 Nifty.fields.field#{self.id} = Ext.extend(Nifty.widgets.FieldPanel, {
 	fieldId: '#{self.id}',
 	fieldLabel: '#{self.name}',
-	fieldlets: [#{self.fieldlet_kinds.select(:id).map(:id).collect{|x| "{kind: #{x}}"}.join(',')}]
+	fieldlets: [#{self.fieldlet_kinds.collect{|x| "{kind: #{x.pk}}"}.join(',')}]
 })
-Ext.reg('Field#{self.id}', Nifty.fields.field#{self.id});			
+Ext.reg('Field#{self.pk}', Nifty.fields.field#{self.pk});			
 JSDEF
 		end
 		

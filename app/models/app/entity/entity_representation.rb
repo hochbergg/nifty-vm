@@ -12,15 +12,11 @@ require 'builder'
 # 
 
 module App
-	module EntityRepresentation
+	class Entity < Sequel::Model
 		
-		# Include Hook
-		def self.included(base)
-			base.send(:include, InstanceMethods)
-		end
+
 		
-		
-		module InstanceMethods
+		# InstanceMethods
 		
 			
 			def to_xml
@@ -29,18 +25,18 @@ module App
 					[:display, :created_at, :updated_at].each do |att|
 						xml.tag!(att, self.send(att), :type => self.send(att).class)
 					end
-					xml << self.fields_xml if fieldlet_loaded?
+					xml << self.fields_xml
 				end
 		  end
 		
 			def fields_xml
 				xml = Builder::XmlMarkup.new(:indent => 2)
 				xml.fields do |xml|
-					self.fields.each do |field|
-						xml.field(:type => "Field#{field.kind}") do |xml|
-							field.instances.each do |id,fieldlets|
-								xml.instance(:id => id) do |xml|
-									fieldlets.each do |fieldlet|
+					self.clean_fields.each do |field_id,instances|
+						xml.field(:type => "Field#{field_id}") do |xml|
+							instances.each do |instance|
+								xml.instance(:id => instance.instance_id) do |xml|
+									instance.each do |fieldlet|
 										xml << fieldlet.to_xml
 									end
 								end
@@ -50,24 +46,33 @@ module App
 				end
 			end
 			
-			def to_json(*args)
+			def to_json(*args)				
 				json_hash = {
 					:id => self.id,
 					:type => "Entity#{self.kind}",
 					:display => self.display,
 					:created_at => self.created_at,
 					:updated_at	=> self.updated_at,
-					:fields => self.fields.keys.inject({}){|hash, key| hash.merge!(key.to_i => self.fields[key])}
+					:fields => self.clean_fields()
 				}
 
 				return json_hash.to_json
 			end
+			
+			def clean_fields
+				fields = {}
+				self.fields.each do |key,field_instances|
+					fields[key.to_i] = field_instances.reject{|x| !x.returned?}
+				end
+				return fields
+			end
 		
-		end # InstanceMethods
+		# end  InstanceMethods
 	end
 end
 
 
+# UGLY monkey patch over here
 class Array
 	def to_xml
 		xml = Builder::XmlMarkup.new(:indent => 2)

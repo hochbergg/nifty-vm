@@ -9,16 +9,13 @@ Dir.glob(Merb.root / 'app'/ 'models' / 'app' / 'field' / '*.rb').each{|f| requir
 
 module App
 	class Field
-		include Enumerable
-		include FieldDuplication
-		include FieldLinks
-		
+		include Enumerable	
 		
 		def initialize(entity)
 			@entity = entity
 			@fieldlets = {} 
 			@pushed_fieldlets = {}
-			@duplicant = nil
+			@old_duplicant = @duplicant = nil
 		end
 		
 		# push fieldlets
@@ -26,6 +23,7 @@ module App
 			# set the randomized_instance_id
 			@randomized_instance_id ||= fieldlet.instance_id
 			
+			@old_duplicant = fieldlet.entity if self.class.link_fieldlet == fieldlet.class
 			@fieldlets[fieldlet.kind] = fieldlet
 		end
 		
@@ -50,15 +48,24 @@ module App
 			self.new? && self.null?
 		end
 		
-		# return all the fieldlets in this field
-		def all_fieldlets
-			self.class.fieldlet_kind_ids.collect{|kind_id| @fieldlets[kind_id] || Fieldlet.get_subclass_by_id(kind_id).new}
-		end
-		
 		# when updated, and all the fieldlets are null, 
 		#we shuold remove this field instance
 		def removed?
 			!self.new? && self.null? 
+		end
+		
+		# should we return this field? 
+		# if linked, and have link value => returned. 
+		# if not linked, always returned
+		def returned?
+			return true if not self.class.duplicated? 
+			return false if self.linked_entity.value.nil?
+			true
+		end
+		
+		# return all the fieldlets in this field
+		def all_fieldlets
+			self.class.fieldlet_kind_ids.collect{|kind_id| @fieldlets[kind_id] || Fieldlet.get_subclass_by_id(kind_id).new}
 		end
 
 		
@@ -67,6 +74,7 @@ module App
 			if self.removed?
 				self.each{|fieldlet| fieldlet.destroy} # remove all the fieldlets
 				
+				destroy_duplicates! if self.class.duplicated?
 				return true
 			end
 			
@@ -76,6 +84,11 @@ module App
 				fieldlet.entity_id = @entity.pk
 				fieldlet.save_changes
 			end # save the fieldlets
+			
+			# duplication
+			if self.class.duplicated?
+				self.new? ? create_duplicates! : update_duplicates!
+			end
 		end
 
 		def valid?

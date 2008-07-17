@@ -80,7 +80,7 @@ module App
 		# @overrideable		
 		def to_xml(options = {})
 		  xml = Builder::XmlMarkup.new(:indent => 2, :margin => 3)
-			xml.fieldlet({:id => self.id, :type => "Fieldlet#{self.kind}"}) do |xml|
+			xml.fieldlet({:type => "Fieldlet#{self.kind}"}) do |xml|
 				xml.tag!(:value,self.value_to_xml, :type => self.value.class)
 			end
 		end

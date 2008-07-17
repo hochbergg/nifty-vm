@@ -3,7 +3,7 @@
 # A module correspond to imposition of permission
 #
 module App
-	module EntitySecurity
+	class Entity < Sequel::Model
 		
 	end
 end

@@ -3,7 +3,8 @@
 # A module correspond to excecuting actions on given entities
 #
 module App
-	module EntityActions
+	class Entity < Sequel::Model
+
 		# TODO: Implement
 	end
 end

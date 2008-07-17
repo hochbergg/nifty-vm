@@ -56,12 +56,16 @@ dependency 'merb-assets'
 Merb::BootLoader.after_app_loads do
   ### Add dependencies here that must load after the application loads:
 	
-	(Dir.glob(Merb.root / 'app/models/**/*.rb')).each do |f|
-		require f
-	end
+	# maybe should put into the merb init code? 
+	#'(Dir.glob(Merb.root / 'app/models/**/**/*.rb')).each do |f|
+	#	puts f
+	#	require f
+	#end
+	
+	# schema loading, maybe should be moved
 	
 	# load schema
-	 VM::Schema.load
+ 	VM::Schema.load
 	
 	# build JS
 	VM::JsGenerator.build

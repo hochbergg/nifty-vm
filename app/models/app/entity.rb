@@ -2,9 +2,6 @@
 require 'namespaces'
 require 'inheritance_mixin'
 
-# load all entity modules
-Dir.glob(Merb.root / 'app'/ 'models' / 'app' / 'entity' / '*.rb').each{|f| require f}
-
 
 module App
 	class Entity < Sequel::Model
@@ -52,12 +49,12 @@ module App
 		include InheritanceMixin
 		
 		# include modules:
-		include EntityDataManipulation
-		include EntityActions
-		include EntityLinks
-		include EntityRepresentation
-		include EntitySecurity
-		include EntityTriggers
+		#include EntityDataManipulation
+		#include EntityActions
+		#include EntityLinks
+		#include EntityRepresentation
+		#include EntitySecurity
+		#include EntityTriggers
 		
 
 	end

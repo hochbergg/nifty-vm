@@ -5,19 +5,15 @@
 #
 
 module App
-	module EntityTriggers
+	class Entity < Sequel::Model
 		# Include Hook
-		def self.included(base)
-			base.send(:include, InstanceMethods)
-			base.extend(ClassMethods)
-			
+
 			# set the callbacks
-			base.before_create :set_create_time
-			base.before_update :set_update_time
+		 before_create :set_create_time
+		 before_update :set_update_time
 			
-		end
 		
-		module InstanceMethods			
+		# InstanceMethods			
 			def set_create_time
 				@values[:created_at] = Time.now
 				set_update_time #set the update time 
@@ -26,10 +22,6 @@ module App
 			def set_update_time
 				@values[:updated_at] = Time.now
 			end
-		end #InstanceMethods
-		
-		module ClassMethods
-			
-		end #ClassMethods
+		#end InstanceMethods
 	end
 end

@@ -62,15 +62,10 @@
 # ===
 
 module App
-	module EntityDataManipulation
+	class Entity < Sequel::Model
+
 		
-		# Include Hook
-		def self.included(base)
-			base.send(:include, InstanceMethods)
-			base.extend(ClassMethods)
-		end
-		
-		module InstanceMethods			
+		# InstanceMethods			
 
 		
 			# sets the fieldlets
@@ -122,6 +117,8 @@ module App
 			#
 
 			def set_fieldlets(fieldlet_hash)
+				entities_to_load = {}
+				
 				if new_fields_hash = fieldlet_hash['new']
 					fieldlet_hash.delete 'new'
 				end
@@ -129,15 +126,34 @@ module App
 				# update
 				fieldlet_hash.each do |instance_id,kinds_hash|
 					kinds_hash.each do |kind_id, value|
-						self.fieldlets[instance_id.to_i][kind_id.to_i].value = value
+						fieldlet = self.fieldlets[instance_id.to_i][kind_id.to_i]
+						fieldlet.value = value
+						fieldlet.entity_update_callback.call(entities_to_load,fieldlet_hash) if fieldlet.entity_update_callback
 					end
 				end
 				
 				new_fields_hash ||= {}
 				new_fields_hash.values.each do |new_field_fieldlets_hash|					
 					field = Field.create_new_with_fieldlets(self, new_field_fieldlets_hash)
+					
+					field.each do |fieldlet|
+						fieldlet.entity_create_callback.call(entities_to_load) if fieldlet.entity_create_callback
+					end
 					self.fields[field.kind] << field 
 				end
+				
+				#load the required entities, and call the callbacks
+				entities = Entity.filter(:id => entities_to_load.keys).all
+				
+				# iterate each loaded entity, run callbacks and push fieldlets
+				entities.each do |entity|
+					# run callbacks
+					if (!entities_to_load[entity.id].empty?)
+						entities_to_load[entity.id].each{|callback| callback.call(entity)}
+					end
+				end
+				
+				return true
 			end
 			
 			# alias
@@ -189,9 +205,9 @@ module App
 			end
 		
 			
-		end # InstanceMethods
+		 # end InstanceMethods
 		
-		module ClassMethods
+		# ClassMethods
 				
 				# Find entities and load their fieldlets by the given ids
 				#
@@ -243,7 +259,7 @@ module App
 				# [<Entity>, ...]:: Multiple entities with their fieldlets loaded
 				# <Nil> :: 	If no result found
 				
-				def find_with_fieldlets(*args)
+				def self.find_with_fieldlets(*args)
 
 						options_hash = {}
 						
@@ -280,7 +296,7 @@ module App
 						# Load all the fieldlets, push them to a hash by the entity_id
 						loaded_fieldlets = fieldlets_set.all
 						loaded_fieldlets.each do |fieldlet|
-							fieldlet.entity_load_callback.call(entities_to_load,loaded_fieldlets) if fieldlet.entity_load_callback
+							fieldlet.entity_load_callback.call(entities_to_load) if fieldlet.entity_load_callback
 							
 							fieldlets[fieldlet.entity_id] ||= []
 							fieldlets[fieldlet.entity_id] << fieldlet
@@ -288,7 +304,7 @@ module App
 						
 						# load all the entities
 						entities = Entity.filter(:id => entities_to_load.keys).all
-						
+											
 						# iterate each loaded entity, run callbacks and push fieldlets
 						entities.each do |entity|
 							# run callbacks
@@ -299,6 +315,8 @@ module App
 							# init the fieldlets for the loaded entity, if there are fieldlets
 							entity.init_fieldlets(fieldlets[entity.id] || []) if fieldlets[entity.id] 
 						end
+						
+						
 						
 						
 						# prepare result 
@@ -315,7 +333,7 @@ module App
 						return result
 				end
 				
-		end # ClassMethods
+		 #end ClassMethods
 			
 	end
 end
