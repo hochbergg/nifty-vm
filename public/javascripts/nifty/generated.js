@@ -109,6 +109,13 @@ Nifty.fields.field8 = Ext.extend(Nifty.widgets.FieldPanel, {
 })
 Ext.reg('Field8', Nifty.fields.field8);			
 
+Nifty.fields.field10 = Ext.extend(Nifty.widgets.FieldPanel, {
+	fieldId: '10',
+	fieldLabel: 'shlomi',
+	fieldlets: []
+})
+Ext.reg('Field10', Nifty.fields.field10);			
+
 Nifty.entities.kinds.push({id: 1, singleName: 'Order', multiName: 'Order'});
 
 Nifty.panels['Entity1'] = {

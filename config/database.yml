@@ -9,7 +9,7 @@
 
 :test:
   <<: *defaults
-  :database: niftykm_development
+  :database: niftykm_testing
 
 :production:
   <<: *defaults

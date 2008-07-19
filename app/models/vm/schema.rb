@@ -39,7 +39,7 @@ module VM
 	 		@@generated = @@base_classes.collect{|klass| klass.build_models}.flatten
 		end
 		
-		def self.load
+		def self.load!
 			
 				puts "Schema: Loading Schema classes..." 
 				self.load_klasses
@@ -52,6 +52,12 @@ module VM
 		
 		def self.generated_models
 			@@generated
+		end
+		
+		def self.unload!
+			@@generated.each do |klass|
+				App.send(:remove_const, klass.to_s.split('::').last.to_sym)
+			end
 		end
 	end
 end

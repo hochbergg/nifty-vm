@@ -53,22 +53,19 @@ use_test :rspec
 
 dependency 'merb-assets'
 
+# sequel fixes
+require 'sequel_fixes'
+
+
 Merb::BootLoader.after_app_loads do
   ### Add dependencies here that must load after the application loads:
 	
-	# maybe should put into the merb init code? 
-	#'(Dir.glob(Merb.root / 'app/models/**/**/*.rb')).each do |f|
-	#	puts f
-	#	require f
-	#end
-	
-	# schema loading, maybe should be moved
+	require 'merb-fixtures'
 	
 	# load schema
- 	VM::Schema.load
+ 	VM::Schema.load! if Merb.config[:auto_load_schema]
 	
 	# build JS
-	VM::JsGenerator.build
-	
-	require 'sequel_fixes'
+	VM::JsGenerator.build if Merb.config[:auto_generate_js]
+
 end
