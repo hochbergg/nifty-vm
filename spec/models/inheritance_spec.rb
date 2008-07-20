@@ -1,4 +1,4 @@
-require File.join( File.dirname(__FILE__), "..", "spec_helper" )
+require File.join(File.dirname(__FILE__),'..', 'spec_helper')
 
 describe "STIInheritance" do
 
@@ -19,6 +19,7 @@ describe "STIInheritance" do
 	it "should fetch many entities and get different classes" do
 		fetched_entities_classes = load_with_inheritance(App::Entity,:inheritance_sample_entity,
 																													:inheritance_another_entity).collect{|x| x.class}
+
 		entity_kinds = get_generated_models(VM::EntityKind,App::Entity, 
 																	:inheritance_sample_entity_kind,
 																	:inheritance_another_entity_kind)
@@ -28,8 +29,4 @@ describe "STIInheritance" do
 		end
 	end
 
-	
-	after(:all) do
-		unload_schema!
-	end
 end

@@ -204,6 +204,8 @@ module App
 				self.display = display_lambda().call(self) if display_lambda()
 			end
 		
+			# will be overriden
+			def display_lambda; end
 			
 		 # end InstanceMethods
 		

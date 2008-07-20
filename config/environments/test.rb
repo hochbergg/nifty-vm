@@ -4,3 +4,7 @@ Merb::Config.use { |c|
   c[:reload_classes] = true
   c[:reload_time] = 0.5
 }
+
+Merb::BootLoader.after_app_loads do
+	Merb::Fixtures.load
+end

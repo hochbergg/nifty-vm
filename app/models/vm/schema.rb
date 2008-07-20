@@ -4,6 +4,7 @@
 
 module VM
 	class Schema
+		@@generated = []
 	
 		# load all the schema from the db
 		def self.load_klasses
@@ -34,6 +35,10 @@ module VM
 			return @@base_classes
 		end
 		
+		def self.models
+			self.load_klasses
+		end
+		
 		# generate models from the loaded schema
 		def self.instansiate
 	 		@@generated = @@base_classes.collect{|klass| klass.build_models}.flatten
@@ -58,6 +63,7 @@ module VM
 			@@generated.each do |klass|
 				App.send(:remove_const, klass.to_s.split('::').last.to_sym)
 			end
+			@@generated = []
 		end
 	end
 end

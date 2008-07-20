@@ -17,6 +17,7 @@ module VM
 			index [:entity_kind_id, :position]
 		end
 		
+		
 		# assocs
 		belongs_to :entity_kind
 		has_many :fieldlet_kinds, :order => :position
@@ -61,10 +62,26 @@ module VM
 		end
 		
 		def set_duplication_settings
- 			if self.preferences && (hash = self.preferences[:duplicate])
-				return "set_duplication(#{hash.inspect})"
+ 			return nil if self.preferences.nil? || self.prefs[:duplication].nil?
+
+			duplication_hash = self.prefs[:duplication]
+			
+			<<-DUPLICATION
+			def self.duplicated?
+				true
 			end
-			return "set_duplication(false)"
+			
+			def self.duplication_info
+				{
+					#{duplication_hash[:target_classes].collect{|k,v| "#{k} => #{v}"}.join(',')}
+				}
+			end
+			
+			def self.link_fieldlet
+				#{duplication_hash[:link_fieldlet]}
+			end
+			
+			DUPLICATION
 		end
 		
 		

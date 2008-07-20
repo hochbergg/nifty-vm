@@ -53,6 +53,8 @@ module ModelBuildTools
 			"#{self.class.regulated_name}#{self.id}" if self.class.respond_to?(:regulated_name)
 		end
 		
+		alias :target_model :regulated_name_with_id
+		
 	end
 	
 	module ClassMethods
