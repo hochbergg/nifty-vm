@@ -1,7 +1,7 @@
 require File.join(File.dirname(__FILE__),'..','..','..', 'spec_helper')
 
 describe "Entity Loading" do
-
+	include NiftyEntityHelper
 	# do before
 	before(:all) do
 		load_groups_and_schema(:order_customer_product_schema, :entity_loading_fixture)
@@ -14,8 +14,8 @@ describe "Entity Loading" do
 	
 	it "should load single entity with all its fieldlets" do
 		macbook_air_product = App::Entity.find_with_fieldlets(App::Entity.fixture(:macbook_air_product).pk)
-		
-		
+		verify_entity(macbook_air_product, {:fieldlets_size => 3, 
+																				:fieldlet_fixtures => [:mba_p_name_flk,:mba_p_sn_flk,:mba_p_price_flk]})
 	end
 	
 	it "should load single entity with linked entities"

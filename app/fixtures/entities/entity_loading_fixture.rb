@@ -245,7 +245,27 @@ fixture_group(:entity_loading_fixture) do
 #		self.text_value = 
 	end
 
+	instance_id = (Time.now.to_i << 10) + rand(1024)
 
+	fixture_for(App::Fieldlet, :mba_p_sn_flk) do
+		self.kind = VM::FieldletKind.fixture(:p_sn_flk).pk
+		self.entity_id = macbook_air_product.pk
+		self.instance_id = instance_id
+#		self.int_value = 
+		self.string_value = '1234-5678'
+#		self.text_value = 
+	end
+
+ 	instance_id = (Time.now.to_i << 10) + rand(1024)
+
+ 	fixture_for(App::Fieldlet, :mba_p_price_flk) do
+ 		self.kind = VM::FieldletKind.fixture(:p_price_flk).pk
+ 		self.entity_id = macbook_air_product.pk
+ 		self.instance_id = instance_id
+ #		self.int_value = 
+ 		self.string_value = '$1799'
+ #		self.text_value = 
+ 	end
 
 
 

@@ -82,7 +82,7 @@ module App
 			
 			
 			
-			def init_fieldlets(fieldlets)
+			def init_fieldlets(fieldlets=[])
 				@fieldlets = {} # set the default value to be hash
 				
 				fieldlets.each do |fieldlet|

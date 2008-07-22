@@ -40,7 +40,7 @@ module Nifty
 			
 			def load_with_inheritance(klass, *fixtures)
 				return nil if fixtures.empty? 
-				instances = klass.filter(:id => klass.fixture(*fixtures).to_a.collect{|x| x.pk}).all
+				instances = klass.filter(:id => [klass.fixture(*fixtures)].flatten.collect{|x| x.pk}).all
 				
 				return nil if instances.empty?
 				return instances.first if instances.size == 1 
@@ -49,12 +49,39 @@ module Nifty
 			
 			def get_generated_models(generator, generated, *fixtures)
 				return nil if fixtures.empty? 
-				models = generator.fixture(*fixtures).to_a.collect{|x| x.pk}.collect{|id| generated.get_subclass_by_id(id)}
+				models = [generator.fixture(*fixtures)].flatten.collect{|x| x.pk}.collect{|id| generated.get_subclass_by_id(id)}
 				
 				return nil if models.empty?
 				return models.first if models.size == 1
 				return models
 			end
+			
+			def class_or_superclass_if_inhrited(model)
+				raise "#{model} is not Sequel::Model" if not model < Sequel::Model
+				model = model.superclass if model.superclass.dataset.polymorphic_key == :kind
+				model
+			end
+			
+			def collection_should_be_of_kind_from_fixtures(collection,fixtures_model, fixtures)
+				kind_ids = [fixtures_model.fixture(*fixtures)].flatten.collect{|x| x.pk}
+				
+				kind_ids.size.should <= collection.size
+				
+				collection.each do |item|
+					kind_ids.should include(item.kind)
+				end
+			end
+			
+			def collection_should_have_fixture_value(collection, fixtures)
+ 				model = class_or_superclass_if_inhrited(collection[0].class)
+				items = model.fixture(*fixtures)
+				
+				items.each do |item|
+					instance = collection.find{|x| x.pk == item.pk}
+					instance.values.should == item.values
+				end
+			end
+			
 		end
 	end
 end
