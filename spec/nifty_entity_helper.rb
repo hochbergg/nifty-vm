@@ -36,5 +36,12 @@ module NiftyEntityHelper
 		
 		flat_fieldlets.size.should == options[:fieldlets_size]
 		collection_should_have_fixture_value(flat_fieldlets, options[:fieldlet_fixtures])
+		
+		options[:linked_to_entities] ||= {}
+		options[:linked_to_entities].each do |fieldlet_fixture, entity_fixture|
+			target_entity = entity.fieldlets[fieldlet_fixture.instance_id][fieldlet_fixture.kind].value
+			
+			target_entity.values.should == entity_fixture.values
+		end
 	end
 end

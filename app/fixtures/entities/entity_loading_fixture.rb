@@ -1,3 +1,4 @@
+require File.join(File.dirname(__FILE__),'..', 'fixtures_helper')
 require File.join(File.dirname(__FILE__),'..', 'schemas', 'order_customer_product')
 
 # = EntityLoadingFixture
@@ -39,10 +40,7 @@ fixture_group(:entity_loading_fixture) do
 	end
 	
 	# fieldlets
-	gilad_avidan_customer = fixture_for(App::Entity, :gilad_avidan_customer) do
-		self.kind = VM::EntityKind.fixture(:customer_ek).pk
-		self.display = 'Gilad Avidan'
-	end
+
 	
 	
 	
@@ -81,7 +79,7 @@ fixture_group(:entity_loading_fixture) do
 
 	instance_id = (Time.now.to_i << 10) + rand(1024)
 
-	fixture_for(App::Fieldlet, :ga_c_contact_1_flk) do
+	fixture_for(App::Fieldlet, :ga_c_contact_1_0_flk) do
 		self.kind = VM::FieldletKind.fixture(:c_contact_1_flk).pk
 		self.entity_id = gilad_avidan_customer.pk
 		self.instance_id = instance_id
@@ -90,7 +88,7 @@ fixture_group(:entity_loading_fixture) do
 #		self.text_value = 
 	end
 
-	fixture_for(App::Fieldlet, :ga_c_contact_2_flk) do
+	fixture_for(App::Fieldlet, :ga_c_contact_2_0_flk) do
 		self.kind = VM::FieldletKind.fixture(:c_contact_2_flk).pk
 		self.entity_id = gilad_avidan_customer.pk
 		self.instance_id = instance_id
@@ -102,7 +100,7 @@ fixture_group(:entity_loading_fixture) do
 
 	instance_id = (Time.now.to_i << 10) + rand(1024)
 
-	fixture_for(App::Fieldlet, :ga_c_contact_1_flk) do
+	fixture_for(App::Fieldlet, :ga_c_contact_1_1_flk) do
 		self.kind = VM::FieldletKind.fixture(:c_contact_1_flk).pk
 		self.entity_id = gilad_avidan_customer.pk
 		self.instance_id = instance_id
@@ -111,7 +109,7 @@ fixture_group(:entity_loading_fixture) do
 #		self.text_value = 
 	end
 
-	fixture_for(App::Fieldlet, :ga_c_contact_2_flk) do
+	fixture_for(App::Fieldlet, :ga_c_contact_2_1_flk) do
 		self.kind = VM::FieldletKind.fixture(:c_contact_2_flk).pk
 		self.entity_id = gilad_avidan_customer.pk
 		self.instance_id = instance_id
@@ -127,19 +125,17 @@ fixture_group(:entity_loading_fixture) do
 		self.kind = VM::FieldletKind.fixture(:c_favorite_product_flk).pk
 		self.entity_id = gilad_avidan_customer.pk
 		self.instance_id = instance_id
-		self.int_value = wii_product.pk
+		self.int_value = iphone_product.pk
 #		self.string_value = ''
 #		self.text_value = 
 	end
 
-	instance_id = (Time.now.to_i << 10) + rand(1024)
-
-	fixture_for(App::Fieldlet, :ga_c_favorite_product_flk) do
-		self.kind = VM::FieldletKind.fixture(:c_favorite_product_flk).pk
+	fixture_for(App::Fieldlet, :ga_c_favorite_product_bought_at_flk) do
+		self.kind = VM::FieldletKind.fixture(:c_favorite_product_bought_at_flk).pk
 		self.entity_id = gilad_avidan_customer.pk
 		self.instance_id = instance_id
-		self.int_value = iphone_product.pk
-#		self.string_value = ''
+#		self.int_value = iphone_product.pk
+		self.string_value = 'Apple Store'
 #		self.text_value = 
 	end
 
@@ -232,6 +228,15 @@ fixture_group(:entity_loading_fixture) do
 #		self.text_value = 
 	end
 
+	fixture_for(App::Fieldlet, :sa_c_favorite_product_bought_at_flk) do
+		self.kind = VM::FieldletKind.fixture(:c_favorite_product_bought_at_flk).pk
+		self.entity_id = shlomi_atar_customer.pk
+		self.instance_id = instance_id
+#		self.int_value = wii_product.pk
+		self.string_value = 'Amazon'
+#		self.text_value = 
+	end
+
 # Macbook Air
 
 	instance_id = (Time.now.to_i << 10) + rand(1024)
@@ -268,8 +273,119 @@ fixture_group(:entity_loading_fixture) do
  	end
 
 
+	# iPhone 8GB
+
+		instance_id = (Time.now.to_i << 10) + rand(1024)
+
+		fixture_for(App::Fieldlet, :iphone_p_name_flk) do
+			self.kind = VM::FieldletKind.fixture(:p_name_flk).pk
+			self.entity_id = iphone_product.pk
+			self.instance_id = instance_id
+	#		self.int_value = 
+			self.string_value = 'iPhone 3G 8GB'
+	#		self.text_value = 
+		end
+
+		instance_id = (Time.now.to_i << 10) + rand(1024)
+
+		fixture_for(App::Fieldlet, :iphone_p_sn_flk) do
+			self.kind = VM::FieldletKind.fixture(:p_sn_flk).pk
+			self.entity_id = iphone_product.pk
+			self.instance_id = instance_id
+	#		self.int_value = 
+			self.string_value = '1234-5678'
+	#		self.text_value = 
+		end
+
+	 	instance_id = (Time.now.to_i << 10) + rand(1024)
+
+	 	fixture_for(App::Fieldlet, :iphone_p_price_flk) do
+	 		self.kind = VM::FieldletKind.fixture(:p_price_flk).pk
+	 		self.entity_id = iphone_product.pk
+	 		self.instance_id = instance_id
+	 #		self.int_value = 
+	 		self.string_value = '$599'
+	 #		self.text_value = 
+	 	end
+	
+		# duplicant field
+		outher_side_fieldlet = App::Fieldlet.fixture(:ga_c_favorite_product_bought_at_flk)
+
+	 	fixture_for(App::Fieldlet, :iphone_p_favorited_by_customers_flk) do
+	 		self.kind = VM::FieldletKind.fixture(:p_favorited_by_customers_flk).pk
+	 		self.entity_id = iphone_product.pk
+	 		self.instance_id = outher_side_fieldlet.instance_id
+			self.int_value = outher_side_fieldlet.entity_id
+	 #		self.string_value =
+	 #		self.text_value = 
+	 	end
+	
+		fixture_for(App::Fieldlet, :iphone_p_favorited_by_customers_bought_at_flk) do
+	 		self.kind = VM::FieldletKind.fixture(:p_favorited_by_customers_bought_at_flk).pk
+	 		self.entity_id = iphone_product.pk
+	 		self.instance_id = outher_side_fieldlet.instance_id
+	 #		self.int_value = outher_side_fieldlet.entity_id
+	 		self.string_value = outher_side_fieldlet.string_value
+	 #		self.text_value = 
+	 	end
 
 
+
+ # Wii
+
+ 	instance_id = (Time.now.to_i << 10) + rand(1024)
+
+ 	fixture_for(App::Fieldlet, :wii_p_name_flk) do
+ 		self.kind = VM::FieldletKind.fixture(:p_name_flk).pk
+ 		self.entity_id = wii_product.pk
+ 		self.instance_id = instance_id
+ #		self.int_value = 
+ 		self.string_value = 'Nintendo Wii'
+ #		self.text_value = 
+ 	end
+
+ 	instance_id = (Time.now.to_i << 10) + rand(1024)
+
+ 	fixture_for(App::Fieldlet, :wii_p_sn_flk) do
+ 		self.kind = VM::FieldletKind.fixture(:p_sn_flk).pk
+ 		self.entity_id = wii_product.pk
+ 		self.instance_id = instance_id
+ #		self.int_value = 
+ 		self.string_value = 'B0009VXBAQ'
+ #		self.text_value = 
+ 	end
+
+  	instance_id = (Time.now.to_i << 10) + rand(1024)
+
+  	fixture_for(App::Fieldlet, :wii_p_price_flk) do
+  		self.kind = VM::FieldletKind.fixture(:p_price_flk).pk
+  		self.entity_id = wii_product.pk
+  		self.instance_id = instance_id
+  #		self.int_value = 
+  		self.string_value = '$250'
+  #		self.text_value = 
+  	end
+
+ 	# duplicant field
+ 	outher_side_fieldlet = App::Fieldlet.fixture(:sa_c_favorite_product_bought_at_flk)
+
+  	fixture_for(App::Fieldlet, :wii_p_favorited_by_customers_flk) do
+  		self.kind = VM::FieldletKind.fixture(:p_favorited_by_customers_flk).pk
+  		self.entity_id = wii_product.pk
+  		self.instance_id = outher_side_fieldlet.instance_id
+ 		self.int_value = outher_side_fieldlet.entity_id
+  #		self.string_value =
+  #		self.text_value = 
+  	end
+
+ 	fixture_for(App::Fieldlet, :wii_p_favorited_by_customers_bought_at_flk) do
+  		self.kind = VM::FieldletKind.fixture(:p_favorited_by_customers_bought_at_flk).pk
+  		self.entity_id = wii_product.pk
+  		self.instance_id = outher_side_fieldlet.instance_id
+  #		self.int_value = outher_side_fieldlet.entity_id
+  		self.string_value = outher_side_fieldlet.string_value
+  #		self.text_value = 
+  	end
 
 
 	

@@ -1,3 +1,5 @@
+require File.join(File.dirname(__FILE__),'..', 'fixtures_helper')
+
 # = OrderCustomerProductSchema
 #
 #
@@ -98,6 +100,14 @@ fixture_group(:order_customer_product_schema) do
 		self.name = 'Favorited By Customers'
 		self.kind = 'link'
 	end
+	
+	p_favorited_by_customers_bought_at_flk = fixture_for(VM::FieldletKind, :p_favorited_by_customers_bought_at_flk) do 
+		self.field_kind_id = c_favorite_products_fk.pk
+		self.position = 2
+		self.name = 'Bought at'
+		self.kind = 'string'
+	end
+	
 
 
 	# Customer String fieldlets
@@ -150,6 +160,14 @@ fixture_group(:order_customer_product_schema) do
 		self.name = 'Favorite Products'
 		self.kind = 'link'
 	end
+	
+	c_favorite_product_bought_at_flk = fixture_for(VM::FieldletKind, :c_favorite_product_bought_at_flk) do 
+		self.field_kind_id = c_favorite_products_fk.pk
+		self.position = 2
+		self.name = 'Bought at'
+		self.kind = 'string'
+	end
+	
 
 	# field duplication
 	
