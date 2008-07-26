@@ -102,7 +102,7 @@ fixture_group(:order_customer_product_schema) do
 	end
 	
 	p_favorited_by_customers_bought_at_flk = fixture_for(VM::FieldletKind, :p_favorited_by_customers_bought_at_flk) do 
-		self.field_kind_id = c_favorite_products_fk.pk
+		self.field_kind_id = p_favorited_by_customers_fk.pk
 		self.position = 2
 		self.name = 'Bought at'
 		self.kind = 'string'
@@ -173,7 +173,7 @@ fixture_group(:order_customer_product_schema) do
 	
 
 	c_favorite_products_fk.prefs[:duplication] = {
-			:link_fieldlet => c_favorite_product_flk.target_model,
+			:link_fieldlet => c_favorite_product_flk.pk,
 			:target_classes => {
 				product_ek.target_model() => p_favorited_by_customers_fk.target_model()
 			}
@@ -181,7 +181,7 @@ fixture_group(:order_customer_product_schema) do
 	c_favorite_products_fk.save
   
 	p_favorited_by_customers_fk.prefs[:duplication] = {
-			:link_fieldlet => p_favorited_by_customers_flk.target_model,
+			:link_fieldlet => p_favorited_by_customers_flk.pk,
 			:target_classes => {
 				customer_ek.target_model() => c_favorite_products_fk.target_model()
 			}

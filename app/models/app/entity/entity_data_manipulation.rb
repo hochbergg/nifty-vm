@@ -66,13 +66,7 @@ module App
 
 		
 		# InstanceMethods			
-
 		
-			# sets the fieldlets
-			def fieldlets=(value_hash)
-				set_fieldlets(value_hash)
-			end
-			
 			
 			# used for a cached access to loaded fieldlets. 
 			# if non loaded, load them
@@ -128,7 +122,7 @@ module App
 					kinds_hash.each do |kind_id, value|
 						fieldlet = self.fieldlets[instance_id.to_i][kind_id.to_i]
 						fieldlet.value = value
-						fieldlet.entity_update_callback.call(entities_to_load,fieldlet_hash) if fieldlet.entity_update_callback
+						fieldlet.entity_update_callback.call(entities_to_load) if fieldlet.entity_update_callback
 					end
 				end
 				
@@ -142,14 +136,16 @@ module App
 					self.fields[field.kind] << field 
 				end
 				
+
+				entities = []
 				#load the required entities, and call the callbacks
-				entities = Entity.filter(:id => entities_to_load.keys).all
+				entities = Entity.filter(:id => entities_to_load.keys).all if !entities_to_load.keys.empty?
 				
 				# iterate each loaded entity, run callbacks and push fieldlets
 				entities.each do |entity|
 					# run callbacks
-					if (!entities_to_load[entity.id].empty?)
-						entities_to_load[entity.id].each{|callback| callback.call(entity)}
+					if (entities_to_load[entity.pk])
+						entities_to_load[entity.pk].each{|callback| callback.call(entity)}
 					end
 				end
 				
@@ -157,7 +153,7 @@ module App
 			end
 			
 			# alias
-			alias	:set_fieldlets :fieldlets=
+			alias	 :fieldlets= :set_fieldlets
 
 			
 			# Accessor for the fields

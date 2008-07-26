@@ -1,5 +1,4 @@
 require File.join(File.dirname(__FILE__), 'fixtures_helper')
-require 'merb-fixtures'
 # = InheritanceTests
 #
 #

@@ -178,8 +178,11 @@ module App
 		# * pending_for_save<Array>:: Array of the fieldlets that are pending to be saved
 		#
 		
-		def entity_save_callback
+		def entity_create_callback
 		end
 		
+		
+		def entity_update_callback
+		end
 	end
 end

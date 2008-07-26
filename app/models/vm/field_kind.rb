@@ -40,7 +40,11 @@ module VM
 					def kind
 						#{self.id}
 					end
-				
+					
+					def self.kind
+						#{self.pk}
+					end
+					
 					def self.entity
 						Entity#{self.entity_kind_id}
 					end

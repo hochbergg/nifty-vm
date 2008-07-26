@@ -10,7 +10,8 @@ module App
 	
 		# InstanceMethods
 		def duplicant_changed? 
-			duplicant.pk != @old_duplicant.pk
+			return false if not self.link_fieldlet.old_entity
+			self.link_fieldlet.entity.pk != self.link_fieldlet.old_entity.pk
 		end
 		
 		def destroy_duplicates!(duplicant = @duplicant)
@@ -19,7 +20,7 @@ module App
 		
 		def update_duplicates!
 			if duplicant_changed? 
-				destroy_duplicates!(@old_duplicant)
+				destroy_duplicates!(self.link_fieldlet.old_entity)
 				create_duplicates!
 				return
 			end
@@ -30,23 +31,24 @@ module App
 		# creates a set of 
 		def create_duplicates!
 			set_duplicants_values!(false) # false for creating duplicates
-			@duplicated_fieldlets.each{|f| f.save_changes}
+			@duplicated_fieldlets.each{|f| f.save}
 		end
 		
 		# we want to set the duplicants values
 		# returns 
 		def set_duplicants_values!(update = true)
+
 			@duplicated_fieldlets = []
 			
 			my_fieldlets = self.all_fieldlets
 			target_fieldlet_ids = self.duplicants_fieldlet_ids
 			
-			raise "duplicated fields should match!!" if target_fieldlets.size != my_fieldlets.size
+			raise "duplicated fields should match!!" if target_fieldlet_ids.size != my_fieldlets.size
 			
 			my_fieldlets.each_with_index do |my_fieldlet,i|
 			
 				# get the original values
-				values = my_fieldlet.values
+				values = my_fieldlet.values.dup
 				
 				# if we are updating, don't use the original values, we'll set them later
 				# so we could use the 'save_changes' method
@@ -59,7 +61,7 @@ module App
 				
 				# if we're duplicating the link fieldlet, we need to revesrse it on the 
 				# duplicated version
-				if self.class.link_fieldlet == my_fieldlet.class
+				if self.class.link_fieldlet == my_fieldlet.class.inheritance_id
 					values.merge!(:int_value => @entity.pk)
 				end
 				
@@ -74,8 +76,9 @@ module App
 					@duplicated_fieldlets << target_fieldlet
 				else
 					# just create new one
-					
-					@duplicated_fieldlets << Fieldlet.new(values)
+					f = Fieldlet.new
+					f.values.merge!(values)
+					@duplicated_fieldlets << f
 				end
 			end
 			
@@ -88,7 +91,7 @@ module App
 		end
 		
 		def duplicant_field
-			@duplicant_field ||= self.class.duplication_info[self.duplicant.class][:field]
+			@duplicant_field ||= self.class.duplication_info[self.duplicant.class]
 		end
 		
 		

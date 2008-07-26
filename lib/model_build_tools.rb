@@ -29,6 +29,10 @@ module ModelBuildTools
 			<<-CLASS_DEF
 			class #{regulated_name_with_id} < #{self.class.regulated_name}
 
+				def self.inheritance_id
+					#{self.pk}
+				end
+				
 				def self.preferences
 					#{(preferences).inspect}
 				end

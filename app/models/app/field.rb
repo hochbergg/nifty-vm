@@ -15,16 +15,14 @@ module App
 			@entity = entity
 			@fieldlets = {} 
 			@pushed_fieldlets = {}
-			@old_duplicant = @duplicant = nil
+			@duplicant = nil
 		end
 		
 		# push fieldlets
 		def push(fieldlet)
 			# set the randomized_instance_id
 			@randomized_instance_id ||= fieldlet.instance_id
-			
-			@old_duplicant = fieldlet.entity if self.class.link_fieldlet == fieldlet.class
-			@fieldlets[fieldlet.kind] = fieldlet
+			@fieldlets[fieldlet.class.inheritance_id] = fieldlet
 		end
 		
 		# for usage with Enumerable mixin
@@ -48,6 +46,10 @@ module App
 			self.new? && self.null?
 		end
 		
+		def changed?
+			self.any?{|x| !x.changed_columns.empty?}
+		end
+		
 		# when updated, and all the fieldlets are null, 
 		#we shuold remove this field instance
 		def removed?
@@ -59,7 +61,7 @@ module App
 		# if not linked, always returned
 		def returned?
 			return true if not self.class.duplicated? 
-			return false if self.linked_entity.value.nil?
+			return false if self.link_fieldlet.value.nil?
 			true
 		end
 		
@@ -70,25 +72,27 @@ module App
 
 		
 		def save
-			return false if self.clean? # if new and null, we don't need to save anything
+			return false if !self.changed? || self.clean? # if new and null, we don't need to save anything	
+			@new = self.new?
+		
+			
 			if self.removed?
-				self.each{|fieldlet| fieldlet.destroy} # remove all the fieldlets
-				
-				destroy_duplicates! if self.class.duplicated?
 				return true
 			end
-			
+		
+			# duplication
+			if self.class.duplicated?
+				@new ? create_duplicates! : update_duplicates!
+			end
+
 			self.all_fieldlets.each do |fieldlet| 
 				fieldlet.instance_id  = self.instance_id if fieldlet.new?
 				# set entity id for the new fieldlets
 				fieldlet.entity_id = @entity.pk
+				# save the fieldlets
 				fieldlet.save_changes
-			end # save the fieldlets
-			
-			# duplication
-			if self.class.duplicated?
-				self.new? ? create_duplicates! : update_duplicates!
-			end
+			end			
+			@new = false
 		end
 
 		def valid?
@@ -128,6 +132,12 @@ module App
 			fieldlets.each{|f| field.push(f)}
 			
 			return field
+		end
+		
+		def destroy
+				self.each{|fieldlet| fieldlet.destroy} # remove all the fieldlets
+				
+				destroy_duplicates! if self.class.duplicated?
 		end
 		
 	end # Field
