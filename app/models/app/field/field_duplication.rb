@@ -48,7 +48,7 @@ module App
 			my_fieldlets.each_with_index do |my_fieldlet,i|
 			
 				# get the original values
-				values = my_fieldlet.values.dup
+				values = my_fieldlet.values.dup #dup because hashes are mutable
 				
 				# if we are updating, don't use the original values, we'll set them later
 				# so we could use the 'save_changes' method

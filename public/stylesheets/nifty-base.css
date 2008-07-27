@@ -74,3 +74,12 @@ DIV#page_loading{
 	font-size:13px;
 	margin:5px 0;
 }
+
+
+.x-entity-icon-big-56{
+	background:url(/images/product.png) no-repeat left center;
+}
+
+.x-entity-icon-big-55{
+	background:url(/images/customer.png) no-repeat left center;
+}
