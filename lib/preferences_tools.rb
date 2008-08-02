@@ -13,7 +13,7 @@ module PreferencesTools
 
 	module InstanceMethods
 		def prefs
-			@preferences = YAML.load(values[:preferences]) if values[:preferences]
+			@preferences ||= YAML.load(values[:preferences]) if values[:preferences]
 			@preferences ||= {}
 		end
 		

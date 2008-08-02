@@ -103,7 +103,7 @@ Nifty.widgets.FieldContainer = Ext.extend(Ext.Container, {
 			this.items.each(function(item){
 				if(item.beforeEnteringEditMode){
 					item.beforeEnteringEditMode();
-					}
+				}
 			});			
 			
 			this.addClass('x-panel-nifty-field-edited');

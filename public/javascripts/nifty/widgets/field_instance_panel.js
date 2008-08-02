@@ -32,7 +32,7 @@ Nifty.widgets.FieldInstancePanel = Ext.extend(Ext.Container, {
 			// fetch the fieldlet value from the fieldInstance
 			if(this.data && this.data[item.kind]){ // we have data
 				item.value = this.data[item.kind].value;
-				item.formId = String.format('entity[{0}][{1}]', this.instanceId, item.kind);
+				item.formId = String.format('entity[{0}][{1}]', this.data[item.kind].id, item.kind);
 			} else { // we don't have any data
 				item.formId = String.format('entity[new][{0}][{1}]', this.instanceId ,item.kind);		
 			}
@@ -154,7 +154,8 @@ Nifty.widgets.FieldInstancePanel = Ext.extend(Ext.Container, {
 	
 	beforeEnteringEditMode: function(){
 		this.items.each(function(item){
-			item.beforeEnteringEditMode();
+			if(item.beforeEnteringEditMode){
+			item.beforeEnteringEditMode();}
 		});
 	}, 
 	

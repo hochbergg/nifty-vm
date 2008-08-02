@@ -95,11 +95,25 @@ module VM
 Nifty.fields.field#{self.id} = Ext.extend(Nifty.widgets.FieldContainer, {
 	fieldId: '#{self.id}',
 	fieldLabel: '#{self.name}',
-	instanceLayout: [#{self.fieldlet_kinds.collect{|x| "{kind: #{x.pk}}"}.join(',')}]
+	#{self.set_seperator()}
+	instanceLayout: #{self.get_instance_layout()}
+	
 })
 Ext.reg('Field#{self.pk}', Nifty.fields.field#{self.pk});			
 JSDEF
 		end
 		
+		def get_instance_layout()
+			if self.prefs[:instance_layout].nil?
+				return "[#{self.fieldlet_kinds.collect{|x| "{kind: #{x.pk}}"}.join(',')}]"
+			end
+			
+			return self.prefs[:instance_layout].to_json
+		end
+		
+		def set_seperator()
+			return "" if self.prefs[:seperator].nil?
+			return "seperator: #{self.prefs[:seperator]},"
+		end
 	end
 end
