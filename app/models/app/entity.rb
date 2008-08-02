@@ -48,14 +48,5 @@ module App
 		# Inheritance Mixin - for smart STI
 		include InheritanceMixin
 		
-		# include modules:
-		#include EntityDataManipulation
-		#include EntityActions
-		#include EntityLinks
-		#include EntityRepresentation
-		#include EntitySecurity
-		#include EntityTriggers
-		
-
 	end
 end

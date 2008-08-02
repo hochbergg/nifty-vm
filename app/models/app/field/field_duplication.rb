@@ -106,11 +106,7 @@ module App
 		
 		#end InstanceMethods
 	
-		#ClassMethods
-		def self.set_duplication(somthing)
-			
-		end
-		
+	
 		# overriden
 		def self.link_fieldlet
 			return nil if !duplicated? 

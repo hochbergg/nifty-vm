@@ -42,6 +42,7 @@ Nifty.app = function() {
 			// Hide Loader
 			hideLoaders();
 			
+			// Setup the router
 			Nifty.Router.registerUrlPolling();
 	 	}
 	}

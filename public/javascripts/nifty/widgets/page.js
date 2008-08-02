@@ -2,7 +2,7 @@
 * Nifty.Page
 *
 * Pages pack side panel and main panel
-*
+* 
 */
 
 
@@ -35,9 +35,9 @@ Ext.extend(Nifty.Page, Ext.util.Observable,{
 
 	},
 	
-	
+
+	// destroy the current content of the page
 	clear: function(){
-		// clear
 		if (Nifty.pages.current){
 			var current = Nifty.pages.current;
 			if(current.mainPanel)

@@ -58,52 +58,52 @@ Nifty.fieldlets.Fieldlet123 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet,
 });
 Ext.reg('Fieldlet123', Nifty.fieldlets.Fieldlet123);
 
-Nifty.fields.field82 = Ext.extend(Nifty.widgets.FieldPanel, {
+Nifty.fields.field82 = Ext.extend(Nifty.widgets.FieldContainer, {
 	fieldId: '82',
 	fieldLabel: 'Name',
-	fieldlets: [{kind: 112}]
+	instanceLayout: [{kind: 112}]
 })
 Ext.reg('Field82', Nifty.fields.field82);			
 
-Nifty.fields.field83 = Ext.extend(Nifty.widgets.FieldPanel, {
+Nifty.fields.field83 = Ext.extend(Nifty.widgets.FieldContainer, {
 	fieldId: '83',
 	fieldLabel: 'Serial Number',
-	fieldlets: [{kind: 113}]
+	instanceLayout: [{kind: 113}]
 })
 Ext.reg('Field83', Nifty.fields.field83);			
 
-Nifty.fields.field84 = Ext.extend(Nifty.widgets.FieldPanel, {
+Nifty.fields.field84 = Ext.extend(Nifty.widgets.FieldContainer, {
 	fieldId: '84',
 	fieldLabel: 'Price',
-	fieldlets: [{kind: 114}]
+	instanceLayout: [{kind: 114}]
 })
 Ext.reg('Field84', Nifty.fields.field84);			
 
-Nifty.fields.field85 = Ext.extend(Nifty.widgets.FieldPanel, {
+Nifty.fields.field85 = Ext.extend(Nifty.widgets.FieldContainer, {
 	fieldId: '85',
 	fieldLabel: 'Favorited By Customers',
-	fieldlets: [{kind: 115},{kind: 116}]
+	instanceLayout: [{kind: 115},{kind: 116}]
 })
 Ext.reg('Field85', Nifty.fields.field85);			
 
-Nifty.fields.field86 = Ext.extend(Nifty.widgets.FieldPanel, {
+Nifty.fields.field86 = Ext.extend(Nifty.widgets.FieldContainer, {
 	fieldId: '86',
 	fieldLabel: 'Name',
-	fieldlets: [{kind: 117},{kind: 118},{kind: 119}]
+	instanceLayout: [{kind: 117},{kind: 118},{kind: 119}]
 })
 Ext.reg('Field86', Nifty.fields.field86);			
 
-Nifty.fields.field87 = Ext.extend(Nifty.widgets.FieldPanel, {
+Nifty.fields.field87 = Ext.extend(Nifty.widgets.FieldContainer, {
 	fieldId: '87',
 	fieldLabel: 'Contacts',
-	fieldlets: [{kind: 120},{kind: 121}]
+	instanceLayout: [{kind: 120},{kind: 121}]
 })
 Ext.reg('Field87', Nifty.fields.field87);			
 
-Nifty.fields.field88 = Ext.extend(Nifty.widgets.FieldPanel, {
+Nifty.fields.field88 = Ext.extend(Nifty.widgets.FieldContainer, {
 	fieldId: '88',
 	fieldLabel: 'Favorite Products',
-	fieldlets: [{kind: 122},{kind: 123}]
+	instanceLayout: [{kind: 122},{kind: 123}]
 })
 Ext.reg('Field88', Nifty.fields.field88);			
 

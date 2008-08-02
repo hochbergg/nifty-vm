@@ -13,9 +13,6 @@ describe "Field Duplication" do
 	end
 
 	it "should duplicate the field on creation" do
-		
-		
-		
 		new_field = @field_class.create_new_with_fieldlets(@entity, {
 			@fieldlet_kinds[:c_favorite_product_flk] => @target_entity.pk,
 			@fieldlet_kinds[:c_favorite_product_bought_at_flk] => 'wii store'

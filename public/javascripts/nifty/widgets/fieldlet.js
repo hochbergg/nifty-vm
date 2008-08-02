@@ -1,10 +1,7 @@
 Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 	autoEl: {tag: 'span', cls: 'x-nifty-fieldlet'},
+	isFieldlet: true,
 	
-	editItemOptions: null,
-	displayItemOptions: null,
-	
-	defaultValue: null, 
 	
 	// sets the value for the display and the edit field
 	setValue: function(value){
@@ -42,11 +39,11 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 	
 	
 	getEditCmp: function(){
-		return Ext.getCmp(this.formId);
+		return this.editCmp || (this.editCmp = Ext.getCmp(this.formId));
 	},
 	
 	getDisplayCmp: function(){
-		return Ext.getCmp(this.formId + 'display');
+		return this.displayCmp || (this.displayCmp =  Ext.getCmp(this.formId + 'display'));
 	},
 	
 	
@@ -67,39 +64,33 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 	},
 	
     // set our instance to be dirty!
-	isDirty: function(editItem){
-	    if(editItem.isDirty()){
-	    	this.fireEvent('dirty', this, editItem);
+	isDirty: function(){
+	    if(this.getEditCmp().isDirty()){
+	    	this.fireEvent('dirty', this, this.getEditCmp());
 	    }
 	},
 
 	initComponent : function(){
-		delete this.displayItem;
-		delete this.editItem;
-		
-		Ext.apply(this, {
-			displayItem: this.di,
-			editItem: this.ei
-		})
-		
 		// apply options to items:
 		Ext.apply(this.displayItem, this.displayItemOptions || {});
 		Ext.apply(this.editItem, this.editItemOptions || {});
-		
-		
+				
 		// sets the display item & inital value if xTemplate
-		this.setDisplayItemIfXTemplate();
+		this.setDisplayItem();
 		
 		this.initEvents(); /// setup events
-		
 		
 		this.setId(this.formId);
 		
 		if(!this.displayItem.cls)
-			this.displayItem.cls = 'fieldlet-display-item';
+			this.displayItem.cls = '';
+		
+		this.displayItem.cls += ' fieldlet-display-item';
 
 		if(!this.editItem.cls)
-			this.editItem.cls = 'fieldlet-edit-item';
+			this.editItem.cls = '';
+			
+		this.editItem.cls += ' fieldlet-edit-item';
 
         Nifty.widgets.Fieldlet.superclass.initComponent.call(this);
 
@@ -107,19 +98,6 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 		this.add(this.editItem);
 		
 		this.bindEditItemEvents();
-		
-		// by default, the editCmp is disabled
-		this.clear();
-	},
-	
-	// clear the already loaded data 
-	clear: function(){
-		//delete this.di;
-		//delete this.ei;
-		//delete this.displayItemOptions;
-		//delete this.editItemOptions;
-		//delete this.displayItem;
-		//delete this.editItem;
 	},
 	
 	// setup all the events
@@ -191,6 +169,7 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 	
 	// relay events to the edit item
 	bindEditItemEvents: function(){
+		
 		this.relayEvents(this.getEditCmp(), ['focus', 'blur','invalid']);
 		
 		
@@ -201,7 +180,7 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 		this.getEditCmp().on('change', this.isDirty, this);
 	},
 	
-	
+	// TODO: this is not so good. will be a problem for editable lists! 
 	addEditItemToForm: function(container, component, index){
 		formItems = Nifty.pages.current.form.items
 		if(component.xtype != 'box' && !formItems.contains(component)){
@@ -210,10 +189,11 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 		}
 	},
 	
-	setDisplayItemIfXTemplate: function(){
-		if (Ext.type(this.displayItem.compileTpl) == 'function'){ // template? 
-			this.tpl = this.displayItem;
-			//console.log(this.value || this.defaultValue);
+	
+	// initiate the display item if its an xtemplate
+	setDisplayItem: function(){
+		if (Ext.type(this.displayItem) == 'string'){ // template? 
+			this.tpl = new Ext.XTemplate(this.displayItem);
 			this.displayItem = {xtype:'box', autoEl: {tag: 'span', html: this.markupForDisplay(this.value || this.defaultValue)}};
 		}
 	},

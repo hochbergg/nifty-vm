@@ -92,10 +92,10 @@ module VM
 			 # generate_js
 		def generate_js
 			<<-JSDEF
-Nifty.fields.field#{self.id} = Ext.extend(Nifty.widgets.FieldPanel, {
+Nifty.fields.field#{self.id} = Ext.extend(Nifty.widgets.FieldContainer, {
 	fieldId: '#{self.id}',
 	fieldLabel: '#{self.name}',
-	fieldlets: [#{self.fieldlet_kinds.collect{|x| "{kind: #{x.pk}}"}.join(',')}]
+	instanceLayout: [#{self.fieldlet_kinds.collect{|x| "{kind: #{x.pk}}"}.join(',')}]
 })
 Ext.reg('Field#{self.pk}', Nifty.fields.field#{self.pk});			
 JSDEF

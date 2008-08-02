@@ -3,10 +3,10 @@
 Nifty.widgets.fieldlets.LinkFieldlet = Ext.extend(Nifty.widgets.Fieldlet,{
 		
 	// set the display item to be a span
-	di: new Ext.XTemplate('<a href="#/entities/{[values.value.id]}">{[values.value.display]}</a>'),
+	displayItem: '<a href="#/entities/{[values.value.id]}">{[values.value.display]}</a>',
 	
 	// edit item: simple number-only field
-	ei: {xtype: 'textfield'},
+	editItem: {xtype: 'textfield'},
 	
 	defaultValue: {},
 	

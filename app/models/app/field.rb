@@ -50,11 +50,6 @@ module App
 			self.any?{|x| !x.changed_columns.empty?}
 		end
 		
-		# when updated, and all the fieldlets are null, 
-		#we shuold remove this field instance
-		def removed?
-			!self.new? && self.null? 
-		end
 		
 		# should we return this field? 
 		# if linked, and have link value => returned. 
@@ -75,10 +70,6 @@ module App
 			return false if !self.changed? || self.clean? # if new and null, we don't need to save anything	
 			@new = self.new?
 		
-			
-			if self.removed?
-				return true
-			end
 		
 			# duplication
 			if self.class.duplicated?
@@ -93,6 +84,13 @@ module App
 				fieldlet.save_changes
 			end			
 			@new = false
+		end
+		
+		
+		def destroy
+				self.each{|fieldlet| fieldlet.destroy} # remove all the fieldlets
+				
+				destroy_duplicates! if self.class.duplicated?
 		end
 
 		def valid?
@@ -134,11 +132,6 @@ module App
 			return field
 		end
 		
-		def destroy
-				self.each{|fieldlet| fieldlet.destroy} # remove all the fieldlets
-				
-				destroy_duplicates! if self.class.duplicated?
-		end
 		
 	end # Field
 end # App

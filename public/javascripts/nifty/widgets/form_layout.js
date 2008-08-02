@@ -1,3 +1,10 @@
+/*
+* FormLayout
+*
+*
+*/
+
+
 
 Nifty.layout.FormLayout = Ext.extend(Ext.layout.FormLayout,{
 	
@@ -36,6 +43,10 @@ Nifty.layout.FormLayout = Ext.extend(Ext.layout.FormLayout,{
 			Ext.fly('label-for-' + c.id).addClassOnOver('x-nifty-field-side-title-over');
 			
 			Ext.fly('edit-' + c.id).on('click', function(){
+				fieldCmp.toggleEdit();
+			})
+			
+			Ext.fly('label-for-' + c.id).on('click', function(){
 				fieldCmp.toggleEdit();
 			})
 		}

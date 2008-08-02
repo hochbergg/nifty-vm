@@ -282,6 +282,12 @@
 	visibility:hidden;
 }
 
+
+.x-nifty-field-side-title-over{
+	cursor:pointer;
+	
+}
+
 .x-nifty-field-side-title-over .x-nifty-field-edit{
 	visibility:visible;
 }

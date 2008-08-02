@@ -1,70 +1,75 @@
+/*
+ TODO: fix the whole events thingy
+
+*/
+
+
+
 // new field instance delimiter, used for grouping new fields when submitting to the server
 Nifty.fields.newFieldInstanceIdDelimiter = 0; 
 
 Nifty.widgets.FieldInstancePanel = Ext.extend(Ext.Container, {
-	fieldlets: [],
-	field: null,
-	instanceId: null,
-	border: false,
 	autoEl: {tag: 'div', cls: 'x-nifty-field-instance'},
 
-	
-	initComponent: function(){
-		// set the ids & values of the fieldlets
-		this.instanceId = Nifty.fields.newFieldInstanceIdDelimiter++;
+	// insert the items according to the instanceLayout
+	initComponent: function(){ 
+		this.instanceId = this.data['instanceId'] || Nifty.fields.newFieldInstanceIdDelimiter++;
 		
-		Ext.each(this.items,function(item){
-			delete item.value;
+		if(!this.instanceLayout){
+			this.instanceLayout = [];
+		}	
+		
+		// setup the items
+		this.items = [];
+		
+		// build the instanceLayout
+		Ext.each(this.instanceLayout, function(item){
+			if(!item.kind){ // not fieldlet
+				this.items.push(item) // just add it
+				return;
+			} 
 			
-			if(this.field && this.field[item.kind]){
-				item.value = this.field[item.kind].value;
-				item.formId = String.format('entity[{0}][{1}]', this.field[item.kind].id, item.kind);
-			} else {
-				item.formId = String.format('entity[new][{0}][{1}]', this.instanceId ,item.kind);
+			// fetch the fieldlet value from the fieldInstance
+			if(this.data && this.data[item.kind]){ // we have data
+				item.value = this.data[item.kind].value;
+				item.formId = String.format('entity[{0}][{1}]', this.instanceId, item.kind);
+			} else { // we don't have any data
+				item.formId = String.format('entity[new][{0}][{1}]', this.instanceId ,item.kind);		
 			}
 			
-			item.xtype = 'Fieldlet' + item.kind;
-			item.instance = this;
 			
+			item.xtype = 'Fieldlet' + item.kind; //set xtype
+			item.instance = this
 			
-
+			// add the item
+			this.items.push(item);
 		}, this);
-		
 		
 		// init the events
 		this.initEvents();
-		
 		
 		Nifty.widgets.FieldInstancePanel.superclass.initComponent.apply(this, arguments);
 		
 	},
 	
-	
-	// sets events on the fieldlets
-	bindFieldletsEvents: function(){
-		
-	//	this.fieldletComponents[fieldletComponents.length - 1].on('blur', this.isTabbedOut, this);
-	},
-	
-	
-	// checkd if all the fieldlet in this instance are blured
-	isBlured: function(event){
-		focused = false;
-		Ext.each(this.fieldletComponents, function(fieldlet){
-			if(fieldlet.focused)
-				focused = true;
-		}, this);
-		
-		if(!focused)
-			this.fireEvent('blur', this);
-	},
-	
-	
-	// checks if the given event made by tab key
-	isTabbedOut: function(e){
-		if(e.getKey() == Ext.EventManager.TAB)
-			this.fireEvent('tabbedout', this, this.container);
-	},
+//	// checkd if all the fieldlet in this instance are blured
+//	isBlured: function(event){
+//		focused = false;
+//		Ext.each(this.fieldletComponents, function(fieldlet){
+//			if(fieldlet.focused)
+//				focused = true;
+//		}, this);
+//		
+//		if(!focused)
+//			this.fireEvent('blur', this);
+//	},
+//	
+//	
+//	// checks if the given event made by tab key
+//	isTabbedOut: function(e){
+//		if(e.getKey() == Ext.EventManager.TAB)
+//			this.fireEvent('tabbedout', this, this.container);
+//	},
 	
 	
 	initEvents: function(){
@@ -106,7 +111,7 @@ Nifty.widgets.FieldInstancePanel = Ext.extend(Ext.Container, {
 			
 			
 			/**
-             * @event dirty
+             * @event invalid
              * Fires when one (or more) of the fieldlets is invalid
              * @param {Ext.Container} this
              * @param {ContainerLayout} layout The ContainerLayout implementation for this container
@@ -125,43 +130,35 @@ Nifty.widgets.FieldInstancePanel = Ext.extend(Ext.Container, {
 	
 	// pushes the fieldlets to an array, for later binding with events
 	addFieldletComponents: function(container, component){
+		if(!component.isFieldlet) // only fieldlets
+			return;
+		
 		if(!container.fieldletComponents)
 			container.fieldletComponents = []; // create an array if not available
 		
 		
 		// set events
 		this.relayEvents(component, ['focus', 'dirty', 'invalid']);
-		component.on('blur', this.isBlured, this);
+		//component.on('blur', this.isBlured, this);
 		
 		
 		container.fieldletComponents.push(component);
 	},
 	
 	
-	// Override other inherited methods 
-    onRender: function(){
-
-		
-        // Call parent (required)
-        Nifty.widgets.FieldInstancePanel.superclass.onRender.apply(this, arguments);
-        // After parent code
-		
-	},
-	
 	// mark self with "dirty" class
 	setDirty: function(){
 		this.addClass('x-nifty-field-instance-dirty')
 	},
 	
-	markupForDisplay: function(){
-		
-	},
 	
 	beforeEnteringEditMode: function(){
 		this.items.each(function(item){
 			item.beforeEnteringEditMode();
 		});
-	}
+	}, 
+	
+
 });
 
 Ext.reg('fieldInstance', Nifty.widgets.FieldInstancePanel);

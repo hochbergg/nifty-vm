@@ -14,7 +14,7 @@ Nifty.Router = function(){
 	return {
 		
 		// add route to the routing list
-		
+		// regexp will match the url
 		add: function(regexp, callback, scope){
 			routes.push({
 				regexp: regexp,
@@ -23,6 +23,8 @@ Nifty.Router = function(){
 			})
 		},
 		
+		// set the location hash
+		// and route
 		go: function(hash){
 			document.location.hash = hash;
 			this.route();

@@ -1,80 +1,93 @@
-Nifty.widgets.FieldPanel = Ext.extend(Ext.Container, {
-	fieldlets: [],
-	subtitle: null,
-	title: null,
-	fieldId: null,
-	default_instances: 1,
-	maximum_instances: null,
-	lastInstance: -1,
-	editing: false,
+Nifty.widgets.FieldContainer = Ext.extend(Ext.Container, {
+	// initialize fieldlets
+	instanceLayout: [],
+	
+	// defalut seperator
+	seperator: {xtype: 'box', autoEl: {tag: 'br'}},
+
+	// autoElement generation for the Ext.Container
 	autoEl: {tag: 'div', cls: 'x-panel-nifty-field'},
-	isFormField: true, // for form layout
+	
+	// used with the form layout
+	isFormField: true,
 	
 	// Override other inherited methods 
     onRender: function(){
-
-        // Before parent code
+		// load the field data from the entity store
+		
+		this.setupHeader();
+		
 		this.load();
+		
+		this.setupFooter();
    
         // Call parent (required)
-        Nifty.widgets.FieldPanel.superclass.onRender.apply(this, arguments);
+        Nifty.widgets.FieldContainer.superclass.onRender.apply(this, arguments);
    
         // After parent code
 
 		// set as edit if this is new entity
 		this.setEditIfnew();
-		
-		
 	}, 
 	
-	
-	
-	addSideTitle: function(){
-		this.add({xtype: 'box' ,cls: 'x-nifty-field-side-title', 
-				id: this.fieldId + '-side-title',
-				overCls: 'x-nifty-field-side-title-over',
-				listeners: {
-					'render': function(){
-						Ext.get(this.fieldId + '-Edit-But').on('click', this.toggleEdit, this)
-					},
-					scope: this
-				},
-				autoEl: {tag: 'div', 
-					html: String.format('<a id="{0}" class="x-nifty-field-edit"></a><span>{1}</span>', this.fieldId + '-Edit-But', this.title + ':')
-				}})
-	},
-	
+	// load the field data from the entity store
 	load: function(){
-		// if only fieldset
+		// we can't load anything if we have no fieldId
 		if(!this.fieldId)
 			return; 
 		
+		if(!this.store)
+			this.store = Nifty.pages.current.entityStore
 		
-		field = Nifty.pages.EntityPage.entityStore.fields[this.fieldId];
-
-		if(field == null){
+		this.data = this.store.fields[this.fieldId];
+		
+		if(this.data == null){
 			return this.addEmptyInstances();
 		}
 
-
-		for(instance=0;instance<field.length;instance++){
-			this.addInstance({field: field[instance], fieldlets: this.fieldlets});
+		// add instnaces 
+		for(instance=0;instance<this.data.length;instance++){
+			this.addInstance(this.data[instance]);
 		}
 	
 	},
 	
+	
+	// add the header to the items
+	setupHeader: function(){
+		if(!this.header)
+			return;
+		
+		this.add(this.header);
+	},
+	
+	setupFooter: function(){
+		if(!this.footer)
+			return;
+		
+		this.add(this.footer);
+	},
+	
 	addEmptyInstances: function(){
-		this.addInstance({fieldlets: this.fieldlets});
+		this.addInstance({});
 		return true;
 	},
 	
-	addInstance: function(options){		
+	addInstance: function(data){
+		this.addSeperatorIfNeeded();
 		this.add({
-					field: options.field,
-					items: options.fieldlets,
+					data: data,
+					instanceLayout: this.instanceLayout,
 					xtype: 'fieldInstance'
-				})
-			
+				});
+	},
+	
+	// will add the seperator only if the last element on the items is
+	// another fieldInstance! 
+	addSeperatorIfNeeded: function(){
+		if(this.items && this.items.last().initialConfig.xtype == 'fieldInstance'){
+			this.add(this.seperator);
+		}
 	},
 	
 	removeInstance: function(instance_id){
@@ -88,8 +101,10 @@ Nifty.widgets.FieldPanel = Ext.extend(Ext.Container, {
 		} else {
 			// call the beforeEdit for each instance
 			this.items.each(function(item){
-				item.beforeEnteringEditMode();
-			});
+				if(item.beforeEnteringEditMode){
+					item.beforeEnteringEditMode();
+					}
+			});			
 			
 			this.addClass('x-panel-nifty-field-edited');
 			this.editing = true;	
@@ -99,7 +114,7 @@ Nifty.widgets.FieldPanel = Ext.extend(Ext.Container, {
 	
 	// check if new, if true, set as edit
 	setEditIfnew: function(){
-		if (Nifty.pages.EntityPage.entityStore.data.isNew)
+		if (this.store.data.isNew)
 			this.toggleEdit();
 	}
 });
