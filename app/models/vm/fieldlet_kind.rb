@@ -18,8 +18,10 @@ module VM
 			int					:position
 			text				:preferences
 			varchar			:kind, :size => 255
+			varchar			:schema, :size => 38
 			
 			index [:field_kind_id, :position]
+			index	:schema
 		end	
 		
 		

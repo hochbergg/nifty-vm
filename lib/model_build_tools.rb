@@ -10,6 +10,7 @@ module ModelBuildTools
 	def self.included(base)
 		base.send(:include, InstanceMethods)
 		base.extend ClassMethods
+		base.dataset.extend DatasetMethods
 		
 		# include preferences tools
 		#base.send(:include, PreferencesTools)
@@ -61,9 +62,7 @@ module ModelBuildTools
 		
 	end
 	
-	module ClassMethods
-
-		
+	module DatasetMethods
 		# Find all the rows and generate models. 
 		def build_models		
 			all.each do |item|
@@ -71,6 +70,15 @@ module ModelBuildTools
 			end
 			all_models
 		end
+		
+	end # DatasetMethods
+	
+	module ClassMethods
+
+		def build_models
+			self.dataset.build_models
+		end
+		
 
 
 		# Return all the generated Models 

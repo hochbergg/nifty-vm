@@ -89,7 +89,7 @@ Nifty.fields.field85 = Ext.extend(Nifty.widgets.FieldContainer, {
 	fieldId: '85',
 	fieldLabel: 'Favorited By Customers',
 	
-	instanceLayout: [{"kind":115},{"autoEl":{"tag":"span","cls":"small","html":"Bought at: "},"xtype":"box"},{"kind":116}]
+	instanceLayout: [{"kind":115},{"xtype":"box","autoEl":{"tag":"span","cls":"small","html":"Bought at: "}},{"kind":116}]
 	
 })
 Ext.reg('Field85', Nifty.fields.field85);			

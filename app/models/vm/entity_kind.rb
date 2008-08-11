@@ -16,6 +16,9 @@ module VM
 			primary_key :id
 			varchar			:name, :size => 255
 			text				:preferences
+			varchar			:schema, :size => 38
+			
+			index :schema
 		end
 
 		

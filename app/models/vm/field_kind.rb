@@ -12,9 +12,11 @@ module VM
 			varchar			:name, :size => 255
 			int					:entity_kind_id
 			int					:position
-			text				:preferences
+			text				:preference
+			varchar			:schema, :size => 38
 			
 			index [:entity_kind_id, :position]
+			index :schema
 		end
 		
 		

@@ -120,7 +120,7 @@ module App
 				# update
 				fieldlet_hash.each do |instance_id,kinds_hash|
 					kinds_hash.each do |kind_id, value|
-						fieldlet = self.fieldlets[instance_id.to_i][kind_id.to_i]
+						fieldlet = @fieldlets[instance_id.to_i][kind_id.to_i]
 						fieldlet.value = value
 						fieldlet.entity_update_callback.call(entities_to_load) if fieldlet.entity_update_callback
 					end
@@ -274,10 +274,10 @@ module App
 						## setup hash for entities loading and callbacks
 						ids.each{|id| entities_to_load.merge!(id => [])}
 						
-						fieldlets_set = Fieldlet.order(:instance_id).filter(:entity_id => ids)
+						fieldlets_set = Fieldlet.order(:instance_id).filter!(:entity_id => ids)
 						
 						# Apply a fieldlets filter if given
-						fieldlets_set = fieldlets_set.filter(options_hash[:fieldlets_filter]) if options_hash[:fieldlets_filter]
+						fieldlets_set.filter!(options_hash[:fieldlets_filter]) if options_hash[:fieldlets_filter]
 						
 						# load only given fields
 						if options_hash[:only_fields]
@@ -286,7 +286,7 @@ module App
 							end
 							fieldlets_field_filter.uniq!
 							
-							fieldlets_set.filter(:kind => fieldlets_field_filter)
+							fieldlets_set.filter!(:kind => fieldlets_field_filter)
 						end						
 						
 						fieldlets = {}
@@ -320,15 +320,15 @@ module App
 						# prepare result 
 						
 						# return only requested entities
-						result = entities.find_all{|x| ids.include? x.id}
+						entities.reject!{|x| !ids.include? x.id}
 						
 						# return nil if there are no results
-						return result = nil if result.empty?
+						return entities = nil if entities.empty?
 						
 						# return only the entity if the result array size is 1
-						result = result.first if result.size == 1
+						return entities.first if entities.size == 1
 						
-						return result
+						return entities
 				end
 				
 		 #end ClassMethods
