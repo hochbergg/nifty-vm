@@ -13,7 +13,7 @@ module VM
 	class EntityKind < ::Sequel::Model
 		# set schema
 		set_schema do 
-			primary_key :id
+			primary_key :id, :unsigned => true
 			varchar			:name, :size => 255
 			text				:preferences
 			varchar			:schema, :size => 38
@@ -29,11 +29,11 @@ module VM
 		
 		# assoc
 		def field_kinds
-			FieldKind.filter(:entity_kind_id => self.id)
+			FieldKind.filter(:entity_kind_id => @values[:id], :schema => @values[:schema])
 		end
 		
 		def fieldlet_kinds
-			FieldletKind.filter(:field_kind_id => field_kinds.map(:id))
+			FieldletKind.filter(:field_kind_id => field_kinds.select(:id).map(:id), :schema => @values[:schema])
 		end
 		
 	

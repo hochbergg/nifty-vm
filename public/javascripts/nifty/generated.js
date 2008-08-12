@@ -1,134 +1,134 @@
-Nifty.fieldlets.Fieldlet112 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
+Nifty.fieldlets.Fieldlet13 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 	editItemOptions: {emptyText: 'Name'}
 });
-Ext.reg('Fieldlet112', Nifty.fieldlets.Fieldlet112);
+Ext.reg('Fieldlet13', Nifty.fieldlets.Fieldlet13);
 
-Nifty.fieldlets.Fieldlet113 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
+Nifty.fieldlets.Fieldlet14 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 	editItemOptions: {emptyText: 'Serial Number'}
 });
-Ext.reg('Fieldlet113', Nifty.fieldlets.Fieldlet113);
+Ext.reg('Fieldlet14', Nifty.fieldlets.Fieldlet14);
 
-Nifty.fieldlets.Fieldlet114 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
+Nifty.fieldlets.Fieldlet15 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 	editItemOptions: {emptyText: 'Price'}
 });
-Ext.reg('Fieldlet114', Nifty.fieldlets.Fieldlet114);
+Ext.reg('Fieldlet15', Nifty.fieldlets.Fieldlet15);
 
-Nifty.fieldlets.Fieldlet115 = Ext.extend(Nifty.widgets.fieldlets.LinkFieldlet, {
+Nifty.fieldlets.Fieldlet16 = Ext.extend(Nifty.widgets.fieldlets.LinkFieldlet, {
 	editItemOptions: {emptyText: 'Favorited By Customers'}
 });
-Ext.reg('Fieldlet115', Nifty.fieldlets.Fieldlet115);
+Ext.reg('Fieldlet16', Nifty.fieldlets.Fieldlet16);
 
-Nifty.fieldlets.Fieldlet116 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
+Nifty.fieldlets.Fieldlet17 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 	editItemOptions: {emptyText: 'Bought at'}
 });
-Ext.reg('Fieldlet116', Nifty.fieldlets.Fieldlet116);
+Ext.reg('Fieldlet17', Nifty.fieldlets.Fieldlet17);
 
-Nifty.fieldlets.Fieldlet117 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
+Nifty.fieldlets.Fieldlet18 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 	editItemOptions: {emptyText: 'First Name'}
 });
-Ext.reg('Fieldlet117', Nifty.fieldlets.Fieldlet117);
+Ext.reg('Fieldlet18', Nifty.fieldlets.Fieldlet18);
 
-Nifty.fieldlets.Fieldlet118 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
+Nifty.fieldlets.Fieldlet19 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 	editItemOptions: {emptyText: 'Middle Name'}
 });
-Ext.reg('Fieldlet118', Nifty.fieldlets.Fieldlet118);
+Ext.reg('Fieldlet19', Nifty.fieldlets.Fieldlet19);
 
-Nifty.fieldlets.Fieldlet119 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
+Nifty.fieldlets.Fieldlet20 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 	editItemOptions: {emptyText: 'Last Name'}
 });
-Ext.reg('Fieldlet119', Nifty.fieldlets.Fieldlet119);
+Ext.reg('Fieldlet20', Nifty.fieldlets.Fieldlet20);
 
-Nifty.fieldlets.Fieldlet120 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
+Nifty.fieldlets.Fieldlet21 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 	editItemOptions: {emptyText: 'Type'}
 });
-Ext.reg('Fieldlet120', Nifty.fieldlets.Fieldlet120);
+Ext.reg('Fieldlet21', Nifty.fieldlets.Fieldlet21);
 
-Nifty.fieldlets.Fieldlet121 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
+Nifty.fieldlets.Fieldlet22 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 	editItemOptions: {emptyText: 'Contact'}
 });
-Ext.reg('Fieldlet121', Nifty.fieldlets.Fieldlet121);
+Ext.reg('Fieldlet22', Nifty.fieldlets.Fieldlet22);
 
-Nifty.fieldlets.Fieldlet122 = Ext.extend(Nifty.widgets.fieldlets.LinkFieldlet, {
+Nifty.fieldlets.Fieldlet23 = Ext.extend(Nifty.widgets.fieldlets.LinkFieldlet, {
 	editItemOptions: {emptyText: 'Favorite Products'}
 });
-Ext.reg('Fieldlet122', Nifty.fieldlets.Fieldlet122);
+Ext.reg('Fieldlet23', Nifty.fieldlets.Fieldlet23);
 
-Nifty.fieldlets.Fieldlet123 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
+Nifty.fieldlets.Fieldlet24 = Ext.extend(Nifty.widgets.fieldlets.StringFieldlet, {
 	editItemOptions: {emptyText: 'Bought at'}
 });
-Ext.reg('Fieldlet123', Nifty.fieldlets.Fieldlet123);
+Ext.reg('Fieldlet24', Nifty.fieldlets.Fieldlet24);
 
-Nifty.fields.field82 = Ext.extend(Nifty.widgets.FieldContainer, {
-	fieldId: '82',
+Nifty.fields.field8 = Ext.extend(Nifty.widgets.FieldContainer, {
+	fieldId: '8',
 	fieldLabel: 'Name',
 	
-	instanceLayout: [{kind: 112}]
+	instanceLayout: [{kind: 13}]
 	
 })
-Ext.reg('Field82', Nifty.fields.field82);			
+Ext.reg('Field8', Nifty.fields.field8);			
 
-Nifty.fields.field83 = Ext.extend(Nifty.widgets.FieldContainer, {
-	fieldId: '83',
+Nifty.fields.field9 = Ext.extend(Nifty.widgets.FieldContainer, {
+	fieldId: '9',
 	fieldLabel: 'Serial Number',
 	
-	instanceLayout: [{kind: 113}]
+	instanceLayout: [{kind: 14}]
 	
 })
-Ext.reg('Field83', Nifty.fields.field83);			
+Ext.reg('Field9', Nifty.fields.field9);			
 
-Nifty.fields.field84 = Ext.extend(Nifty.widgets.FieldContainer, {
-	fieldId: '84',
+Nifty.fields.field10 = Ext.extend(Nifty.widgets.FieldContainer, {
+	fieldId: '10',
 	fieldLabel: 'Price',
 	
-	instanceLayout: [{kind: 114}]
+	instanceLayout: [{kind: 15}]
 	
 })
-Ext.reg('Field84', Nifty.fields.field84);			
+Ext.reg('Field10', Nifty.fields.field10);			
 
-Nifty.fields.field85 = Ext.extend(Nifty.widgets.FieldContainer, {
-	fieldId: '85',
+Nifty.fields.field11 = Ext.extend(Nifty.widgets.FieldContainer, {
+	fieldId: '11',
 	fieldLabel: 'Favorited By Customers',
 	
-	instanceLayout: [{"kind":115},{"xtype":"box","autoEl":{"tag":"span","cls":"small","html":"Bought at: "}},{"kind":116}]
+	instanceLayout: [{kind: 16},{kind: 17}]
 	
 })
-Ext.reg('Field85', Nifty.fields.field85);			
+Ext.reg('Field11', Nifty.fields.field11);			
 
-Nifty.fields.field86 = Ext.extend(Nifty.widgets.FieldContainer, {
-	fieldId: '86',
+Nifty.fields.field12 = Ext.extend(Nifty.widgets.FieldContainer, {
+	fieldId: '12',
 	fieldLabel: 'Name',
 	
-	instanceLayout: [{kind: 117},{kind: 118},{kind: 119}]
+	instanceLayout: [{kind: 18},{kind: 19},{kind: 20}]
 	
 })
-Ext.reg('Field86', Nifty.fields.field86);			
+Ext.reg('Field12', Nifty.fields.field12);			
 
-Nifty.fields.field87 = Ext.extend(Nifty.widgets.FieldContainer, {
-	fieldId: '87',
+Nifty.fields.field13 = Ext.extend(Nifty.widgets.FieldContainer, {
+	fieldId: '13',
 	fieldLabel: 'Contacts',
 	
-	instanceLayout: [{kind: 120},{kind: 121}]
+	instanceLayout: [{kind: 21},{kind: 22}]
 	
 })
-Ext.reg('Field87', Nifty.fields.field87);			
+Ext.reg('Field13', Nifty.fields.field13);			
 
-Nifty.fields.field88 = Ext.extend(Nifty.widgets.FieldContainer, {
-	fieldId: '88',
+Nifty.fields.field14 = Ext.extend(Nifty.widgets.FieldContainer, {
+	fieldId: '14',
 	fieldLabel: 'Favorite Products',
 	
-	instanceLayout: [{kind: 122},{kind: 123}]
+	instanceLayout: [{kind: 23},{kind: 24}]
 	
 })
-Ext.reg('Field88', Nifty.fields.field88);			
+Ext.reg('Field14', Nifty.fields.field14);			
 
-Nifty.entities.kinds.push({id: 54, singleName: 'Order', multiName: 'Order'});
+Nifty.entities.kinds.push({id: 7, singleName: 'Order', multiName: 'Order'});
 
-Nifty.panels['Entity54'] = {
+Nifty.panels['Entity7'] = {
 	subtitle: 'Order',
 	title: 'Loading',
 	newItemTitle: 'New Order',
 	renderTo: 'main',
-	iconCls: 'x-entity-icon-big-54',
+	iconCls: 'x-entity-icon-big-7',
 	items: {xtype: 'tabpanel',
 			activeTab: 0,
 			defaults: {autoScroll:false},
@@ -142,20 +142,20 @@ Nifty.panels['Entity54'] = {
 	}
 };
 
-Nifty.panels['Entity54side'] = {
+Nifty.panels['Entity7side'] = {
 	title: 'Side Panel',
 //	items: [Nifty.entities.newEntityButton],
 	renderTo: 'side'
 };
 
-Nifty.entities.kinds.push({id: 55, singleName: 'Customer', multiName: 'Customer'});
+Nifty.entities.kinds.push({id: 8, singleName: 'Customer', multiName: 'Customer'});
 
-Nifty.panels['Entity55'] = {
+Nifty.panels['Entity8'] = {
 	subtitle: 'Customer',
 	title: 'Loading',
 	newItemTitle: 'New Customer',
 	renderTo: 'main',
-	iconCls: 'x-entity-icon-big-55',
+	iconCls: 'x-entity-icon-big-8',
 	items: {xtype: 'tabpanel',
 			activeTab: 0,
 			defaults: {autoScroll:false},
@@ -163,26 +163,26 @@ Nifty.panels['Entity55'] = {
 				{xtype: 'panel',
 				 layout: 'niftyForm',
 				 title: 'Information',
-				 items: [{xtype: 'Field86'},{xtype: 'Field87'},{xtype: 'Field88'}]
+				 items: [{xtype: 'Field12'},{xtype: 'Field13'},{xtype: 'Field14'}]
 				}
 			]
 	}
 };
 
-Nifty.panels['Entity55side'] = {
+Nifty.panels['Entity8side'] = {
 	title: 'Side Panel',
 //	items: [Nifty.entities.newEntityButton],
 	renderTo: 'side'
 };
 
-Nifty.entities.kinds.push({id: 56, singleName: 'Product', multiName: 'Product'});
+Nifty.entities.kinds.push({id: 9, singleName: 'Product', multiName: 'Product'});
 
-Nifty.panels['Entity56'] = {
+Nifty.panels['Entity9'] = {
 	subtitle: 'Product',
 	title: 'Loading',
 	newItemTitle: 'New Product',
 	renderTo: 'main',
-	iconCls: 'x-entity-icon-big-56',
+	iconCls: 'x-entity-icon-big-9',
 	items: {xtype: 'tabpanel',
 			activeTab: 0,
 			defaults: {autoScroll:false},
@@ -190,13 +190,13 @@ Nifty.panels['Entity56'] = {
 				{xtype: 'panel',
 				 layout: 'niftyForm',
 				 title: 'Information',
-				 items: [{xtype: 'Field82'},{xtype: 'Field83'},{xtype: 'Field84'},{xtype: 'Field85'}]
+				 items: [{xtype: 'Field8'},{xtype: 'Field9'},{xtype: 'Field10'},{xtype: 'Field11'}]
 				}
 			]
 	}
 };
 
-Nifty.panels['Entity56side'] = {
+Nifty.panels['Entity9side'] = {
 	title: 'Side Panel',
 //	items: [Nifty.entities.newEntityButton],
 	renderTo: 'side'

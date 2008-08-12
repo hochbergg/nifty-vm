@@ -63,31 +63,31 @@ module ModelBuildTools
 	end
 	
 	module DatasetMethods
-		# Find all the rows and generate models. 
-		def build_models		
-			all.each do |item|
-				item.build_model
-			end
-			all_models
-		end
+		
+		
 		
 	end # DatasetMethods
 	
 	module ClassMethods
 
-		def build_models
-			self.dataset.build_models
+		# Find all the rows and generate models. 
+		def build_models(filter = nil)
+			f = self
+			f = f.filter(filter) if filter		
+			f.all.each do |item|
+				item.build_model
+			end
+			all_models
 		end
 		
-
-
 		# Return all the generated Models 
 		# gets them from the app namespace
 		def all_models
-			dataset.map(:id).collect do |i|
+			select(:id).map(:id).collect do |i|
 				::App.const_get("#{regulated_name}#{i}")
 			end
 		end
+
 		
 		# get the name for the model (without the kind)
 		# FIXME: UGLY

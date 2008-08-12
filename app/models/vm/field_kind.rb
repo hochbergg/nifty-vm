@@ -8,11 +8,11 @@ module VM
 		# set schema
 		
 		set_schema do 
-			primary_key :id
+			primary_key :id, :unsigned => true
 			varchar			:name, :size => 255
-			int					:entity_kind_id
-			int					:position
-			text				:preference
+			int					:entity_kind_id, :unsigned => true
+			int					:position, :unsigned => true
+			text				:preferences
 			varchar			:schema, :size => 38
 			
 			index [:entity_kind_id, :position]
@@ -25,7 +25,7 @@ module VM
 		has_many :fieldlet_kinds, :order => :position
 		
 		def entity_kind
-			@entity_kind ||= EntityKind[self.entity_kind_id]
+			@entity_kind ||= EntityKind[@values[:entity_kind_id]]
 		end
 		
 		def fieldlet_kinds
@@ -33,7 +33,7 @@ module VM
 		end
 		
 		def fieldlet_kinds_dataset
-			FieldletKind.filter(:field_kind_id => self.pk)
+			FieldletKind.filter(:field_kind_id => @values[:id], :schema => @values[:schema])
 		end
 		
 		def build_model_extention

@@ -28,15 +28,11 @@ module App
 		# 
 		# For more information about entities, checkout entity's included modules
 		
-		
-		# Force the dataset - will force the dataset on all the subclasses
-		# (so Entity1 will use the `entities` table instead of `entities1`)
-		set_dataset self.db[:entities]
-		
+			
 		# set schema
-		set_schema do 
-			primary_key :id
-			int					:kind
+		set_schema(:entities) do 
+			primary_key :id, :unsigned => true
+			int					:kind, :unsigned => true
 			datetime		:created_at
 			datetime		:updated_at
 			varchar			:display, :size => 255

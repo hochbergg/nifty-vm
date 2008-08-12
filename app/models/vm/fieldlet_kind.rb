@@ -12,10 +12,10 @@ module VM
 		# set schema
 		
 		set_schema do 
-			primary_key :id
+			primary_key :id, :unsigned => true
 			varchar			:name, :size => 255
-			int					:field_kind_id
-			int					:position
+			int					:field_kind_id, :unsigned => true
+			int					:position, :unsigned => true
 			text				:preferences
 			varchar			:kind, :size => 255
 			varchar			:schema, :size => 38

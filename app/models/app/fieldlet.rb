@@ -2,6 +2,7 @@
 require 'namespaces'
 require 'inheritance_mixin'
 
+
 module App
 	class Fieldlet < Sequel::Model
 		# = Fieldlet
@@ -35,7 +36,7 @@ module App
 		
 		# primary key is composite of :entity_id, :kind, :instance_id
 		
-		set_schema do 
+		set_schema(:fieldlets) do 
 			bigint			:instance_id, :unsigned => true, :null => false
 			int					:kind, :unsigned => true, :null => false
 			int					:entity_id, :unsigned => true, :null => false
@@ -43,19 +44,15 @@ module App
 			varchar			:string_value, :size => 255
 			text				:text_value
 			
-			#index [:entity_id, :kind] not needed anymore - done by the primary key
-			index [:int_value, :kind]
-			index [:string_value]
-			
-			index [:kind, :int_value]
-			index [:kind, :string_value]
+			#@primary_key = {:name => [:entity_id, :instance_id, :kind], :primary_key => true}
 			# we need to create primary key :(
+			composite_primary_key(:entity_id, :instance_id, :kind)
 		end
 	
 		# Inheritance Mixin - for smart STI
 		include InheritanceMixin
 		# set the primary key
-		set_primary_key :entity_id, :instance_id, :kind
+#		set_primary_key :entity_id, :instance_id, :kind
 	
 	
 

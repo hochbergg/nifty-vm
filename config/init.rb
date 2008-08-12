@@ -53,14 +53,19 @@ use_test :rspec
 
 dependency 'merb-assets'
 
-# sequel fixes
-require 'sequel_fixes'
 
+Merb::BootLoader.before_app_loads do
+	# sequel fixes
+	require 'sequel_core'
+	require 'sequel_fixes'
+end
 
 Merb::BootLoader.after_app_loads do
   ### Add dependencies here that must load after the application loads:
 	
 	require 'merb-fixtures'
+	
+	
 	
 	# load schema
  	VM::Schema.load! if Merb.config[:auto_load_schema]
