@@ -4,17 +4,17 @@ module App
 	  
 	  def index
 	    @entities = [] #Entity.all_with_fieldlets
-	    restful_render @entities
+	    display @entities
 	  end
 	  
 	  def show
 	    @entity = Entity.find_with_fieldlets(params[:id])
-			restful_render @entity
+			display @entity
 	  end
 	  
 	  def new
 	    @entity = Entity.get_subclass_by_id(params[:id]).new
-	    render
+	    display @entity
 	  end
 	  
 	  def create
