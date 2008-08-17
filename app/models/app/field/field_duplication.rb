@@ -61,7 +61,7 @@ module App
 				
 				# if we're duplicating the link fieldlet, we need to revesrse it on the 
 				# duplicated version
-				if self.class.link_fieldlet == my_fieldlet.class.inheritance_id
+				if self.class.link_fieldlet == my_fieldlet.class::IDENTIFIER
 					values.merge!(:int_value => @entity.pk)
 				end
 				
@@ -91,7 +91,7 @@ module App
 		end
 		
 		def duplicant_field
-			@duplicant_field ||= self.class.duplication_info[self.duplicant.class]
+			@duplicant_field ||= self.class::DUPLICATION[self.duplicant.class]
 		end
 		
 		
@@ -101,22 +101,11 @@ module App
 		end
 		
 		def link_fieldlet
-			@fieldlets[self.class.link_fieldlet]
+			@fieldlets[self.class::LINK_FIELDLET]
 		end
 		
 		#end InstanceMethods
 	
-	
-		# overriden
-		def self.link_fieldlet
-			return nil if !duplicated? 
-			raise "Field.link_fieldlet method must overriden"
-		end
-		
-		# overriden when duplicates
-		def self.duplicated?
-			#false
-		end
 		
 	 #end ClassMethods	
 	end

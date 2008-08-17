@@ -4,8 +4,9 @@
 
 module VM
 	class Schema < Sequel::Model
-		@@loaded_schemas = {}
+		include PreferencesTools
 		
+		@@loaded_schemas 	= {}
 		
 		set_schema(:nifty_schemas) do
 			varchar :guid, :size => 38
@@ -17,23 +18,51 @@ module VM
 			composite_primary_key(:guid)
 		end
 		
-		# classes to load
-		CLASSES = [VM::FieldletKind, VM::FieldKind, VM::EntityKind].freeze
+		
+		
+		def load_schema_elements
+			@elements = {}
+			@kids_of_element = {}
+			return false if self.new?
+			SchemaElement.filter(:schema => @values[:guid]).order(:parent_guid, :position).all.each do |schema_element|
+				@elements[schema_element.values[:guid]] = schema_element
+
+				if parent_guid = schema_element.values[:parent_guid]
+					@kids_of_element[parent_guid] ||= []
+					@kids_of_element[parent_guid] << schema_element
+				end
+			end
+		end
+		
+		def kids_of(guid)
+			@kids_of_element[guid]
+		end
+		
+		def [](guid)
+			@elements[guid] if @elements
+		end
 				
 		# generate models from the loaded schema
 		def instansiate
-	 		@generated = CLASSES.collect{|klass| klass.build_models(:schema => @values[:guid])}.flatten
+			elements = @elements.values
+			
+			@generated = elements.collect{|e| e.build_model()}
+			elements.each{|e| e.set_extras()}
+			
+			@generated
 		end
 		
 		def load!
 			
-				puts "Schema: Loading Schema classes..." 
+				puts "Schema: Loading Schema classes..."
+				self.load_schema_elements()
+				@@loaded_schemas[@values[:guid]] = self
+				
 				puts "Schema: Instansiating Schema..." 
 				self.instansiate()
 			
 				puts "Schema: Generated #{@generated.size} models"
 				
-				@@loaded_schemas[@values[:guid]] = self
 				@generated
 		end
 	
@@ -65,5 +94,6 @@ module VM
 		def self.loaded_schemas
 			@@loaded_schemas
 		end
+				
 	end
 end

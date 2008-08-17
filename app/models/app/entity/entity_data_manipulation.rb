@@ -90,13 +90,13 @@ module App
 			
 			# push fieldlet to a running instance
 			def push_fieldlet_to_field(fieldlet)
-				field = self.fields[fieldlet.class.field_id].last
+				field = self.fields[fieldlet.class::FIELD_ID].last
 				if field && field.instance_id == fieldlet.instance_id
 					field.push(fieldlet)
 				else
-					field = fieldlet.class.field.new(self)
+					field = fieldlet.class::FIELD.new(self)
 					field.push(fieldlet)
-					self.fields[fieldlet.class.field_id] << field
+					self.fields[fieldlet.class::FIELD_ID] << field
 				end
 			end
 			
@@ -162,11 +162,6 @@ module App
 				@fields ||= Hash.new{|hash, key| hash[key] = []}
 			end
 			
-			
-			# Shortcut for self.class.field_kinds => generated information
-			def field_kinds
-				self.class.field_kinds
-			end
 		
 			# The display value of the entity
 			def display
@@ -197,11 +192,8 @@ module App
 			
 			# sets the display value according to the given lambda
 			def set_display_value
-				self.display = display_lambda().call(self) if display_lambda()
+				self.display = self.class::DISPLAY_LAMBDA.call(self) if self.class::DISPLAY_LAMBDA
 			end
-		
-			# will be overriden
-			def display_lambda; end
 			
 		 # end InstanceMethods
 		
@@ -306,12 +298,12 @@ module App
 						# iterate each loaded entity, run callbacks and push fieldlets
 						entities.each do |entity|
 							# run callbacks
-							if (!entities_to_load[entity.id].empty?)
-								entities_to_load[entity.id].each{|callback| callback.call(entity)}
+							if (!entities_to_load[entity.pk].empty?)
+								entities_to_load[entity.pk].each{|callback| callback.call(entity)}
 							end
 							
 							# init the fieldlets for the loaded entity, if there are fieldlets
-							entity.init_fieldlets(fieldlets[entity.id] || []) if fieldlets[entity.id] 
+							entity.init_fieldlets(fieldlets[entity.pk] || []) if fieldlets[entity.pk] 
 						end
 						
 						

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<xs:element name="schema">
+		<xs:complexType>
+			<xs:complexContent>
+		    <xs:extension base="schemaElement">
+		      <xs:sequence>
+						<xs:element name="entities"  minOccurs="0" maxOccurs="1" type="entitiesElement"/>
+						<xs:element name="pages"  minOccurs="0" maxOccurs="1" type="pagesElement" />
+						<xs:element name="lists"  minOccurs="0" maxOccurs="1" type="listsElement" />
+						<xs:element name="filters"  minOccurs="0" maxOccurs="1" type="filtersElement" />
+		      </xs:sequence>
+		    </xs:extension>
+		  </xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- Entities -->
+	<xs:complexType name="entitiesElement">
+		<xs:sequence>
+			<xs:element name="entity" type="entityElement" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Pages -->
+	<xs:complexType name="pagesElement">
+		<xs:sequence>
+	 		<xs:element name="page" type="pageElement" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Lists -->
+	<xs:complexType name="listsElement">
+		<xs:sequence>
+	 		<xs:element name="list" type="listElement" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Filters -->
+	<xs:complexType name="filtersElement">
+		<xs:sequence>
+			<xs:element name="filter" type="filterElement" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Entity -->
+	
+	<xs:complexType name="entityElement">
+			<xs:complexContent>
+		    <xs:extension base="schemaElement">
+					<xs:sequence>
+						<xs:element name="fields"  minOccurs="0" maxOccurs="1" type="fieldsElement" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Fields -->
+	<xs:complexType name="fieldsElement">
+		<xs:sequence>
+	 		<xs:element name="field" type="fieldElement" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<!-- Field -->
+	<xs:complexType name="fieldElement">
+			<xs:complexContent>
+		    <xs:extension base="schemaElement">
+					<xs:sequence>
+						<xs:element name="fieldlets"  minOccurs="0" maxOccurs="1" type="fieldletsElement" /> 
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+	</xs:complexType>	
+	
+	<!-- Fieldlets -->
+	<xs:complexType name="fieldletsElement">
+		<xs:sequence>
+	 		<xs:element name="fieldlet" type="fieldletElement" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>	
+	
+	<!-- Fieldlet -->
+	<xs:complexType name="fieldletElement">
+			<xs:complexContent>
+		    <xs:extension base="schemaElement">
+				</xs:extension>
+			</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Page -->
+	<xs:complexType name="pageElement">
+			<xs:complexContent>
+		    <xs:extension base="schemaElement">
+				</xs:extension>
+			</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- List -->
+	<xs:complexType name="listElement">
+			<xs:complexContent>
+		    <xs:extension base="schemaElement">
+				</xs:extension>
+			</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Filter -->
+	<xs:complexType name="filterElement">
+			<xs:complexContent>
+		    <xs:extension base="schemaElement">
+				</xs:extension>
+			</xs:complexContent>
+	</xs:complexType>
+	
+	
+
+	
+	<!-- Complex Types -->
+	
+	<!-- SchemaElement -->
+	<xs:complexType name="schemaElement">
+		<xs:sequence>
+			<xs:element name="preferences" minOccurs="0" maxOccurs="1">
+				 <xs:complexType>
+				 	<xs:sequence>
+				 		<xs:element name="item" type="preferenceItem" minOccurs="0" maxOccurs="unbounded"/>
+				 	</xs:sequence>
+				 </xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="id" type="guid"  use="required"/>
+	  <xs:attribute name="name" type="xs:string"  use="required"/>			
+	</xs:complexType>
+	
+	<!-- PrefernceItem -->
+	<xs:complexType name="preferenceItem" mixed="true">
+			<xs:sequence>
+				<xs:element name="item" type="preferenceItem" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="key" type="xs:string"  use="required"/>
+	</xs:complexType>
+	
+	<!-- Simple Types -->
+	
+	<!-- GUID type -->
+	<xs:simpleType name="guid">
+		<xs:restriction base="xs:string">
+		    <xs:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"/>
+	  </xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

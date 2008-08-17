@@ -22,7 +22,7 @@ module App
 		def push(fieldlet)
 			# set the randomized_instance_id
 			@randomized_instance_id ||= fieldlet.instance_id
-			@fieldlets[fieldlet.class.inheritance_id] = fieldlet
+			@fieldlets[fieldlet.class::IDENTIFIER] = fieldlet
 		end
 		
 		# for usage with Enumerable mixin
@@ -55,14 +55,14 @@ module App
 		# if linked, and have link value => returned. 
 		# if not linked, always returned
 		def returned?
-			return true if not self.class.duplicated? 
+			return true if not self.class::DUPLICATION
 			return false if self.link_fieldlet.value.nil?
 			true
 		end
 		
 		# return all the fieldlets in this field
 		def all_fieldlets
-			self.class.fieldlet_kind_ids.collect{|kind_id| @fieldlets[kind_id] || Fieldlet.get_subclass_by_id(kind_id).new}
+			self.class::FIELDLET_IDS.collect{|kind_id| @fieldlets[kind_id] || Fieldlet.get_subclass_by_id(kind_id).new}
 		end
 
 		
@@ -72,7 +72,7 @@ module App
 		
 		
 			# duplication
-			if self.class.duplicated?
+			if self.class::DUPLICATION
 				@new ? create_duplicates! : update_duplicates!
 			end
 
@@ -90,7 +90,7 @@ module App
 		def destroy
 				self.each{|fieldlet| fieldlet.destroy} # remove all the fieldlets
 				
-				destroy_duplicates! if self.class.duplicated?
+				destroy_duplicates! if self.class::DUPLICATION
 		end
 
 		def valid?
@@ -119,7 +119,7 @@ module App
 				
 				# verify matching 
 				raise "FieldletKind mismatch: expected #{field_class} but got #{fieldlet.class.field}" if field_class && (field_class != fieldlet.class.field)
-				field_class ||= fieldlet.class.field
+				field_class ||= fieldlet.class::FIELD
 	
 				fieldlets << fieldlet # return the fieldlet
 			end

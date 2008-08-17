@@ -23,11 +23,11 @@ module ModelBuildTools
 
 		# Create model from this Field Kind
 		def build_model(namespace = ::App)
-				namespace.module_eval generate_model_def
+			namespace.const_set
 		end
 		
 		def generate_model_def			
-			<<-CLASS_DEF
+			%q{
 			class #{regulated_name_with_id} < #{self.class.regulated_name}
 
 				def self.inheritance_id
@@ -50,7 +50,7 @@ module ModelBuildTools
 				#{build_model_extention if respond_to? :build_model_extention}
 								
 			end
-			CLASS_DEF
+		}
 		end
 
 

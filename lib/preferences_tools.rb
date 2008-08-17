@@ -19,10 +19,11 @@ module PreferencesTools
 		
 		def prefs=(value)
 			@preferences = value
+			serialize_prefs()
 		end
 		
 		def serialize_prefs
-			values[:preferences] = @preferences.to_yaml
+			self.set(:preferences => @preferences.to_yaml)
 		end
 	end
 end

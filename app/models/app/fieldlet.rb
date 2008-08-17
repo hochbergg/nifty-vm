@@ -28,13 +28,6 @@ module App
 		#
 		# =======
 		
-		# Force the dataset - will force the dataset on all the subclasses
-		# (so Fieldlet1 will use the `fieldlets` table instead of `fieldlets1`)
-		set_dataset self.db[:fieldlets]
-		
-		# set schema
-		
-		# primary key is composite of :entity_id, :kind, :instance_id
 		
 		set_schema(:fieldlets) do 
 			bigint			:instance_id, :unsigned => true, :null => false
@@ -44,16 +37,11 @@ module App
 			varchar			:string_value, :size => 255
 			text				:text_value
 			
-			#@primary_key = {:name => [:entity_id, :instance_id, :kind], :primary_key => true}
-			# we need to create primary key :(
 			composite_primary_key(:entity_id, :instance_id, :kind)
 		end
 	
 		# Inheritance Mixin - for smart STI
 		include InheritanceMixin
-		# set the primary key
-#		set_primary_key :entity_id, :instance_id, :kind
-	
 	
 
 
@@ -68,7 +56,7 @@ module App
 		# @overrideable
 		def to_json
 			{:id 					=> self.instance_id,
-			 :type				=> "Fieldlet#{self.kind}",
+			 :type				=> "Fieldlet#{self.class::IDENTIFER}",
 			 :value				=> self.value_to_json
 			 }.to_json
 		end
@@ -77,7 +65,7 @@ module App
 		# @overrideable		
 		def to_xml(options = {})
 		  xml = Builder::XmlMarkup.new(:indent => 2, :margin => 3)
-			xml.fieldlet({:type => "Fieldlet#{self.kind}"}) do |xml|
+			xml.fieldlet({:type => "Fieldlet#{self.class::IDENTIFIER}"}) do |xml|
 				xml.tag!(:value,self.value_to_xml, :type => self.value.class)
 			end
 		end
