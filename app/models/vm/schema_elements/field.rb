@@ -8,14 +8,14 @@ module VM
 			
 			def self.model_extra_constants(namespace,schema_element)
 				fieldlet_ids = schema_element.kids_with_type(:fieldlet).
-																	  collect{|e| e.values[:identifier]}
+																	  collect{|e| e.values[:guid]}
 				prefs  = schema_element.prefs													
 				schema = schema_element.schema
 				duplication = prefs['duplication']
 				
 				fieldlet_names 	 = fieldlet_ids.collect{|i| "Fieldlet#{i}"}
 				fieldlet_klasses = fieldlet_names.collect{|f| namespace.const_get(f)} 
-				link_fieldlet 	 = schema[duplication['link_fieldlet']].values[:identifier] if duplication && duplication['link_fieldlet']
+				link_fieldlet 	 = schema[duplication['link_fieldlet']].values[:guid] if duplication && duplication['link_fieldlet']
 
 				duplication_hash = nil
 				if duplication

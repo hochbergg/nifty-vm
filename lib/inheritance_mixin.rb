@@ -10,35 +10,27 @@ module InheritanceMixin
 	end
 		
 	module ClassMethods
-
-		# == Inherited callback
-		# 
-		# Called when a class inherit from the mixed-in class
-		#
-		# Sets the subclass' dataset, maps the superclass model for STI-ing to the 
-		# subclass model if the type matches
 		
-		def inherited(klass)
+		def set_inheritance!
+			id = self::IDENTIFIER
+			superclass_dataset = self.superclass.dataset
 			
-			# extract the inheritance id from the given klass
-			# Entity3 => 3
-			# TODO: can we make it prettier?
-			id = klass.to_s.scan(/\d+$/).first.to_i
-						
 			# add to our dataset models hash
-			models = self.dataset.opts[:models].update(id => klass)
+			models = superclass_dataset.opts[:models].update(id => self)
 			
 			# update the model dataset to be polymorphic
-			self.dataset.set_model(:kind, models)
+			superclass_dataset.set_model(:kind, models)
 			
 			# set the inheriting model to filter by the id
-			klass.set_dataset(self.dataset.clone.filter(:kind => id))
-			klass.set_primary_key :id # set the default primary key
+			self.set_dataset(superclass_dataset.clone.filter!(:kind => id))
+			self.set_primary_key :id # set the default primary key
 		end
 
 		# gets a subclass model by an id
 		def get_subclass_by_id(id)
-			self.dataset.opts[:models][id.to_i]
+			model = self.dataset.opts[:models][id]
+			raise "Subclass mismatch (#{id})" if !model
+			return model
 		end
 
 	end # ClassMethods

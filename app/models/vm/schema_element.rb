@@ -6,32 +6,20 @@ module VM
 		@@element_types = {}
 		
 		set_schema do
-			varchar :schema, :size => 38, :null => false			
-			varchar :guid, :size => 38, :null => false
-			varchar :parent_guid, :size => 38
+			varchar :schema, :size => 32, :null => false			
+			varchar :guid, :size => 32, :null => false
+			varchar :parent_guid, :size => 32
 			varchar :name, :size => 255
 			varchar :type, :size => 40, :null => false
-			integer :identifier, :unsigned => true, :null => false
 			integer :position, :unsigned => true, :size => 4
 			
 			text		:preferences
 			
 			index		[:parent_guid, :position] # index for ordering
-			index		[:type, :identifier] #coverting index for fetching the next identifier
 			composite_primary_key(:schema, :guid)
 		end
 		
 		
-		before_create :set_identifier
-		
-		# sets the identifier 
-		# === Returns
-		# * identifier<Int> - maximum identifier for the specied type
-		def set_identifier
-			@values[:identifier] = self.dataset.filter(:type => @values[:type]).
-																					select(:max[:identifier].as(:max_id)).
-																					map(:max_id).first.to_i + 1
-		end
 		
 		# schema assocc:
 		# get from the loaded schemas or load from the DB
@@ -81,7 +69,7 @@ module VM
 		
 		def model_name
 			return false if not has_model?
-			@model_name ||= "#{self.schema_element_type.model_class_name}#{@values[:identifier]}"			
+			@model_name ||= "#{self.schema_element_type.model_class_name}#{@values[:guid]}"			
 		end
 		
 		# get the generated model from the namespace

@@ -21,7 +21,7 @@ module App
 			
 			def to_xml
 		    xml = Builder::XmlMarkup.new(:indent => 2)
-				xml.entity({:id => self.id, :type => "Entity#{self.kind}"}) do |xml|
+				xml.entity({:id => self.id, :type => self.kind}) do |xml|
 					[:display, :created_at, :updated_at].each do |att|
 						xml.tag!(att, self.send(att), :type => self.send(att).class)
 					end
@@ -33,7 +33,7 @@ module App
 				xml = Builder::XmlMarkup.new(:indent => 2)
 				xml.fields do |xml|
 					self.clean_fields.each do |field_id,instances|
-						xml.field(:type => "Field#{field_id}") do |xml|
+						xml.field(:type => field_id) do |xml|
 							instances.each do |instance|
 								xml.instance(:id => instance.instance_id) do |xml|
 									instance.each do |fieldlet|
@@ -49,11 +49,12 @@ module App
 			def to_json(*args)				
 				json_hash = {
 					:id => self.id,
-					:type => "Entity#{self.kind}",
+					:type => self.kind,
 					:display => self.display,
 					:created_at => self.created_at,
 					:updated_at	=> self.updated_at,
-					:fields => self.clean_fields()
+					:fields => self.clean_fields(),
+					:schema => self.class::SCHEMA
 				}
 
 				return json_hash.to_json
@@ -62,7 +63,7 @@ module App
 			def clean_fields
 				fields = {}
 				self.fields.each do |key,field_instances|
-					fields[key.to_i] = field_instances.reject{|x| !x.returned?}
+					fields[key] = field_instances.reject{|x| !x.returned?}
 				end
 				return fields
 			end

@@ -31,10 +31,10 @@ module App
 		
 		set_schema(:fieldlets) do 
 			bigint			:instance_id, :unsigned => true, :null => false
-			int					:kind, :unsigned => true, :null => false
+			varchar			:kind, :size => 32
 			int					:entity_id, :unsigned => true, :null => false
 			int					:int_value
-			varchar			:string_value, :size => 255
+			varchar			:string_value
 			text				:text_value
 			
 			composite_primary_key(:entity_id, :instance_id, :kind)
@@ -56,7 +56,7 @@ module App
 		# @overrideable
 		def to_json
 			{:id 					=> self.instance_id,
-			 :type				=> "Fieldlet#{self.class::IDENTIFER}",
+			 :type				=> self.class::IDENTIFIER,
 			 :value				=> self.value_to_json
 			 }.to_json
 		end
@@ -65,7 +65,7 @@ module App
 		# @overrideable		
 		def to_xml(options = {})
 		  xml = Builder::XmlMarkup.new(:indent => 2, :margin => 3)
-			xml.fieldlet({:type => "Fieldlet#{self.class::IDENTIFIER}"}) do |xml|
+			xml.fieldlet({:type => self.class::IDENTIFIER}) do |xml|
 				xml.tag!(:value,self.value_to_xml, :type => self.value.class)
 			end
 		end

@@ -32,10 +32,10 @@ module App
 		# set schema
 		set_schema(:entities) do 
 			primary_key :id, :unsigned => true
-			int					:kind, :unsigned => true
+			varchar			:kind, :size => 32
 			datetime		:created_at
 			datetime		:updated_at
-			varchar			:display, :size => 255
+			varchar			:display
 
 			index				[:kind, :display]
 			index				[:display]

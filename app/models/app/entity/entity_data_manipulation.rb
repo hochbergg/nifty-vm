@@ -109,7 +109,11 @@ module App
 			#
 			# set_fieldlets({5691 => {10 => 'value'}, 'new' => [-1 => {10 => 'value', 11 => 'blalbla'}, -2 => {10 => 'value'}]})
 			#
+			# 
+			#
 
+			# set_fieldlets({'new' => {1 => {'9ae9d4f04db7012bad310014512145e8' => 'nifty'}}})
+			# 			Field instance id =^    Fieldlet guid =^					Fieldlet value =^ 
 			def set_fieldlets(fieldlet_hash)
 				entities_to_load = {}
 				
@@ -119,13 +123,14 @@ module App
 
 				# update
 				fieldlet_hash.each do |instance_id,kinds_hash|
-					kinds_hash.each do |kind_id, value|
-						fieldlet = @fieldlets[instance_id.to_i][kind_id.to_i]
+					kinds_hash.each do |kind, value|
+						fieldlet = @fieldlets[instance_id.to_i][kind]
 						fieldlet.value = value
 						fieldlet.entity_update_callback.call(entities_to_load) if fieldlet.entity_update_callback
 					end
 				end
 				
+				# add new fields
 				new_fields_hash ||= {}
 				new_fields_hash.values.each do |new_field_fieldlets_hash|					
 					field = Field.create_new_with_fieldlets(self, new_field_fieldlets_hash)
@@ -133,7 +138,7 @@ module App
 					field.each do |fieldlet|
 						fieldlet.entity_create_callback.call(entities_to_load) if fieldlet.entity_create_callback
 					end
-					self.fields[field.kind] << field 
+					self.fields[field.class::IDENTIFIER] << field 
 				end
 				
 
