@@ -1,6 +1,6 @@
 // Simple string display fieldlet
 
-Nifty.widgets.fieldlets.LinkFieldlet = Ext.extend(Nifty.widgets.Fieldlet,{
+Nifty.widgets.fieldlets.Link = Ext.extend(Nifty.widgets.Fieldlet,{
 		
 	// set the display item to be a span
 	displayItem: '<a href="#/entities/{[values.value.id]}">{[values.value.display]}</a>',
@@ -8,7 +8,7 @@ Nifty.widgets.fieldlets.LinkFieldlet = Ext.extend(Nifty.widgets.Fieldlet,{
 	// edit item: simple number-only field
 	editItem: {xtype: 'textfield'},
 	
-	defaultValue: {},
+	defaultValue: {value:{display:''}},
 	
 	setEditValue: function(item, value){
 		item.setValue(value.id);

@@ -189,7 +189,12 @@ module App
 				return false unless self.fields.values.all?{|field| field.all?{|instance| instance.valid?}}
 				
 				self.db.transaction do
-					super #call for the inherited save action - saves the entity
+					if(@new)
+						self.save
+					else	
+						super #call for the inherited save action - saves the entity
+					end
+					
 					self.fields.values.each{|field| field.each{|instance| instance.save}}
 				end
 				return true
@@ -197,7 +202,7 @@ module App
 			
 			# sets the display value according to the given lambda
 			def set_display_value
-				self.display = self.class::DISPLAY_LAMBDA.call(self) if self.class::DISPLAY_LAMBDA
+#				self.display = self.class::DISPLAY_LAMBDA.call(self) if self.class::DISPLAY_LAMBDA
 			end
 			
 		 # end InstanceMethods

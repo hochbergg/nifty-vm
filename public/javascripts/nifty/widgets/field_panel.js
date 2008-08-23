@@ -1,15 +1,21 @@
-Nifty.widgets.FieldContainer = Ext.extend(Ext.Container, {
-	// initialize fieldlets
-	instanceLayout: [],
+Nifty.widgets.field = Ext.extend(Ext.Container, {
 	
 	// defalut seperator
-	seperator: {xtype: 'box', autoEl: {tag: 'br'}},
+	seperator: {xtype: 'component', autoEl: {tag: 'br'}},
 
 	// autoElement generation for the Ext.Container
 	autoEl: {tag: 'div', cls: 'x-panel-nifty-field'},
 	
 	// used with the form layout
 	isFormField: true,
+	
+	initComponent: function(){
+		this.fieldLabel = this.name;
+	
+	
+	    Nifty.widgets.field.superclass.initComponent.apply(this, arguments);
+    	
+	},
 	
 	// Override other inherited methods 
     onRender: function(){
@@ -22,7 +28,7 @@ Nifty.widgets.FieldContainer = Ext.extend(Ext.Container, {
 		this.setupFooter();
    
         // Call parent (required)
-        Nifty.widgets.FieldContainer.superclass.onRender.apply(this, arguments);
+        Nifty.widgets.field.superclass.onRender.apply(this, arguments);
    
         // After parent code
 
@@ -33,13 +39,17 @@ Nifty.widgets.FieldContainer = Ext.extend(Ext.Container, {
 	// load the field data from the entity store
 	load: function(){
 		// we can't load anything if we have no fieldId
-		if(!this.fieldId)
-			return; 
+		if(!this.identifier){return;}
+				
+		if(this.kids && !this.instanceLayout){ // if no layout, create a default one
+			this.instanceLayout = [];
+			Ext.each(this.kids, function(i){
+				this.instanceLayout.push({kind: i});
+			},this);
+		};
 		
-		if(!this.store)
-			this.store = Nifty.pages.current.entityStore
-		
-		this.data = this.store.fields[this.fieldId];
+	
+		this.data = this.getStore().fields[this.identifier];
 		
 		if(this.data == null){
 			return this.addEmptyInstances();
@@ -85,7 +95,7 @@ Nifty.widgets.FieldContainer = Ext.extend(Ext.Container, {
 	// will add the seperator only if the last element on the items is
 	// another fieldInstance! 
 	addSeperatorIfNeeded: function(){
-		if(this.items && this.items.last().initialConfig.xtype == 'fieldInstance'){
+		if(this.items && this.items.last().initialConfig.xtype === 'fieldInstance'){
 			this.add(this.seperator);
 		}
 	},
@@ -111,10 +121,14 @@ Nifty.widgets.FieldContainer = Ext.extend(Ext.Container, {
 		}
 	},
 	
+	getStore: function(){
+		if(this.store){return this.store};
+		return this.store = Nifty.pages.current.entityStore;
+	},
 	
 	// check if new, if true, set as edit
 	setEditIfnew: function(){
-		if (this.store.data.isNew)
-			this.toggleEdit();
+		if (this.getStore().data.isNew){
+			this.toggleEdit();}
 	}
 });

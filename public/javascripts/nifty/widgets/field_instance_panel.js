@@ -38,7 +38,7 @@ Nifty.widgets.FieldInstancePanel = Ext.extend(Ext.Container, {
 			}
 			
 			
-			item.xtype = 'Fieldlet' + item.kind; //set xtype
+			item.xtype = item.kind; //set xtype
 			item.instance = this
 			
 			// add the item

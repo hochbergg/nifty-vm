@@ -23,6 +23,10 @@ Nifty.Router = function(){
 			})
 		},
 		
+		routes:function(){
+			return routes;
+		},
+		
 		// set the location hash
 		// and route
 		go: function(hash){

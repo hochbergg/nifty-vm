@@ -1,38 +1,57 @@
 /*
-* Nifty.Page
+* Nifty.widgets.page
 *
 * Pages pack side panel and main panel
 * 
 */
 
 
-Nifty.Page = function(options){
+Nifty.widgets.page = function(options){
 	Ext.apply(this,options, {})
 	
 	this.addEvents({
 		'beforeRender': true,
-		'rendered': true
+		'rendered': true,
+		'beforeLeave': true
 	})
+	
+	this.init();
+	this.load();
 }
 
 
-Ext.extend(Nifty.Page, Ext.util.Observable,{
+Ext.extend(Nifty.widgets.page, Ext.util.Observable,{
 	mainPanel: null,
 	sidePanel: null,
+	mainComponent: Nifty.widgets.mainPanel,
+	sideComponent: Nifty.widgets.sidePanel,
+	
+	init: function(){},
 	
 	load: function(data){
+		this.beforeLoad(); //before load callback
+		
+		
+		if (this.mainPanel){
+			this.mainPanel = new this.mainComponent(this.mainPanel);
+			this.mainPanel.render('main');
+		}
+		
+		if (this.sidePanel){
+			this.sidePanel = new this.sideComponent(this.sidePanel);
+			this.sidePanel.render('side');
+		}
+
+		this.afterLoad(); // after load callback
+	},
+	
+	beforeLoad: function(){
 		this.showLoading();
 		this.clear();
-		
-		
-		if (this.mainPanel)
-			this.mainPanel.render();
-			
-		if (this.sidePanel)
-			this.sidePanel.render();
-
+	},
+	
+	afterLoad: function(){
 		this.hideLoading();
-
 	},
 	
 
@@ -40,11 +59,12 @@ Ext.extend(Nifty.Page, Ext.util.Observable,{
 	clear: function(){
 		if (Nifty.pages.current){
 			var current = Nifty.pages.current;
-			if(current.mainPanel)
-				current.mainPanel.destroy();
 			
-			if(current.sidePanel)
-				current.sidePanel.destroy();
+			if(current.mainPanel && current.mainPanel.destroy){ 
+				current.mainPanel.destroy();}
+			
+			if(current.sidePanel && current.sidePanel.destroy){
+				current.sidePanel.destroy();}
 		}
 		
 		Nifty.pages.current = this;
@@ -73,7 +93,11 @@ Ext.extend(Nifty.Page, Ext.util.Observable,{
 	}
 });
 
-Nifty.pages = {current: null};
+Nifty.pages = {
+	current: null,
+	fetchAndLoad: function(id){
+		    new Nifty.widgets.page(Nifty.viewerInfo.pages[id]);
+	  	}
+	};
 
-// Panels
-Nifty.panels = {};
+

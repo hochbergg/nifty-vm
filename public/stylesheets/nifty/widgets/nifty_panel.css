@@ -173,6 +173,7 @@
     zoom:1;
 }
 .x-panel-nifty-main-body {
+		padding: 10px;
     overflow:hidden;
     zoom:1;
 }

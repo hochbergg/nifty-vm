@@ -2,7 +2,6 @@ module VM
 	class SchemaElement < Sequel::Model
 		include PreferencesTools
 		
-		TYPES = ['fieldlet','field','entity','page','filter','list'].freeze
 		@@element_types = {}
 		
 		set_schema do
@@ -84,6 +83,20 @@ module VM
 		def self.register_element_type(symbol, klass)
 			@@element_types[symbol] = klass
 		end
+		
+		
+		# representation
+		def to_json(*args)
+			{
+				:id => @values[:guid],
+				:name => @values[:name],
+				:type => @values[:type],
+				:preferences => self.prefs,
+				:kids => (self.kids || []).collect{|x| x.values[:guid]}
+			}.to_json(*args)
+		end
+		
+		
 	end
 end
 

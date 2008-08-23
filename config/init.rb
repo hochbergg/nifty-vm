@@ -68,7 +68,7 @@ Merb::BootLoader.after_app_loads do
 	
 	
 	# load schema
- 	#VM::Schema.load! if Merb.config[:auto_load_schema]
+ 	VM::Schema.load! if Merb.config[:auto_load_schema]
 	
 	# build JS
 	#VM::JsGenerator.build if Merb.config[:auto_generate_js]

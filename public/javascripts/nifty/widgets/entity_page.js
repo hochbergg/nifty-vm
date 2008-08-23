@@ -6,74 +6,46 @@
 */
 
 
-Nifty.EntityPage = function(options){
-	Ext.apply(this,options, {})
+Nifty.widgets.entity = Ext.extend(Nifty.widgets.page,{
+	mainComponent: Nifty.widgets.entityPanel,
 	
-	this.addEvents({
-		'beforeRender': true,
-		'rendered': true
-	})
-	
-	this.entityStore = new Nifty.data.EntityStore();
-	this.entityStore.on('beforeload', 	 this.showLoading, this);
-	this.entityStore.on('loadexception', this.error, this);
-	this.entityStore.on('load', this.render, this); //evented loading
-}
-
-
-Ext.extend(Nifty.EntityPage, Nifty.Page,{
-	mainPanel: null,
-	sidePanel: null,
-	
-	
-	load: function(entityId){
-		this.isCreate = false;
-		this.createId = null;
-		this.entityStore.load({'id': entityId})
-	},
-	
-	create: function(entityKindId){
-		this.showLoading();
-		this.isCreate = true;
-		this.createId = entityKindId;
+	init: function(){
+		// setup default items if no layout is given
+		if(this.kids && !this.mainPanel){ // if no layout, create a default one
+			this.mainPanel = {items: []};
+			Ext.each(this.kids, function(i){
+				this.mainPanel.items.push({xtype: i});
+			},this);
+		};
 		
-		this.entityStore.setNew(entityKindId);
-		this.render(this.entityStore, this.entityStore.data)
+		// setup name
+		this.subtitle = this.name;
+		this.iconCls = "icon-big-" + this.identifier;
 	},
 	
-
-	render: function(entityStore, data, entityStoreOptions){
+	beforeLoad: function(){
 		this.clear();
+		if(this.isCreate){this.entityStore.setNew(this.identifier)}
 		this.setupForm(this.isCreate);
-		this.setTitle(data);
+		this.setTitle(this.entityStore.data);
 		
-		// Load panels from hash
-		// set the entity store for the panels
-		// render!
-		
-		if (mainPanel = Nifty.panels[data.type]){
-			mainPanel.entityStore = this.entityStore;
-			mainPanel.tools = [{
-				id: 'save',
-				handler: function(event, toolEl, panel){
-					Nifty.pages.current.submit();
-				}}];
-			this.mainPanel = new Nifty.widgets.EntityPanel(mainPanel);
-			this.mainPanel.render();
-		} else {
-			this.mainPanel =  null;
+		if(!this.sidePanel){
+			this.sidePanel = {items: [{xtype: 'newEntityButton'}]};
 		}
 		
-		if (sidePanel = Nifty.panels[data.type + 'side']){
-			sidePanel.entityStore = this.entityStore;
-			this.sidePanel = new Ext.Panel(sidePanel);
-			this.mainPanel.render();
-		} else {
-			this.sidePanel = null;
+		
+		// setup entityStores
+		if(this.mainPanel){
+			this.mainPanel.entityStore = this.entityStore;	
+			this.mainPanel.subtitle = this.subtitle; 
+			this.mainPanel.iconCls = this.iconCls; 		
 		}
 		
-		this.hideLoading();
+		if(this.sidePanel){
+			this.sidePanel.entityStore = this.entityStore;			
+		}
 	},
+	
 	
 	setupForm: function(create){		
 		if(create){
@@ -81,7 +53,7 @@ Ext.extend(Nifty.EntityPage, Nifty.Page,{
 				url: '/entities.js',
 				method: 'post',
 				baseParams: {
-					id: this.createId
+					id: this.identifier
 				},
 				waitMsgTarget: 'content'
 			};
@@ -104,9 +76,11 @@ Ext.extend(Nifty.EntityPage, Nifty.Page,{
 	},
 	
 	setTitle: function(data){
+		var title = data.display ? data.display : (this.isCreate ? ('New ' + this.name) : '(No Title)');
+		
 		document.title = String.format("{0}: {1}", 
-			Nifty.panels[data.type].subtitle,
-			data.display
+			this.subtitle,
+			title
 		);
 	},
 	
@@ -161,6 +135,39 @@ Ext.extend(Nifty.EntityPage, Nifty.Page,{
 	}
 	
 });
+	
+	
 
-
-Nifty.pages.EntityPage = new Nifty.EntityPage();
+//	render: function(entityStore, data, entityStoreOptions){
+//		this.clear();
+//		this.setupForm(this.isCreate);
+//		this.setTitle(data);
+//		
+//		// Load panels from hash
+//		// set the entity store for the panels
+//		// render!
+//		
+//		if (mainPanel = Nifty.panels[data.type]){
+//			mainPanel.entityStore = this.entityStore;
+//			mainPanel.tools = [{
+//				id: 'save',
+//				handler: function(event, toolEl, panel){
+//					Nifty.pages.current.submit();
+//				}}];
+//			this.mainPanel = new Nifty.widgets.EntityPanel(mainPanel);
+//			this.mainPanel.render();
+//		} else {
+//			this.mainPanel =  null;
+//		}
+//		
+//		if (sidePanel = Nifty.panels[data.type + 'side']){
+//			sidePanel.entityStore = this.entityStore;
+//			this.sidePanel = new Ext.Panel(sidePanel);
+//			this.mainPanel.render();
+//		} else {
+//			this.sidePanel = null;
+//		}
+//		
+//		this.hideLoading();
+//	},
+	

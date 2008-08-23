@@ -4,20 +4,20 @@
   */
  
 
-Ext.namespace('Nifty',
+Ext.namespace('Nifty.schema',
 			  'Nifty.data',
 			  'Nifty.widgets',
 			  'Nifty.pages',
-			  'Nifty.fieldlets',
+			  'Nifty.widgets.fieldlets',
 			  'Nifty.entities',
 			  'Nifty.entities.actions',
 			  'Nifty.panels',
 			  'Nifty.fields',
-			  'Nifty.layout'
+			  'Nifty.layout',
+			  'Nifty.cache',
+			  'Nifty.cache.elements',
+			  'Nifty.cache.pages'
 			);
-
-// placeholder
-Nifty.entities.kinds = [];
 
 
 // create application
@@ -41,6 +41,9 @@ Nifty.app = function() {
         init: function() {
 			// Hide Loader
 			hideLoaders();
+			
+			// load Schema
+			Nifty.schema.Loader.load({id: Nifty.viewerInfo.schema});
 			
 			// Setup the router
 			Nifty.Router.registerUrlPolling();

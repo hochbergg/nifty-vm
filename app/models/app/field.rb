@@ -78,6 +78,7 @@ module App
 
 			self.all_fieldlets.each do |fieldlet| 
 				fieldlet.instance_id  = self.instance_id if fieldlet.new?
+				puts @entity.pk
 				# set entity id for the new fieldlets
 				fieldlet.entity_id = @entity.pk
 				# save the fieldlets

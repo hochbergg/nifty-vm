@@ -1,3 +1,4 @@
+require 'preferences_tools'
 # = Schema Class 
 # controls the reinstansiating of the schema, importing and exporting and etc
 #
@@ -53,7 +54,6 @@ module VM
 		end
 		
 		def load!
-			
 				puts "Schema: Loading Schema classes..."
 				self.load_schema_elements()
 				@@loaded_schemas[@values[:guid]] = self
@@ -62,9 +62,10 @@ module VM
 				self.instansiate()
 			
 				puts "Schema: Generated #{@generated.size} models"
-				
+								
 				@generated
 		end
+
 	
 		attr_accessor :generated
 		

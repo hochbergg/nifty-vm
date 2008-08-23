@@ -1,0 +1,1 @@
+Nifty.widgets.sidePanel = Ext.extend(Ext.Panel, {});

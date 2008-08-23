@@ -37,8 +37,10 @@
 	</div>	
 	
 	<%= js_include_tag('../ext/ext-base', "../ext/ext-all.js", :bundle => 'ext') %>
+  <%= js_include_tag('viewer/info')%>	
 	<%= js_include_tag	'nifty/core',
 											'nifty/router',
+											'nifty/schema',
 											'nifty/data/entity_store',
 											'nifty/widgets/form_layout',											
 											'nifty/widgets/info_bar',
@@ -52,9 +54,11 @@
 											'nifty/widgets/fieldlet',
 											'nifty/fieldlets/string_fieldlet',										
 											'nifty/fieldlets/link_fieldlet',
-											'nifty/widgets/new_entity_button',									
-											'nifty/generated',
+											'nifty/widgets/new_entity_button',
+											#'nifty/generated',
+											'nifty/entity_loader',
 											'nifty/init',
 														  :bundle => 'nifty' %>
+
 </body>
 </html>

@@ -12,20 +12,22 @@ Ext.onReady(Nifty.app.init, Nifty.app);
 
 /* add routings */
 
-Nifty.Router.add(/#\/entities\/new\/(\d+)/, function(x){
-		Nifty.pages.EntityPage.create(x);
+Nifty.Router.add(/#\/entities\/new\/(\w+)/, function(x){
+		Nifty.entityLoader.create(x);
 });
 
 Nifty.Router.add(/#\/entities\/(\d+)/, function(x){
-		Nifty.pages.EntityPage.load(x);
+		Nifty.entityLoader.load(x);
 });
-		
-Nifty.Router.add(/#\/inbox/, function(){
-	p = new Nifty.pages.Page2();
-	p.load();
+
+// setup pages
+
+Ext.each(Nifty.viewerInfo.pageAddresses, function(pageAddress){
+	Nifty.Router.add(new RegExp("#/" + pageAddress), function(){
+		Nifty.pages.fetchAndLoad(pageAddress);
+	});
 });
 
 Nifty.Router.add(/#/, function(){
-	p = new Nifty.pages.home();
-	p.load();
+	Nifty.pages.fetchAndLoad('/');
 });

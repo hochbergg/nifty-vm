@@ -75,6 +75,9 @@ Nifty.widgets.Fieldlet = Ext.extend(Ext.Container,{
 		Ext.apply(this.displayItem, this.displayItemOptions || {});
 		Ext.apply(this.editItem, this.editItemOptions || {});
 				
+		// set the empty text		
+		this.editItem.emptyText = this.name;
+		
 		// sets the display item & inital value if xTemplate
 		this.setDisplayItem();
 		

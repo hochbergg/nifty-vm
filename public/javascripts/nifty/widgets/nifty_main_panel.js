@@ -5,7 +5,7 @@
  */
 
 /**
- * @class Nifty.widgets.MainPanel
+ * @class Nifty.widgets.mainPanel
  * @extends Ext.Panel
  *
  * Simple Platform for the main nifty panel
@@ -15,8 +15,8 @@
  */
 
 
-Nifty.widgets.MainPanel = Ext.extend(Ext.Panel, {
-
+Nifty.widgets.mainPanel = Ext.extend(Ext.Panel, {
+	title: "Loading...",
     /**
     * @cfg {String} baseCls
     * The base CSS class to apply to this panel's element (defaults to 'x-panel').

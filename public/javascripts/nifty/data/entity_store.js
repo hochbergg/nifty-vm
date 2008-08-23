@@ -86,7 +86,7 @@ Ext.extend(Nifty.data.EntityStore, Ext.util.Observable, {
 	// manually set the type of the entity
 	setNew: function(type){
 		this.clear();
-		this.data.type = 'Entity' + type;
+		this.data.type = type;
 		this.data.isNew = true;
 	},
 	
