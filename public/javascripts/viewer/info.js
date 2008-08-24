@@ -11,7 +11,7 @@ var Nifty = {};
 
 Nifty.viewerInfo = {
 	schema: 'bc3014604dac012bad310014512145e8',
-	pageAddresses: ['/','search', 'inbox'],
+	pageAddresses: ['search', 'inbox'],
 	pages:{	"/":{
 				"mainPanel":{
 					"title": "Welcome!",
@@ -22,6 +22,14 @@ Nifty.viewerInfo = {
 						}
 					]
 				},
+				"sidePanel": {
+					"title": "SidePanel!",
+					"items": [
+						{
+							"xtype": "newEntityButton"
+						}
+					]
+				}
 				
 			}	
 		},

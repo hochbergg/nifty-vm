@@ -8,19 +8,19 @@
 * fieldsets
 + side panel fields
 * all sorts of rendering issues
-* entity-panel knows all the fields & fieldlets
++ entity-panel knows all the fields & fieldlets
 + no save if not valid.
 * Smart-tabing between instances
 * blur & focus events for instances
 + color dirty instances
-* update displayItem with values, via handlers. 
++ update displayItem with values, via handlers. 
 * field can be single or multiple
 * show new empty instance on multiple edit fields
 * focus on the first editItem when editing instance
 * report for changes on the page
 + ability to save changes - graphicaly
 
-* template-based markup generating for field, field-instnace & fieldlet, for using with grid (list)
++ template-based markup generating for field, field-instnace & fieldlet, for using with grid (list)
 
 
 + clean up pages
@@ -38,8 +38,8 @@
 == Server Side
 + proper response for successfully saved entity
 + optimize entity saving
-* set the display after save
-* generate fields, entities & fieldlets automaticaly (JS side)
++ set the display after save
++ generate fields, entities & fieldlets automaticaly (JS side)
 
 + smart loading of enitites via fieldlets - for usage with links.
 
@@ -75,18 +75,16 @@
 
 === Fieldlets architecture
 
-* no instantce_id anymore => round robin loading for filling instances
++ no instantce_id anymore => round robin loading for filling instances
 * to delete instance => send every fieldlet in it to be NULL valued
 * fieldlets are not deleted, their values are set to null instead
 * instance is deleted only if all it's fieldlets values are null
-* dual side links duplicates the instance also
-* every fieldlet saves it's second_fieldet_id for fast access on update & edit
-* dual sided fieldlets need to have a create-create-update mechanisem.
++ dual side links duplicates the instance also
 
 
 Entity Cycle:
 
-* load: 
++ load: 
 		- fetch all the fieldlets by the entity_id(s)
  		- iterate over fieldlets
 			- call load_callback
@@ -103,7 +101,7 @@ Entity Cycle:
 
 ==== JS things:
 
-* Make sure all the base classes are preconfigured
++ Make sure all the base classes are preconfigured
 * clean up some messy code
 * make the JIT tabs work, etc
 * clean up events

@@ -43,7 +43,7 @@ Nifty.schema.Loader = function(){
 				Ext.apply(element, schema_element);
 			}
 			
-			// if no depndent buy kids, set kids to dependent
+			//
 			element.dependent = element.kids;
 			
 			// recursively create all the siblings

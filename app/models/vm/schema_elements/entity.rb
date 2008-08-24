@@ -11,7 +11,19 @@ module VM
 																	  collect{|e| e.values[:guid]}
 				field_names = field_ids.collect{|i| "Field#{i}"}
 				field_klasses = field_names.collect{|f| namespace.const_get(f)} 
-				{'DISPLAY_LAMBDA' => nil,
+				
+				display = schema_element.prefs['displayLambda']
+				
+				display_lambda = nil
+				if(display)
+					display_lambda = proc do |fieldlets_value|
+						# replace all the guids with their ids
+						return display.gsub(/[a-f0-9]{32}/){|v| fieldlets_value[v]}
+					end
+				end
+				
+				
+				{'DISPLAY_LAMBDA' => display_lambda,
 				 'FIELD_IDS'			=> field_ids,
 				 'FIELDS'					=> field_klasses
 				}

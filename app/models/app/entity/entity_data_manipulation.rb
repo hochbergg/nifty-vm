@@ -78,18 +78,20 @@ module App
 			
 			def init_fieldlets(fieldlets=[])
 				@fieldlets = {} # set the default value to be hash
-				
+				@fieldlets_by_type ||= {} #for later lambda reference
 				fieldlets.each do |fieldlet|
 					push_fieldlet_to_field(fieldlet)
 				
 					@fieldlets[fieldlet.instance_id] ||= {}
-					@fieldlets[fieldlet.instance_id][fieldlet.kind] = fieldlet
+					@fieldlets[fieldlet.instance_id][fieldlet.values[:kind]] = fieldlet
+					@fieldlets_by_type[fieldlet.class::IDENTIFIER] ||= fieldlet
 				end
 				
 			end
 			
 			# push fieldlet to a running instance
 			def push_fieldlet_to_field(fieldlet)
+								
 				field = self.fields[fieldlet.class::FIELD_ID].last
 				if field && field.instance_id == fieldlet.instance_id
 					field.push(fieldlet)
@@ -115,6 +117,7 @@ module App
 			# set_fieldlets({'new' => {1 => {'9ae9d4f04db7012bad310014512145e8' => 'nifty'}}})
 			# 			Field instance id =^    Fieldlet guid =^					Fieldlet value =^ 
 			def set_fieldlets(fieldlet_hash)
+				@fieldlets_by_type ||= {} #for later lambda reference of the new fieldlets
 				entities_to_load = {}
 				
 				if new_fields_hash = fieldlet_hash['new']
@@ -133,12 +136,17 @@ module App
 				# add new fields
 				new_fields_hash ||= {}
 				new_fields_hash.values.each do |new_field_fieldlets_hash|					
-					field = Field.create_new_with_fieldlets(self, new_field_fieldlets_hash)
+					field, fieldlets = Field.create_new_with_fieldlets(self, new_field_fieldlets_hash)
 					
 					field.each do |fieldlet|
 						fieldlet.entity_create_callback.call(entities_to_load) if fieldlet.entity_create_callback
 					end
 					self.fields[field.class::IDENTIFIER] << field 
+					
+					# for lambda usage
+					fieldlets.each do |fieldlet|
+						@fieldlets_by_type[fieldlet.class::IDENTIFIER] ||= fieldlet
+					end
 				end
 				
 
@@ -201,8 +209,13 @@ module App
 			end
 			
 			# sets the display value according to the given lambda
+			
 			def set_display_value
-#				self.display = self.class::DISPLAY_LAMBDA.call(self) if self.class::DISPLAY_LAMBDA
+				fieldlets = {}
+				@fieldlets_by_type.each do |k,v|
+					fieldlets[k] = v.value
+				end
+				self.display = self.class::DISPLAY_LAMBDA.call(fieldlets) if self.class::DISPLAY_LAMBDA
 			end
 			
 		 # end InstanceMethods

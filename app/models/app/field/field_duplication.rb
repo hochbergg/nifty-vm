@@ -61,7 +61,7 @@ module App
 				
 				# if we're duplicating the link fieldlet, we need to revesrse it on the 
 				# duplicated version
-				if self.class.link_fieldlet == my_fieldlet.class::IDENTIFIER
+				if self.class::LINK_FIELDLET == my_fieldlet.class::IDENTIFIER
 					values.merge!(:int_value => @entity.pk)
 				end
 				
@@ -87,7 +87,7 @@ module App
 		
 		
 		def duplicants_fieldlet_ids
-			self.duplicant_field.fieldlet_kind_ids
+			self.duplicant_field::FIELDLET_IDS
 		end
 		
 		def duplicant_field

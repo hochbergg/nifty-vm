@@ -130,7 +130,7 @@ module App
 			
 			fieldlets.each{|f| field.push(f)}
 			
-			return field
+			return field, fieldlets # return fields and fieldlets
 		end
 		
 		
