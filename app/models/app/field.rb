@@ -69,16 +69,16 @@ module App
 		def save
 			return false if !self.changed? || self.clean? # if new and null, we don't need to save anything	
 			@new = self.new?
-		
+			instance = self.instance_id # prepare the instance id
 		
 			# duplication
 			if self.class::DUPLICATION
-				@new ? create_duplicates! : update_duplicates!
+				@new ? create_duplicates!(instance) : update_duplicates!(instance)
 			end
+			
 
 			self.all_fieldlets.each do |fieldlet| 
-				fieldlet.instance_id  = self.instance_id if fieldlet.new?
-				puts @entity.pk
+				fieldlet.instance_id  =  instance if fieldlet.new?
 				# set entity id for the new fieldlets
 				fieldlet.entity_id = @entity.pk
 				# save the fieldlets

@@ -18,25 +18,25 @@ module App
 			Fieldlet.filter(:instance_id => self.instance_id, :entity_id => duplicant.pk).delete
 		end
 		
-		def update_duplicates!
+		def update_duplicates!(instance)
 			if duplicant_changed? 
 				destroy_duplicates!(self.link_fieldlet.old_entity)
-				create_duplicates!
+				create_duplicates!(instance)
 				return
 			end
-			set_duplicants_values!
+			set_duplicants_values!(instance)
 			@duplicated_fieldlets.each{|f| f.save_changes}
 		end
 		
 		# creates a set of 
-		def create_duplicates!
-			set_duplicants_values!(false) # false for creating duplicates
+		def create_duplicates!(instance)
+			set_duplicants_values!(instance,false) # false for creating duplicates
 			@duplicated_fieldlets.each{|f| f.save}
 		end
 		
 		# we want to set the duplicants values
 		# returns 
-		def set_duplicants_values!(update = true)
+		def set_duplicants_values!(instance, update = true)
 
 			@duplicated_fieldlets = []
 			
@@ -57,7 +57,7 @@ module App
 				end
 				
 				# overide the kind and the entity_id values
-				values.merge!(:entity_id => duplicant.pk, :kind => target_fieldlet_ids[i])
+				values.merge!(:entity_id => duplicant.pk, :kind => target_fieldlet_ids[i], :instance_id => instance)
 				
 				# if we're duplicating the link fieldlet, we need to revesrse it on the 
 				# duplicated version
