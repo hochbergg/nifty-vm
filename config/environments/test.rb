@@ -9,6 +9,3 @@ Merb::Config.use { |c|
   c[:log_auto_flush ] = true
 }
 
-Merb::BootLoader.after_app_loads do
-	Merb::Fixtures.load
-end
