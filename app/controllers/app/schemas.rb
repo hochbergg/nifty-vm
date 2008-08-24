@@ -7,5 +7,10 @@ module App
 			display @schema
 	  end
 	  
+		def latest
+			@schema = ::VM::Schema.loaded_schemas.values.first
+			display @schema
+		end
+	
 	end
 end
