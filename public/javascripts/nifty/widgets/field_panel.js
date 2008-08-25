@@ -41,9 +41,9 @@ Nifty.widgets.field = Ext.extend(Ext.Container, {
 		// we can't load anything if we have no fieldId
 		if(!this.identifier){return;}
 				
-		if(this.kids && !this.instanceLayout){ // if no layout, create a default one
+		if(this.children && !this.instanceLayout){ // if no layout, create a default one
 			this.instanceLayout = [];
-			Ext.each(this.kids, function(i){
+			Ext.each(this.children, function(i){
 				this.instanceLayout.push({kind: i});
 			},this);
 		};

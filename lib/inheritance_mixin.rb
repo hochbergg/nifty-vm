@@ -28,7 +28,7 @@ module InheritanceMixin
 
 		# gets a subclass model by an id
 		def get_subclass_by_id(id)
-			model = self.dataset.opts[:models][id]
+			model = self.dataset.opts[:models][id.to_i]
 			raise "Subclass mismatch (#{id})" if !model
 			return model
 		end

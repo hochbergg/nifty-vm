@@ -115,7 +115,7 @@ module App
 			# initialize the fieldlets	
 			fieldlets = []
 			new_fieldlet_hash.each do |kind,value|
-				fieldlet = Fieldlet.get_subclass_by_id(kind).new
+				fieldlet = Fieldlet.get_subclass_by_id(kind.to_i).new
 				fieldlet.value = value
 				
 				# verify matching 

@@ -3,7 +3,10 @@ module App
 	  provides :xml, :js
 	 	  
 	  def show
-	    @schema = ::VM::Schema.loaded_schemas[params[:id]]
+			#UGLY
+			return latest if params[:id] == 'latest'
+		
+	    @schema = ::VM::Schema.loaded_schemas[params[:id].to_i(16)]
 			display @schema
 	  end
 	  

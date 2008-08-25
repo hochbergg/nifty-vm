@@ -49,12 +49,12 @@ module App
 			def to_json(*args)				
 				json_hash = {
 					:id => self.id,
-					:type => self.kind,
+					:type => self.kind.to_s,
 					:display => self.display,
 					:created_at => self.created_at,
 					:updated_at	=> self.updated_at,
 					:fields => self.clean_fields(),
-					:schema => self.class::SCHEMA
+					:schema => self.class::SCHEMA.to_s(16)
 				}
 
 				return json_hash.to_json

@@ -30,9 +30,9 @@ module App
 		
 		
 		set_schema(:fieldlets) do 
-			bigint			:instance_id, :unsigned => true, :null => false
-			varchar			:kind, :size => 32
-			int					:entity_id, :unsigned => true, :null => false
+			bigint			:instance_id, :unsigned => true, 	:null => false
+			bigint			:kind,			  :unsigned => true,	:null => false
+			int					:entity_id,   :unsigned => true, 	:null => false
 			int					:int_value
 			varchar			:string_value
 			text				:text_value
@@ -56,7 +56,7 @@ module App
 		# @overrideable
 		def to_json
 			{:id 					=> self.instance_id,
-			 :type				=> self.class::IDENTIFIER,
+			 :type				=> self.class::IDENTIFIER.to_i,
 			 :value				=> self.value_to_json
 			 }.to_json
 		end

@@ -32,7 +32,7 @@ module App
 		# set schema
 		set_schema(:entities) do 
 			primary_key :id, :unsigned => true
-			varchar			:kind, :size => 32
+			bigint			:kind, :unsigned => true, :null => false
 			datetime		:created_at
 			datetime		:updated_at
 			varchar			:display

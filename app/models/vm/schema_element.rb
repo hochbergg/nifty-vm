@@ -5,12 +5,12 @@ module VM
 		@@element_types = {}
 		
 		set_schema do
-			varchar :schema, :size => 32, :null => false			
-			varchar :guid, :size => 32, :null => false
-			varchar :parent_guid, :size => 32
-			varchar :name, :size => 255
+			bigint  :schema, :unsigned => true, :null => false			
+			bigint  :guid,   :unsigned => true, :null => false
+			bigint	:parent_guid, :unsigned => true
+			varchar :name
 			varchar :type, :size => 40, :null => false
-			integer :position, :unsigned => true, :size => 4
+			integer :position, :unsigned => true
 			
 			text		:preferences
 			
@@ -35,16 +35,16 @@ module VM
 			@parent ||= self.schema[@values[:parent_guid]]# || SchemaElement.find(:schema => @values[:schema], :guid => @values[:parent_guid])
 		end
 		
-		# get all the kids from the schema or load from the DB
+		# get all the children from the schema or load from the DB
 		# === Returns
-		# * [<SchemaElement>, ...] - Array of kids schema elements
-		def kids
-			@kids ||= self.schema.kids_of(@values[:guid])# || SchemaElement.filter(:parent_guid => @values[:guid]).all
+		# * [<SchemaElement>, ...] - Array of children schema elements
+		def children
+			@children ||= self.schema.children_of(@values[:guid])# || SchemaElement.filter(:parent_guid => @values[:guid]).all
 		end
 		
-		def kids_with_type(type)
+		def children_with_type(type)
 			type = type.to_s
-			k = kids()
+			k = children()
 			return k.find_all{|x| x.values[:type] == type} if k
 			return []
 		end
@@ -88,11 +88,11 @@ module VM
 		# representation
 		def to_json(*args)
 			{
-				:id => @values[:guid],
+				:id => @values[:guid].to_s,
 				:name => @values[:name],
 				:type => @values[:type],
 				:preferences => self.prefs,
-				:kids => (self.kids || []).collect{|x| x.values[:guid]}
+				:children => (self.children || []).collect{|x| x.values[:guid].to_s}
 			}.to_json(*args)
 		end
 		

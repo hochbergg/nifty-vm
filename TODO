@@ -109,4 +109,14 @@ Entity Cycle:
 
 * adding new field instance
 
+**********************
+
+* empty fieldlets in partialy filed fields should not be new but empty instead
++ fix the 'latest' in schema
++ move to 64 bit identifiers
+* load fieldlets with position priority
+
+
+
+
 

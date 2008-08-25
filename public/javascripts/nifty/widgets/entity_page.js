@@ -11,9 +11,9 @@ Nifty.widgets.entity = Ext.extend(Nifty.widgets.page,{
 	
 	init: function(){
 		// setup default items if no layout is given
-		if(this.kids && !this.mainPanel){ // if no layout, create a default one
+		if(this.children && !this.mainPanel){ // if no layout, create a default one
 			this.mainPanel = {items: []};
-			Ext.each(this.kids, function(i){
+			Ext.each(this.children, function(i){
 				this.mainPanel.items.push({xtype: i});
 			},this);
 		};

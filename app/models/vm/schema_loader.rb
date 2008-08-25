@@ -5,7 +5,7 @@ module VM
 		def initialize(schema_path)
 			@document = REXML::Document.new(File.read(schema_path).gsub("\n",'').gsub("\t",''), {:compress_whitespace => :all})
 			@schema_xml = @document.root
-			@schema_guid = @schema_xml.attributes['id']
+			@schema_guid = @schema_xml.attributes['id'].to_i(16)
 			@entities_xml		 = @schema_xml.elements['entities'] 	|| []
 			@pages_xml		 	 = @schema_xml.elements['pages']			|| []
 			@lists_xml		 	 = @schema_xml.elements['lists']			|| []
@@ -46,7 +46,7 @@ module VM
 		end
 		
 		def parse_element(xml_element, element_type,  parent_guid =nil,position = nil, &block)
-			guid = xml_element.attributes['id']
+			guid = xml_element.attributes['id'].to_i(16)
 			name = xml_element.attributes['name']
 			preferences = parse_preferences_items(xml_element.elements['preferences'])
 			
@@ -92,6 +92,15 @@ module VM
 					item.save_changes
 				end
 			end
+		end
+		
+		def self.load!(xml_path)
+			s = SchemaLoader.new(xml_path)
+			s.parse!
+			s.commit!
+			s.schema.active = true
+			s.schema.save_changes
+			return s.schema
 		end
 	end
 end

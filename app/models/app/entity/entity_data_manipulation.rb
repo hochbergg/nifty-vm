@@ -127,7 +127,7 @@ module App
 				# update
 				fieldlet_hash.each do |instance_id,kinds_hash|
 					kinds_hash.each do |kind, value|
-						fieldlet = @fieldlets[instance_id.to_i][kind]
+						fieldlet = @fieldlets[instance_id.to_i][kind.to_i]
 						fieldlet.value = value
 						fieldlet.entity_update_callback.call(entities_to_load) if fieldlet.entity_update_callback
 					end

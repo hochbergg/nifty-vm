@@ -10,7 +10,7 @@
 var Nifty = {};
 
 Nifty.viewerInfo = {
-	schema: 'bc3014604dac012bad310014512145e8',
+	schema: 'bc3014604dac012b',
 	pageAddresses: ['search', 'inbox'],
 	pages:{	"/":{
 				"mainPanel":{

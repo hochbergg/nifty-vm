@@ -10,8 +10,8 @@ module VM
 		@@loaded_schemas 	= {}
 		
 		set_schema(:nifty_schemas) do
-			varchar :guid, :size => 38
-			varchar :name, :size => 255
+		 	bigint  :guid, :unsigned => true, :null => false
+			varchar :name
 			boolean :active, :default => false
 			text		:preferences
 			# primary key :guid
@@ -23,20 +23,21 @@ module VM
 		
 		def load_schema_elements
 			@elements = {}
-			@kids_of_element = {}
+			@children_of_element = {}
 			return false if self.new?
 			SchemaElement.filter(:schema => @values[:guid]).order(:parent_guid, :position).all.each do |schema_element|
+				
 				@elements[schema_element.values[:guid]] = schema_element
 
 				if parent_guid = schema_element.values[:parent_guid]
-					@kids_of_element[parent_guid] ||= []
-					@kids_of_element[parent_guid] << schema_element
+					@children_of_element[parent_guid] ||= []
+					@children_of_element[parent_guid] << schema_element
 				end
 			end
 		end
 		
-		def kids_of(guid)
-			@kids_of_element[guid]
+		def children_of(guid)
+			@children_of_element[guid]
 		end
 		
 		def [](guid)

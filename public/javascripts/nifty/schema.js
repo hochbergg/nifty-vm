@@ -7,7 +7,7 @@
 // Hash for loaded schema.
 Nifty.schema.loaded = null;
 
-Nifty.schema.useWindowNameCache = true;
+Nifty.schema.useWindowNameCache = false;
 
 // Schema Loader - singleton
 Nifty.schema.Loader = function(){
@@ -32,6 +32,7 @@ Nifty.schema.Loader = function(){
 		
 		// will prepare and xtype-register the given element and all his siblings
 		this.prepareAndRegister = function(id){
+			id = String(id) //for problems with object keys etc..
 			if(this.elementConstructors[id]){return this.elementConstructors[id];} // if generated
 			
 			var element = Nifty.viewerInfo.elements[id] || {};		
@@ -39,12 +40,12 @@ Nifty.schema.Loader = function(){
 			// merge the schema options
 			var schema_element = this.elements[id];
 			
+			
 			if(schema_element){
 				Ext.apply(element, schema_element);
 			}
 			
-			//
-			element.dependent = element.kids;
+			element.dependent = element.children;
 			
 			// recursively create all the siblings
 			if(element.dependent && element.dependent.length > 0){
@@ -60,12 +61,7 @@ Nifty.schema.Loader = function(){
 			if(element.preferences && element.preferences.type){
 				constructor = Nifty.widgets[element['type'] + 's'][element.preferences.type]
 			}
-			
-			if(!constructor){
-				console.log(element);
-				return;
-			}
-			
+						
 			element.identifier = element.id;
 			delete element.id;
 			

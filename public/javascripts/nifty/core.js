@@ -39,15 +39,25 @@ Nifty.app = function() {
     // public space
     return {
         init: function() {
+	
+			this.setStatus('Loading Schema...');
+			Nifty.schema.Loader.on('load', this.finishLoading);
+			Nifty.schema.Loader.load({id: Nifty.viewerInfo.schema});
+			
+	 	},
+	
+		finishLoading: function(){
+			
 			// Hide Loader
 			hideLoaders();
 			
-			// load Schema
-			Nifty.schema.Loader.load({id: Nifty.viewerInfo.schema});
-			
 			// Setup the router
 			Nifty.Router.registerUrlPolling();
-	 	}
+		},
+		
+		setStatus: function(statusMessage){
+			Ext.fly('loading_status').update(statusMessage);
+		}
 	}
 }(); // end of app
  
