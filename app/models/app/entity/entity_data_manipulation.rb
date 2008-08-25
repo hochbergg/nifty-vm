@@ -127,7 +127,12 @@ module App
 				# update
 				fieldlet_hash.each do |instance_id,kinds_hash|
 					kinds_hash.each do |kind, value|
-						fieldlet = @fieldlets[instance_id.to_i][kind.to_i]
+						fieldlet = @fieldlets[instance_id.to_i][kind.to_i]						
+						
+						if(!fieldlet)
+							raise "TODO, fix this! "
+						end
+						
 						fieldlet.value = value
 						fieldlet.entity_update_callback.call(entities_to_load) if fieldlet.entity_update_callback
 					end
@@ -276,7 +281,7 @@ module App
 
 						options_hash = {}
 						
-						if args.first.kind_of? Hash
+						if args.last.kind_of? Hash
 							options_hash = args.first
 							args.delete options_hash
 						end
