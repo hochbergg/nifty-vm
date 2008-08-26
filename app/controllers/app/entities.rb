@@ -21,13 +21,9 @@ module App
 	    @entity = Entity.get_subclass_by_id(params[:id]).new
 			@entity.set_fieldlets(params[:entity])
 	    if @entity.save_changes
-				if params[:format] == 'js'
-					render
-				else
-	      	redirect url(:entity, @entity)
-				end
+				return render
 	    else
-	      render :action => :new
+	      raise BadRequest
 	    end
 	  end
 	  
@@ -40,11 +36,7 @@ module App
 	    @entity = Entity.find_with_fieldlets(params[:id])
 			@entity.set_fieldlets(params[:entity])
 	    if @entity.save_changes
-				if params[:format] == 'js'
-					render
-				else
-	      	redirect url(:entity, @entity)
-				end
+				return render
 	    else
 	      raise BadRequest
 	    end
@@ -53,8 +45,8 @@ module App
 	  def destroy
 	    @entity = Entity[params[:id]]
 	    if @entity.destroy
-	      redirect url(:entities)
-	    else
+ 				return render
+			else
 	      raise BadRequest
 	    end
 	  end

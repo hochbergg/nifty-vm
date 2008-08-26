@@ -105,8 +105,8 @@ Nifty.widgets.entity = Ext.extend(Nifty.widgets.page,{
 	formSuccess: function(form, action){
 		alert('success');
 		
-		if(action.result.redirect){
-			Nifty.Router.go(action.result.redirect);
+		if(action.result.id){
+			Nifty.Router.go("#/entities/" + action.result.id);
 		}
 	},
 	
