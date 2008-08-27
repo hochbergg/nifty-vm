@@ -294,7 +294,7 @@ module App
 						## setup hash for entities loading and callbacks
 						ids.each{|id| entities_to_load.merge!(id => [])}
 						
-						fieldlets_set = Fieldlet.order(:instance_id).filter!(:entity_id => ids)
+						fieldlets_set = Fieldlet.order(:entity_id, :instance_id).filter!(:entity_id => ids)
 						
 						# Apply a fieldlets filter if given
 						fieldlets_set.filter!(options_hash[:fieldlets_filter]) if options_hash[:fieldlets_filter]

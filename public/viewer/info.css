@@ -31,3 +31,7 @@
 	background:url(/viewer/resources/8190433569609209457_small.png) no-repeat left center;
 }
 
+
+div.links a{
+	font-size: 13px;
+}

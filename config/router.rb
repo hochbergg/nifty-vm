@@ -22,7 +22,10 @@
 Merb.logger.info("Compiling routes...")
 Merb::Router.prepare do |r|
   # RESTful routes
-	r.resources 'entities', :controller => 'app/entities' do |e|
+	r.resources('entities', 
+							:controller => 'app/entities', 
+							:collection => {:search => :get, 
+															:random => :get}) do |e|
 		e.resources 'lists', :controller => 'app/lists'
 	end
 	

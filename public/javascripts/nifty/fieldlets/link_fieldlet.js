@@ -8,6 +8,7 @@ Nifty.widgets.fieldlets.Link = Ext.extend(Nifty.widgets.Fieldlet,{
 	// edit item: simple number-only field
 	editItem: {xtype: 'textfield'},
 	
+	
 	defaultValue: {value:{display:''}},
 	
 	setEditValue: function(item, value){

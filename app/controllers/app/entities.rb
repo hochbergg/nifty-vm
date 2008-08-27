@@ -50,5 +50,21 @@ module App
 	      raise BadRequest
 	    end
 	  end
+	
+	
+	
+		def search
+			entity_dataset = Entity.filter('`display` LIKE ?', "#{params[:search]}%")
+			entity_dataset.filter!(:kind => params[:kind]) if params[:kind]
+			entity_dataset.limit!(30)
+			
+			@entities = entity_dataset.all
+			return {
+				:entities => @entities,
+				:total => @entities.size
+			}.to_json
+		end
+	
+	
 	end
 end

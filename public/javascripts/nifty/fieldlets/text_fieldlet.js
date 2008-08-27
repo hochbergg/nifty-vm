@@ -9,7 +9,7 @@ Nifty.widgets.fieldlets.Text = Ext.extend(Nifty.widgets.Fieldlet,{
 	displayItem: '{value}',
 	
 	// edit item: simple text field
-	editItem: {xtype: 'textarea', width: 300, height: 100},
+	editItem: {xtype: 'textarea', width: 500, height: 100},
 	
 
 })

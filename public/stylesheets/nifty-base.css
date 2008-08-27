@@ -83,7 +83,11 @@ a.entity-link{
 
 /* tempppp! */
 
-span.small{
+*.small{
 	color: silver;
 	font-size:10px;
+}
+
+*.bold{
+	font-weight: bold;
 }
