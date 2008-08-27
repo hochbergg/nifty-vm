@@ -31,7 +31,7 @@ module App
 		end
 
 		def instance_id
-			@randomized_instance_id ||= (Time.now.to_i << 10) + rand(1024)
+			@randomized_instance_id ||= ((Time.now.to_f * 1000).to_i << 16) + rand(1024 * 64)
 		end
 		
 		def new?

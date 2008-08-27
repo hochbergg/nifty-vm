@@ -8,7 +8,7 @@ Nifty.widgets.newEntityButton = Ext.extend(Ext.Button,{
 		Ext.each(Nifty.schema.loaded.entities, function(kind){
 			actions.push({
 				text: kind.name,
-				iconCls: 'small-entity-' + kind.id,
+				iconCls: 'icon-small-' + kind.id,
 				handler: function(){
 					Nifty.Router.go('#/entities/new/' + kind.id);
 				}

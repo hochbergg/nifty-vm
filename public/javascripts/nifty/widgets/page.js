@@ -34,15 +34,17 @@ Ext.extend(Nifty.widgets.page, Ext.util.Observable,{
 		
 		if (this.mainPanel){
 			this.mainPanel = new this.mainComponent(this.mainPanel);
+			this.mainPanel.hidden = true;
 			this.mainPanel.render('main');
 		}
 		
 		if (this.sidePanel){
 			this.sidePanel = new this.sideComponent(this.sidePanel);
+			this.sidePanel.hidden = true;
 			this.sidePanel.render('side');
 		}
-
-		this.afterLoad(); // after load callback
+		
+		this.afterLoad();
 	},
 	
 	beforeLoad: function(){
@@ -76,10 +78,14 @@ Ext.extend(Nifty.widgets.page, Ext.util.Observable,{
 		Ext.fly('page_loading').setDisplayed(true);
 		Ext.fly('main').setDisplayed(false);
 		Ext.fly('side').setDisplayed(false);
+		
 	},
 	
 	hideLoading: function(){
 		Ext.fly('page_loading').setDisplayed(false);
+
+		if (this.mainPanel){this.mainPanel.show();}
+		if (this.sidePanel){this.sidePanel.show();}
 		Ext.fly('main').setDisplayed(true);
 		Ext.fly('side').setDisplayed(true);
 	},

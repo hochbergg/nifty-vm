@@ -55,8 +55,8 @@ module App
 		# JSON representation
 		# @overrideable
 		def to_json
-			{:id 					=> self.instance_id,
-			 :type				=> self.class::IDENTIFIER,
+			{:id 					=> self.instance_id.to_s,
+			 :type				=> self.class::IDENTIFIER.to_s,
 			 :value				=> self.value_to_json
 			 }.to_json
 		end

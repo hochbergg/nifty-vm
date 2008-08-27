@@ -41,7 +41,7 @@ Nifty.app = function() {
         init: function() {
 	
 			this.setStatus('Loading Schema...');
-			Nifty.schema.Loader.on('load', this.finishLoading);
+			Nifty.schema.Loader.on('load', this.finishLoading, this);
 			Nifty.schema.Loader.load({id: Nifty.viewerInfo.schema});
 			
 	 	},
@@ -50,6 +50,7 @@ Nifty.app = function() {
 			
 			// Hide Loader
 			hideLoaders();
+			this.setApplicationTitle();
 			
 			// Setup the router
 			Nifty.Router.registerUrlPolling();
@@ -57,6 +58,10 @@ Nifty.app = function() {
 		
 		setStatus: function(statusMessage){
 			Ext.fly('loading_status').update(statusMessage);
+		},
+		
+		setApplicationTitle: function(){
+			Ext.fly('app-name').update(Nifty.schema.loaded['name']);
 		}
 	}
 }(); // end of app
