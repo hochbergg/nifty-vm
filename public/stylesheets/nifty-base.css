@@ -91,3 +91,47 @@ a.entity-link{
 *.bold{
 	font-weight: bold;
 }
+
+
+/* form group */
+
+/* add some padding so it spaces nice and relative elements dn't get clipped */
+.nifty-form-group {
+	padding-bottom:5px;
+	overflow:hidden;
+	margin-left:5px;
+}
+ 
+/* Simple blue border */
+.nifty-form-group .nifty-form-group-header {
+	padding:0;
+	border-bottom:1px solid #EAEAEA;
+}
+ 
+/* Position the text element so it appears over the border added above */
+.nifty-form-group .nifty-form-group-header-text {
+	font-size:12px;
+	font-family:tahoma,arial,sans-serif;
+	line-height:16px;
+	position:relative;
+	left:5px;
+	top:2px;
+	padding:1px 5px 1px 2px;
+	color:#4e79b2;
+}
+ 
+/* Copied from x-plain (for IE + layouts to work) */
+.nifty-form-group-body {
+    overflow:hidden;
+}
+ 
+/* Copied from x-plain (for IE + layouts to work) */
+.nifty-form-group-bwrap {
+    overflow:hidden;
+    zoom:1;
+}
+ 
+/* Change the toggle icon when collapsed */
+.x-panel-collapsed .nifty-form-group-header-text {
+	background-position: 2px -15px;
+}

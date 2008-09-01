@@ -59,11 +59,11 @@ Nifty.viewerInfo = {
 		"6610788458132879148":{
 			instanceLayout: [
 				{kind: "3074575871114379131", cls: 'bold'},
-				{xtype: "box", autoEl: {tag: "span", html: ': '}},
+				{xtype: "box", autoEl: {tag: "span", html: ':', cls: 'bold'}},
 				{kind: "2452718722255897411"}
 			]
 		},
 		
 		
 	}
-}
+};
