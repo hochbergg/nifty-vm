@@ -2,14 +2,13 @@
 
 // Simple string display fieldlet
 
-Nifty.widgets.fieldlets.Text = Ext.extend(Nifty.widgets.Fieldlet,{
+Nifty.widgets.fieldlets.Text = {
 	cls: 'x-nifty-text-fieldlet',
 		
 	// set the display item template
-	displayItem: '{value}',
+	displayTpl: '{value}',
 	
 	// edit item: simple text field
-	editItem: {xtype: 'textarea', width: 500, height: 100},
+	editCmp: {xtype: 'textarea', width: 500, height: 100}
 	
-
-})
+}

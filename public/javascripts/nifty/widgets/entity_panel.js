@@ -2,7 +2,7 @@
 
 Nifty.widgets.entityPanel = Ext.extend(Nifty.widgets.mainPanel, {
 	frame: false, 
-	layout: 'niftyForm',
+	layout: 'form',
 	
     setTitle : function(title, iconCls){
 		title = (this.entityStore.data.isNew ?  ('New ' + Nifty.pages.current.name) : (this.entityStore.data.display || '(No Title)'));
@@ -24,14 +24,6 @@ Nifty.widgets.entityPanel = Ext.extend(Nifty.widgets.mainPanel, {
 	},
 	
 	initComponent: function(){
-		
-		// set save button
-		this.tools = [{
-		        id: 'save',
-		        handler: function(event, toolEl, panel){
-		          Nifty.pages.current.submit();
-		        }}];
-		
 		Nifty.widgets.entityPanel.superclass.initComponent.call(this);
 	}
 });

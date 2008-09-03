@@ -26,7 +26,6 @@ Nifty.widgets.entity = Ext.extend(Nifty.widgets.page,{
 	beforeLoad: function(){
 		this.clear();
 		if(this.isCreate){this.entityStore.setNew(this.identifier)}
-		this.setupForm(this.isCreate);
 		this.setTitle(this.entityStore.data);
 		
 		if(!this.sidePanel){
@@ -47,34 +46,6 @@ Nifty.widgets.entity = Ext.extend(Nifty.widgets.page,{
 	},
 	
 	
-	setupForm: function(create){		
-		if(create){
-			formOptionHash = {
-				url: '/entities.js',
-				method: 'post',
-				baseParams: {
-					id: this.identifier
-				},
-				waitMsgTarget: 'content'
-			};
-						
-		} else {
-			formOptionHash = {
-				url: String.format('/entities/{0}.js', this.entityStore.data.id),
-				method: 'put',
-				waitMsgTarget: 'content'
-			};
-		}
-		
-		
-		this.form = new Ext.form.BasicForm('form', formOptionHash);
-		
-		
-		this.form.on('actioncomplete', this.formSuccess, this);
-		this.form.on('actionfailed', this.formFailed, this);
-		this.form.on('beforeaction', this.beforeAction, this);
-	},
-	
 	setTitle: function(data){
 		var title = data.display ? data.display : (this.isCreate ? ('New ' + this.name) : '(No Title)');
 		
@@ -84,55 +55,6 @@ Nifty.widgets.entity = Ext.extend(Nifty.widgets.page,{
 		);
 	},
 	
-	// called before form submission
-	// we want to check if we have any items to submit. 
-	// if not, we should not submit
-	beforeAction: function(form, action){
-		if (!form.isDirty()){
-			alert('nothing has changed!');
-			return false;
-		}
-		
-		// iterate over form items, disable all the not dirty ones
-		form.items.each(function(item){
-			if(!item.isDirty()){
-				item.disable();
-			}
-		})
-	},
-	
-	// a callback for a successful form submission
-	formSuccess: function(form, action){
-		alert('success');
-		
-		if(action.result.id){
-			Nifty.Router.go("#/entities/" + action.result.id);
-		}
-	},
-	
-	// a callback for failed form submission
-	formFailed: function(form, action){
-		alert(action.failureType);
-	},
-	
-	submit: function(){
-		this.form.submit();
-	},
-		
-	error: function(){
-		alert('error!');
-	},
-	
-	checkDirtyAndOrValidBeforeLeave: function(){
-		if (this.form.isDirty()){
-	//		console.log('dirty!')
-		}
-	},
-	
-	
-	beforeLeave: function(){
-		return this.checkDirtyAndOrValidBeforeLeave();
-	}
 	
 });
 	

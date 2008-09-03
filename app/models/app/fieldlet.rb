@@ -1,7 +1,4 @@
-# must load namespaces
-require 'namespaces'
 require 'inheritance_mixin'
-
 
 module App
 	class Fieldlet < Sequel::Model
@@ -55,7 +52,7 @@ module App
 		# JSON representation
 		# @overrideable
 		def to_json
-			{:id 					=> self.instance_id.to_s,
+			{
 			 :type				=> self.class::IDENTIFIER.to_s,
 			 :value				=> self.value_to_json
 			 }.to_json

@@ -56,11 +56,9 @@ Nifty.schema.Loader = function(){
 			
 			// clone constructor and add elements.
 			// add to the cache
+			if(element['type'] === 'fieldlet'){return;} //pass if fieldlet
 			
-			var constructor = Nifty.widgets[element['type']]
-			if(element.preferences && element.preferences.type){
-				constructor = Nifty.widgets[element['type'] + 's'][element.preferences.type]
-			}
+			var constructor = Nifty.widgets[element['type']];
 						
 			element.identifier = element.id;
 			delete element.id;

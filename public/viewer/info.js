@@ -48,18 +48,18 @@ Nifty.viewerInfo = {
 
 	elements: {
 		"6889382093645507246":{
-			instanceLayout: [
+			instanceFragments: [
 				{kind: "18232848293383512778"},
-				{xtype: "box", autoEl: {tag: "br"}},
-				{xtype: "box", autoEl: {tag: "span", html: '  - ', cls: 'small'}},
+				'<br/>',
+				'<span class="small"> -</span>',
 				{kind: "2371742841881571621", cls: 'small bold'}
 			]
 		},
 		
 		"6610788458132879148":{
-			instanceLayout: [
+			instanceFragments: [
 				{kind: "3074575871114379131", cls: 'bold'},
-				{xtype: "box", autoEl: {tag: "span", html: ':', cls: 'bold'}},
+				': ',
 				{kind: "2452718722255897411"}
 			]
 		},

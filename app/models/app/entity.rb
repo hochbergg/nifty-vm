@@ -1,7 +1,3 @@
-# must load namespaces
-require 'namespaces'
-require 'inheritance_mixin'
-
 
 module App
 	class Entity < Sequel::Model

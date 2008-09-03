@@ -57,9 +57,8 @@ Merb.push_path(:lib, Merb.root / "lib") # uses **/*.rb as path glob.
 
 dependency 'merb-assets'
 
-
-
 Merb::BootLoader.after_app_loads do
+	require 'lib/nifty_base_fieldlets/lib/nifty_base_fieldlets'
   # Add dependencies here that must load after the application loads:
   ### Add dependencies here that must load after the application loads:	
 	

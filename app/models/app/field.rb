@@ -101,7 +101,9 @@ module App
 
 		
 		def to_json(*args)
-			@fieldlets.to_json(*args)
+			h = {:instance => self.instance_id}
+			h.merge!(@fieldlets)			
+			return h.to_json(*args)
 		end
 	
 	
