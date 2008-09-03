@@ -16,7 +16,7 @@ module VM
 			text		:preferences
 			# primary key :guid
 			index :active
-			composite_primary_key(:guid)
+			primary_key [:guid]
 		end
 		
 		

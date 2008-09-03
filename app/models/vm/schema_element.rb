@@ -15,7 +15,7 @@ module VM
 			text		:preferences
 			
 			index		[:parent_guid, :position] # index for ordering
-			composite_primary_key(:schema, :guid)
+			primary_key [:schema, :guid]
 		end
 		
 		

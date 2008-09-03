@@ -34,7 +34,7 @@ module App
 			varchar			:string_value
 			text				:text_value
 			
-			composite_primary_key(:entity_id, :instance_id, :kind)
+			primary_key [:entity_id, :instance_id, :kind]
 		end
 	
 		# Inheritance Mixin - for smart STI
