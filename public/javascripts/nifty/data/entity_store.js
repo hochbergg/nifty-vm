@@ -74,7 +74,6 @@ Nifty.data.EntityStore = function(){
 				this.stores[key] = new Nifty.data.FieldStore({fieldlets: field.children, storeId: key});
 			},this);
 			
-			console.log(this.stores)
 			return true;
 		}
 		
