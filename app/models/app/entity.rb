@@ -27,12 +27,13 @@ module App
 			
 		# set schema
 		set_schema(:entities) do 
-			primary_key :id, :unsigned => true
+			bigint		  :id, :unsigned => true, :null => false
 			bigint			:kind, :unsigned => true, :null => false
-			datetime		:created_at
-			datetime		:updated_at
+			timestamp		:created_at
+			timestamp		:updated_at
 			varchar			:display
 
+			primary_key [:id]
 			index				[:kind, :display]
 			index				[:display]
 		end

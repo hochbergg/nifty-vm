@@ -20,6 +20,8 @@ module App
 		
 		# push fieldlets
 		def push(fieldlet)
+			raise "FieldletKind mismatch: expected #{self.class} but got #{fieldlet.class::FIELD}" if (self.class != fieldlet.class::FIELD)
+			
 			# set the randomized_instance_id
 			@randomized_instance_id ||= fieldlet.instance_id
 			@fieldlets[fieldlet.class::IDENTIFIER] = fieldlet
@@ -76,8 +78,7 @@ module App
 				@new ? create_duplicates!(instance) : update_duplicates!(instance)
 			end
 			
-
-			self.all_fieldlets.each do |fieldlet| 
+			self.each do |fieldlet| 
 				fieldlet.instance_id  =  instance if fieldlet.new?
 				# set entity id for the new fieldlets
 				fieldlet.entity_id = @entity.pk

@@ -77,6 +77,7 @@ module App
 			
 			
 			def init_fieldlets(fieldlets=[])
+				@instances = {}
 				@fieldlets = {} # set the default value to be hash
 				@fieldlets_by_type ||= {} #for later lambda reference
 				fieldlets.each do |fieldlet|
@@ -99,6 +100,10 @@ module App
 					field = fieldlet.class::FIELD.new(self)
 					field.push(fieldlet)
 					self.fields[fieldlet.class::FIELD_ID] << field
+					
+					# set up instances
+					@instances[fieldlet.class::FIELD_ID] ||= {}
+					@instances[fieldlet.class::FIELD_ID][fieldlet[:instance_id]] = field
 				end
 			end
 			
@@ -129,8 +134,11 @@ module App
 					kinds_hash.each do |kind, value|
 						fieldlet = @fieldlets[instance_id.to_i][kind.to_i]						
 						
-						if(!fieldlet)
-							raise "TODO, fix this! "
+						if(!fieldlet) # if there is no such fieldlet, create it
+							field = @instances[instance_id.to_i]
+							fieldlet = Fieldlet.get_subclass_by_id(kind.to_i).new
+
+							field.push(fieldlet)
 						end
 						
 						fieldlet.value = value

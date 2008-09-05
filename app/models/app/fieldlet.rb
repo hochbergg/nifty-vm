@@ -29,8 +29,8 @@ module App
 		set_schema(:fieldlets) do 
 			bigint			:instance_id, :unsigned => true, 	:null => false
 			bigint			:kind,			  :unsigned => true,	:null => false
-			int					:entity_id,   :unsigned => true, 	:null => false
-			int					:int_value
+			bigint			:entity_id,   :unsigned => true, 	:null => false
+			bigint			:int_value
 			varchar			:string_value
 			text				:text_value
 			
@@ -111,7 +111,7 @@ module App
 		# returns true if any of the value fields has any value
 		# used for checking if having any value, without using the getter
 		def value?
-			[self.int_value, self.text_value, self.string_value].any?{|x| !x.nil?}
+			[@values[:int_value],@values[:text_value],@values[:string_value]].any?{|x| !x.nil?}
 		end
 
 

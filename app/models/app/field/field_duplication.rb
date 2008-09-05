@@ -25,18 +25,18 @@ module App
 				return
 			end
 			set_duplicants_values!(instance)
-			@duplicated_fieldlets.each{|f| f.save_changes}
+			@duplicated_fieldlets.each{|f| f.new? ? f.save : f.save_changes}
 		end
 		
 		# creates a set of 
 		def create_duplicates!(instance)
-			set_duplicants_values!(instance,false) # false for creating duplicates
+			set_duplicants_values!(instance,true) # false for creating duplicates
 			@duplicated_fieldlets.each{|f| f.save}
 		end
 		
 		# we want to set the duplicants values
 		# returns 
-		def set_duplicants_values!(instance, update = true)
+		def set_duplicants_values!(instance, force_create = false)
 
 			@duplicated_fieldlets = []
 			
@@ -46,13 +46,14 @@ module App
 			raise "duplicated fields should match!!" if target_fieldlet_ids.size != my_fieldlets.size
 			
 			my_fieldlets.each_with_index do |my_fieldlet,i|
+				next if !my_fieldlet.value? #skip if the fieldlet is null
 			
 				# get the original values
 				values = my_fieldlet.values.dup #dup because hashes are mutable
 				
 				# if we are updating, don't use the original values, we'll set them later
 				# so we could use the 'save_changes' method
-				if update
+				if !my_fieldlet.new? && !force_create
 					values.reject!{|k,v| my_fieldlet.changed_columns.include? k}
 				end
 				
@@ -66,20 +67,17 @@ module App
 				end
 				
 				# now will create the fieldlet instances
-				if update
-					target_fieldlet = Fieldlet.load(values)
+					if (my_fieldlet.new? || force_create)
+						target_fieldlet = Fieldlet.new
+						target_fieldlet.values.merge!(values)
+					else
+						target_fieldlet = Fieldlet.load(values)
 					
-					my_fieldlet.changed_columns.each do |col|
-						target_fieldlet[col] = my_fieldlet[col]
+						my_fieldlet.changed_columns.each do |col|
+							target_fieldlet[col] = my_fieldlet[col]
+						end
 					end
-					
 					@duplicated_fieldlets << target_fieldlet
-				else
-					# just create new one
-					f = Fieldlet.new
-					f.values.merge!(values)
-					@duplicated_fieldlets << f
-				end
 			end
 			
 			return @duplicated_fieldlets
