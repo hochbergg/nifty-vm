@@ -58,38 +58,3 @@ Nifty.widgets.entity = Ext.extend(Nifty.widgets.page,{
 	
 });
 	
-	
-
-//	render: function(entityStore, data, entityStoreOptions){
-//		this.clear();
-//		this.setupForm(this.isCreate);
-//		this.setTitle(data);
-//		
-//		// Load panels from hash
-//		// set the entity store for the panels
-//		// render!
-//		
-//		if (mainPanel = Nifty.panels[data.type]){
-//			mainPanel.entityStore = this.entityStore;
-//			mainPanel.tools = [{
-//				id: 'save',
-//				handler: function(event, toolEl, panel){
-//					Nifty.pages.current.submit();
-//				}}];
-//			this.mainPanel = new Nifty.widgets.EntityPanel(mainPanel);
-//			this.mainPanel.render();
-//		} else {
-//			this.mainPanel =  null;
-//		}
-//		
-//		if (sidePanel = Nifty.panels[data.type + 'side']){
-//			sidePanel.entityStore = this.entityStore;
-//			this.sidePanel = new Ext.Panel(sidePanel);
-//			this.mainPanel.render();
-//		} else {
-//			this.sidePanel = null;
-//		}
-//		
-//		this.hideLoading();
-//	},
-	
