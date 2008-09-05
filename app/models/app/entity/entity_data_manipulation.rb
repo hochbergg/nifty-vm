@@ -102,7 +102,6 @@ module App
 					self.fields[fieldlet.class::FIELD_ID] << field
 					
 					# set up instances
-					@instances[fieldlet.class::FIELD_ID] ||= {}
 					@instances[fieldlet.class::FIELD_ID][fieldlet[:instance_id]] = field
 				end
 			end
@@ -128,6 +127,11 @@ module App
 				if new_fields_hash = fieldlet_hash['new']
 					fieldlet_hash.delete 'new'
 				end
+				
+				if remove_fields_hash = fieldlet_hash['remove']
+					fieldlet_hash.delete 'remove'
+				end
+				
 
 				# update
 				fieldlet_hash.each do |instance_id,kinds_hash|
@@ -173,6 +177,11 @@ module App
 					if (entities_to_load[entity.pk])
 						entities_to_load[entity.pk].each{|callback| callback.call(entity)}
 					end
+				end
+				
+				
+				remove_fields_hash.each do |field_id, instance|
+					@instances[field_id][instance].mark_for_removel!
 				end
 				
 				return true

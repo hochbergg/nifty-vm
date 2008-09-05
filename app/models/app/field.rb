@@ -52,6 +52,11 @@ module App
 			self.any?{|x| !x.changed_columns.empty?}
 		end
 		
+		# schedual for removel on the next save
+		def mark_for_removel!
+			@remove = true
+		end
+		
 		
 		# should we return this field? 
 		# if linked, and have link value => returned. 
@@ -69,6 +74,7 @@ module App
 
 		
 		def save
+			return self.destroy() if @remove 
 			return false if !self.changed? || self.clean? # if new and null, we don't need to save anything	
 			@new = self.new?
 			instance = self.instance_id # prepare the instance id
