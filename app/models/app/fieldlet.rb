@@ -53,7 +53,7 @@ module App
 		# @overrideable
 		def to_json
 			{
-			 :type				=> self.class::IDENTIFIER.to_s,
+			 :type				=> self.class::IDENTIFIER.to_s(16),
 			 :value				=> self.value_to_json
 			 }.to_json
 		end

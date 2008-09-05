@@ -102,6 +102,7 @@ module App
 					self.fields[fieldlet.class::FIELD_ID] << field
 					
 					# set up instances
+					@instances[fieldlet.class::FIELD_ID] ||={}					
 					@instances[fieldlet.class::FIELD_ID][fieldlet[:instance_id]] = field
 				end
 			end
@@ -136,11 +137,11 @@ module App
 				# update
 				fieldlet_hash.each do |instance_id,kinds_hash|
 					kinds_hash.each do |kind, value|
-						fieldlet = @fieldlets[instance_id.to_i][kind.to_i]						
+						fieldlet = @fieldlets[instance_id.to_i][kind.to_i(16)]						
 						
 						if(!fieldlet) # if there is no such fieldlet, create it
 							field = @instances[instance_id.to_i]
-							fieldlet = Fieldlet.get_subclass_by_id(kind.to_i).new
+							fieldlet = Fieldlet.get_subclass_by_id(kind.to_i(16)).new
 
 							field.push(fieldlet)
 						end
@@ -179,9 +180,10 @@ module App
 					end
 				end
 				
-				
-				remove_fields_hash.each do |field_id, instance|
-					@instances[field_id][instance].mark_for_removel!
+				# remove field instancess
+				remove_fields_hash ||= {}
+				remove_fields_hash.each do |instance, field_id|
+					@instances[field_id.to_i(16)][instance].mark_for_removel!
 				end
 				
 				return true
@@ -239,6 +241,16 @@ module App
 				end
 				self.display = self.class::DISPLAY_LAMBDA.call(fieldlets) if self.class::DISPLAY_LAMBDA
 			end
+	
+	
+			def generate_entity_pk
+				s = ""
+				8.times do
+					s << rand(256).to_s(16)
+				end
+				@values[:id] = s.to_i(16) # 64 bits random
+			end
+
 			
 		 # end InstanceMethods
 		
@@ -367,6 +379,8 @@ module App
 						
 						return entities
 				end
+	
+	
 				
 		 #end ClassMethods
 			

@@ -25,9 +25,6 @@ module App
 			end
 			
 			
-			def generate_entity_pk
-				@values[:id] = rand(2**64) # 64 bits random
-			end
 		#end InstanceMethods
 	end
 end

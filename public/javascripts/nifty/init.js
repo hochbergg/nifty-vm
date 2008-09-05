@@ -12,11 +12,11 @@ Ext.onReady(Nifty.app.init, Nifty.app);
 
 /* add routings */
 
-Nifty.Router.add(/#\/entities\/new\/(\d+)/, function(x){
+Nifty.Router.add(/#\/entities\/new\/(\w+)/, function(x){
 		Nifty.entityLoader.create(x);
 });
 
-Nifty.Router.add(/#\/entities\/(\d+)/, function(x){
+Nifty.Router.add(/#\/entities\/(\w+)/, function(x){
 		Nifty.entityLoader.load(x);
 });
 

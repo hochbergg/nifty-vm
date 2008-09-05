@@ -109,7 +109,9 @@ module App
 		
 		def to_json(*args)
 			h = {:instance => self.instance_id}
-			h.merge!(@fieldlets)			
+			@fieldlets.each do |k,v|
+				h.merge!(k.to_s(16) => v)
+			end
 			return h.to_json(*args)
 		end
 	
@@ -124,7 +126,7 @@ module App
 			# initialize the fieldlets	
 			fieldlets = []
 			new_fieldlet_hash.each do |kind,value|
-				fieldlet = Fieldlet.get_subclass_by_id(kind.to_i).new
+				fieldlet = Fieldlet.get_subclass_by_id(kind.to_i(16)).new
 				fieldlet.value = value
 				
 				# verify matching 

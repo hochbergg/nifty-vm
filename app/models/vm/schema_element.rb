@@ -88,11 +88,11 @@ module VM
 		# representation
 		def to_json(*args)
 			{
-				:id => @values[:guid].to_s,
+				:id => @values[:guid].to_s(16),
 				:name => @values[:name],
 				:type => @values[:type],
 				:preferences => self.prefs,
-				:children => (self.children || []).collect{|x| x.values[:guid].to_s}
+				:children => (self.children || []).collect{|x| x.values[:guid].to_s(16)}
 			}.to_json(*args)
 		end
 		

@@ -47,20 +47,20 @@ Nifty.viewerInfo = {
 		},
 
 	elements: {
-		"6889382093645507246":{
+		"5f9c00833dad6aae":{
 			instanceFragments: [
-				{kind: "18232848293383512778"},
+				{kind: "fd0816ebcab622ca"},
 				'<br/>',
 				'<span class="small"> -</span>',
-				{kind: "2371742841881571621", cls: 'small bold'}
+				{kind: "20ea1f8c74ed3125", cls: 'small bold'}
 			]
 		},
 		
-		"6610788458132879148":{
+		"5bbe3d13c443372c":{
 			instanceFragments: [
-				{kind: "3074575871114379131", cls: 'bold'},
+				{kind: "2aab167708c27f7b", cls: 'bold'},
 				': ',
-				{kind: "2452718722255897411"}
+				{kind: "2209ceaece034343"}
 			]
 		},
 		

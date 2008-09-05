@@ -7,7 +7,7 @@ module VM
 		def to_json
 			elements_hash = {}
 			@elements.each do |k,v|
-				elements_hash.merge!({k.to_s => v})
+				elements_hash.merge!({k.to_s(16) => v})
 			end
 			
 			h = {

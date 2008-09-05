@@ -8,17 +8,17 @@ module App
 	  end
 	  
 	  def show
-	    @entity = Entity.find_with_fieldlets(params[:id])
+	    @entity = Entity.find_with_fieldlets(params[:id].to_i(16))
 			display @entity
 	  end
 	  
 	  def new
-	    @entity = Entity.get_subclass_by_id(params[:id]).new
+	    @entity = Entity.get_subclass_by_id(params[:id].to_i(16)).new
 	    display @entity
 	  end
 	  
 	  def create
-	    @entity = Entity.get_subclass_by_id(params[:id]).new
+	    @entity = Entity.get_subclass_by_id(params[:id].to_i(16)).new
 			@entity.set_fieldlets(params[:entity])
 	    if @entity.save_changes
 				return render
@@ -28,12 +28,12 @@ module App
 	  end
 	  
 	  def edit
-	    @entity = Entity.find_with_fieldlets(params[:id])
+	    @entity = Entity.find_with_fieldlets(params[:id].to_i(16))
 	    render
 	  end
 	  
 	  def update
-	    @entity = Entity.find_with_fieldlets(params[:id])
+	    @entity = Entity.find_with_fieldlets(params[:id].to_i(16))
 			@entity.set_fieldlets(params[:entity])
 	    if @entity.save_changes
 				return render
@@ -43,7 +43,7 @@ module App
 	  end
 	  
 	  def destroy
-	    @entity = Entity[params[:id]]
+	    @entity = Entity[params[:id].to_i(16)]
 	    if @entity.destroy
  				return render
 			else
