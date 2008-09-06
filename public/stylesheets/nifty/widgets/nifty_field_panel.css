@@ -306,5 +306,8 @@
 
 .x-form-item{
 	font-family: "Lucida Grande",Tahoma,Arial,sans-serif;
-	padding-left: 16px;
+}
+
+.x-form-field{
+	font-family: "Lucida Grande",Tahoma,Arial,sans-serif;
 }

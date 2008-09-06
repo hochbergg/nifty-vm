@@ -79,7 +79,9 @@ Nifty.widgets.field = Ext.extend(Ext.DataView, {
 		// call the to superclass 
 		Nifty.widgets.field.superclass.initComponent.call(this);
 		
-		this.on('render', this.setupActionTab, this, {delay:20})
+		this.editor = this.buildEditor();
+		
+		this.on('render', this.setupActionTab, this, {delay:20});
 	},
 	
 	setupActionTab: function(){
@@ -112,7 +114,7 @@ Nifty.widgets.field = Ext.extend(Ext.DataView, {
 		mouseOut: function(e){
 			t = e.getRelatedTarget();
 			if(!t){return;}
-			if(t.id == this.el.id){return;}
+			if(!t.tagName !== 'html' && t.id === this.el.id){return;}
 			if(e.within(this.el,true)){return;}
 			
 			this.tabEl.setVisible(false);
@@ -120,7 +122,7 @@ Nifty.widgets.field = Ext.extend(Ext.DataView, {
 		
 		
 		startEdit: function(){
-			alert('editing ' + this.tabEl.currentItem);
+			this.editor.startEdit(this.tabEl.currentItem)
 		},
 		
 		deleteInstance: function(){
@@ -137,9 +139,20 @@ Nifty.widgets.field = Ext.extend(Ext.DataView, {
 	},
 	
 	buildEditor: function(){
+		if(!this.editorLayout){
+			this.editorLayout = [];
+			Ext.each(this.children,function(child){
+				var schemaFieldlet = Nifty.schema.loaded.elements[child];
+				var fieldlet = Nifty.widgets.fieldlets[schemaFieldlet.preferences.type];
+				var cmp = {identifier: 'f' + child};
+				Ext.apply(cmp,fieldlet.editCmp);
+				this.editorLayout.push(cmp);
+			},this);
+		};
 		
+		return new Nifty.widgets.FieldEditor(this,{items: this.editorLayout});
 	},
-
+	
 	buildTemplate: function(){
 		var templateFragments = [];
 		
@@ -174,9 +187,13 @@ Nifty.widgets.field = Ext.extend(Ext.DataView, {
 		templateFragments.push(String.format('</{0}></tpl>', this.instanceTagName));
 
 		if(this.afterFragment){templateFragments.push(this.afterFragment)};	
+		
+		// action tab
 		templateFragments.push(String.format('<span class="x-nifty-action-tab" id="nifty-tab-{0}">',this.fieldId));	
 		templateFragments.push(this.buildActionTab());
-		templateFragments.push('</span>')
+		templateFragments.push('</span>');
+		
+		templateFragments.push(String.format('<div id="nifty-field-editor-{0}" class="nifty-field-editor"></div>', this.fieldId));
 		return templateFragments;
 	}
 });
