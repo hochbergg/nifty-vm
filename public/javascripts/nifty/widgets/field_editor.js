@@ -17,18 +17,19 @@
  */
 Nifty.widgets.FieldEditor = function(field, config){
     this.field = field;
-	this.layout = 'fit';
+
     Nifty.widgets.FieldEditor.superclass.constructor.call(this, config);
 };
 
 Ext.extend(Nifty.widgets.FieldEditor, Ext.Container, {
-    
+    layout: 'fieldeditorlayout',
+
 	startEdit: function(itemIndex){
 		this.index = itemIndex;
 		// render if not rendered yet
 		if(!this.renderd){
-			this.applyToMarkup('nifty-field-editor-' + this.field.fieldId)
-			this.getEl().setVisibilityMode(Ext.Element.VISIBILITY )
+			this.applyToMarkup('nifty-field-editor-' + this.field.fieldId);
+			this.getEl().setVisibilityMode(Ext.Element.VISIBILITY );
 		};
 		
 		this.currentNode = this.field.getNode(itemIndex);
@@ -63,7 +64,7 @@ Ext.extend(Nifty.widgets.FieldEditor, Ext.Container, {
 	},
 	
 	setFocus: function(){
-		this.items.first().focus(true);
+		this.items.first().focus();
 	},
 	
 	setEvents: function(){

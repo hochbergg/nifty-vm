@@ -138,8 +138,25 @@ a.entity-link{
 
 div.nifty-field-editor{
 	position:absolute;
-	padding:3px;
+	padding:1px 2px;
+	border: 2px solid #D3D7FF;
 	background:#E3E5FF;
 	visibility:hidden;
 	z-index: 20000;
+}
+
+div.nifty-field-editor .x-form-field{
+	padding-top:6px;
+	padding-bottom:4px;
+}
+
+.x-nifty-fieldlet-container{
+	float:left;
+	margin:0 2px;
+}
+
+.x-nifty-fieldlet-label{
+	font-size:9px;
+	padding:3px;
+	margin-left:2px;
 }

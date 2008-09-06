@@ -9,6 +9,6 @@ Nifty.widgets.fieldlets.String = {
 	displayTpl: '{value}',
 
 	// edit item: simple text field
-	editCmp: {xtype: 'textfield', grow: true}
+	editCmp: {xtype: 'textfield', width: 120}
 	
 };

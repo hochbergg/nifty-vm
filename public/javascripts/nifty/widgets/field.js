@@ -144,7 +144,7 @@ Nifty.widgets.field = Ext.extend(Ext.DataView, {
 			Ext.each(this.children,function(child){
 				var schemaFieldlet = Nifty.schema.loaded.elements[child];
 				var fieldlet = Nifty.widgets.fieldlets[schemaFieldlet.preferences.type];
-				var cmp = {identifier: 'f' + child};
+				var cmp = {identifier: 'f' + child, fieldLabel: schemaFieldlet.name};
 				Ext.apply(cmp,fieldlet.editCmp);
 				this.editorLayout.push(cmp);
 			},this);
