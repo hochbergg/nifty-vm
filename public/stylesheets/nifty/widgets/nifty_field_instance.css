@@ -37,3 +37,8 @@ img.x-nifty-tab-delete{
 	height:10px;
 	background: url(/images/delete.png) no-repeat;
 }
+
+div.x-nifty-field-instance-before-delete{
+	border: 1px solid #F0211E !important;
+	background: #FFD1CE !important;
+}

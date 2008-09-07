@@ -9,6 +9,6 @@ Nifty.widgets.fieldlets.Text = {
 	displayTpl: '{value}',
 	
 	// edit item: simple text field
-	editCmp: {xtype: 'textarea', width: 500, height: 100}
+	editCmp: {xtype: 'textarea', height: 100}
 	
 }

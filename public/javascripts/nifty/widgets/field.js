@@ -126,7 +126,31 @@ Nifty.widgets.field = Ext.extend(Ext.DataView, {
 		},
 		
 		deleteInstance: function(){
-			alert('delete ' + this.tabEl.currentItem);
+			var node = this.getNode(this.tabEl.currentItem);
+			
+			// mark
+			Ext.fly(node).addClass('x-nifty-field-instance-before-delete');
+			
+			var record = this.getRecord(node);
+			
+			if(confirm('Remove this instance?')){
+				// 
+				Ext.fly(node).ghost('b', {
+				    easing: 'easeOut',
+				    duration: .5,
+				    remove: false,
+				    useDisplay: false,
+					callback: function(){this.store.remove(record);},
+					scope: this
+				});
+				
+				return;
+
+			} else {
+				Ext.fly(node).removeClass('x-nifty-field-instance-before-delete');
+				return;
+				
+			}
 		}
 	},
 	
@@ -146,6 +170,8 @@ Nifty.widgets.field = Ext.extend(Ext.DataView, {
 				var fieldlet = Nifty.widgets.fieldlets[schemaFieldlet.preferences.type];
 				var cmp = {identifier: 'f' + child, fieldLabel: schemaFieldlet.name};
 				Ext.apply(cmp,fieldlet.editCmp);
+				Ext.apply(cmp,Nifty.viewerInfo.elements[child]);
+				if(this.children.length === 1){Ext.applyIf(cmp, {anchor: '99%'})}
 				this.editorLayout.push(cmp);
 			},this);
 		};
