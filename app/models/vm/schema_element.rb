@@ -25,21 +25,21 @@ module VM
 		# === Returns
 		# * schema<Schema>
 		def schema
-			@schema ||= Schema.loaded_schemas[@values[:schema]] || Schema.find(:guid => @values[:schema])
+			@schema ||= Schema.loaded_schemas[@values[:schema].to_s(16)] || Schema.find(:guid => @values[:schema].to_s(16))
 		end
 		
 		# get the parent from the schema or load from the DB		
 		# === Returns
 		# * parent<SchemaElement>
 		def parent
-			@parent ||= self.schema[@values[:parent_guid]]# || SchemaElement.find(:schema => @values[:schema], :guid => @values[:parent_guid])
+			@parent ||= self.schema[@values[:parent_guid].to_s(16)]# || SchemaElement.find(:schema => @values[:schema], :guid => @values[:parent_guid])
 		end
 		
 		# get all the children from the schema or load from the DB
 		# === Returns
 		# * [<SchemaElement>, ...] - Array of children schema elements
 		def children
-			@children ||= self.schema.children_of(@values[:guid])# || SchemaElement.filter(:parent_guid => @values[:guid]).all
+			@children ||= self.schema.children_of(@values[:guid].to_s(16))# || SchemaElement.filter(:parent_guid => @values[:guid]).all
 		end
 		
 		def children_with_type(type)
@@ -68,7 +68,7 @@ module VM
 		
 		def model_name
 			return false if not has_model?
-			@model_name ||= "#{self.schema_element_type.model_class_name}#{@values[:guid]}"			
+			@model_name ||= "#{self.schema_element_type.model_class_name}#{self.hex_guid()}"			
 		end
 		
 		# get the generated model from the namespace
@@ -84,15 +84,20 @@ module VM
 			@@element_types[symbol] = klass
 		end
 		
+		def hex_guid
+			@hex_guid ||= @values[:guid].to_s(16)
+			@hex_guid = "0#{@hex_guid}" if @hex_guid.size == 15
+			return @hex_guid
+		end
 		
 		# representation
 		def to_json(*args)
 			{
-				:id => @values[:guid].to_s(16),
+				:id => self.hex_guid(),
 				:name => @values[:name],
 				:type => @values[:type],
 				:preferences => self.prefs,
-				:children => (self.children || []).collect{|x| x.values[:guid].to_s(16)}
+				:children => (self.children || []).collect{|c| c.hex_guid()}
 			}.to_json(*args)
 		end
 		

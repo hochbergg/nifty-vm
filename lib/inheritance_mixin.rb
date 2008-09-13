@@ -12,12 +12,13 @@ module InheritanceMixin
 	module ClassMethods
 		
 		def set_inheritance!
-			id = self::IDENTIFIER
+			id = self::IDENTIFIER.to_i(16)
 			superclass_dataset = self.superclass.dataset
 			
 			# add to our dataset models hash
 			models = superclass_dataset.opts[:models].update(id => self)
 			
+			models[nil] = InheritanceMixin::NilModel # set nil to NilModel
 			# update the model dataset to be polymorphic
 			superclass_dataset.set_model(:kind, models)
 			
@@ -27,13 +28,24 @@ module InheritanceMixin
 		end
 
 		# gets a subclass model by an id
-		def get_subclass_by_id(id)
-			model = self.dataset.opts[:models][id.to_i]
+		def get_subclass_by_id(id, hex = true)
+			id = id.to_i(16) if hex
+			model = self.dataset.opts[:models][id]
 			raise "Subclass mismatch (#{id})" if !model
 			return model
 		end
 
 	end # ClassMethods
 	
-	
+
+
+	class NilModel
+		def initialize(h,*args)
+		end
+		
+		def self.load(h,*args)
+			return nil
+		end
+	end
+
 end

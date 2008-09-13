@@ -23,7 +23,7 @@ module App
 			raise "FieldletKind mismatch: expected #{self.class} but got #{fieldlet.class::FIELD}" if (self.class != fieldlet.class::FIELD)
 			
 			# set the randomized_instance_id
-			@randomized_instance_id ||= fieldlet.instance_id
+			@randomized_instance_id ||= fieldlet[:instance_id]
 			@fieldlets[fieldlet.class::IDENTIFIER] = fieldlet
 		end
 		
@@ -108,11 +108,7 @@ module App
 
 		
 		def to_json(*args)
-			h = {:instance => self.instance_id}
-			@fieldlets.each do |k,v|
-				h.merge!(k.to_s(16) => v)
-			end
-			return h.to_json(*args)
+			return @fieldlets.merge({:instance => self.instance_id()}).to_json(*args)
 		end
 	
 	
@@ -126,9 +122,9 @@ module App
 			# initialize the fieldlets	
 			fieldlets = []
 			new_fieldlet_hash.each do |kind,value|
-				fieldlet = Fieldlet.get_subclass_by_id(kind.to_i(16)).new
+	
+				fieldlet = Fieldlet.get_subclass_by_id(kind).new
 				fieldlet.value = value
-				
 				# verify matching 
 				raise "FieldletKind mismatch: expected #{field_class} but got #{fieldlet.class::FIELD}" if field_class && (field_class != fieldlet.class::FIELD)
 				field_class ||= fieldlet.class::FIELD

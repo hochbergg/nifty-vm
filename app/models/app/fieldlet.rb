@@ -52,10 +52,7 @@ module App
 		# JSON representation
 		# @overrideable
 		def to_json
-			{
-			 :type				=> self.class::IDENTIFIER.to_s(16),
-			 :value				=> self.value_to_json
-			 }.to_json
+			self.value_to_json.to_json()
 		end
 	
 		# XML representation
@@ -77,13 +74,13 @@ module App
 		# JSON representation
 		# @overrideable
 		def value_to_json
-			self.value
+			self.value()
 		end
 		
 		# XML representation
 		# @overrideable
 		def value_to_xml
-			self.value
+			self.value()
 		end
 		
 		
@@ -111,7 +108,7 @@ module App
 		# returns true if any of the value fields has any value
 		# used for checking if having any value, without using the getter
 		def value?
-			[@values[:int_value],@values[:text_value],@values[:string_value]].any?{|x| !x.nil?}
+			[@values[:string_value],@values[:text_value], @values[:int_value]].any?{|x| !x.nil?}
 		end
 
 

@@ -56,6 +56,14 @@ Nifty.viewerInfo = {
 			]
 		},
 		
+		"1d5a79532c8ff7f7":{
+			instanceFragments: [
+				{kind: "1d97f15ccd526b90"},
+				' (',
+				{kind: "228c9c108a81686b"}, ')'
+			]
+		},
+
 		"5bbe3d13c443372c":{
 			instanceFragments: [
 				{kind: "2aab167708c27f7b", cls: 'bold'},
@@ -64,9 +72,10 @@ Nifty.viewerInfo = {
 			]
 		},
 		
-		"20ea1f8c74ed3125":{anchor: '99%'},
-		"fd0816ebcab622ca":{anchor: '99%'}
-		
+		"20ea1f8c74ed3125":{anchor: '-5'},
+		"fd0816ebcab622ca":{anchor: '-5'},
+		"2aab167708c27f7b":{anchor: '30%'},
+		"2209ceaece034343":{anchor: '68%'}		
 		
 		
 		

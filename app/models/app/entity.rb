@@ -34,8 +34,7 @@ module App
 			varchar			:display
 
 			primary_key [:id]
-			index				[:kind, :display]
-			index				[:display]
+			index				[:display,:kind]
 		end
 		
 		# Inheritance Mixin - for smart STI

@@ -83,8 +83,8 @@ module App
 				fieldlets.each do |fieldlet|
 					push_fieldlet_to_field(fieldlet)
 				
-					@fieldlets[fieldlet.instance_id] ||= {}
-					@fieldlets[fieldlet.instance_id][fieldlet.values[:kind]] = fieldlet
+					@fieldlets[fieldlet[:instance_id]] ||= {}
+					@fieldlets[fieldlet[:instance_id]][fieldlet[:kind]] = fieldlet
 					@fieldlets_by_type[fieldlet.class::IDENTIFIER] ||= fieldlet
 				end
 				
@@ -94,7 +94,7 @@ module App
 			def push_fieldlet_to_field(fieldlet)
 								
 				field = self.fields[fieldlet.class::FIELD_ID].last
-				if field && field.instance_id == fieldlet.instance_id
+				if field && field.instance_id == fieldlet[:instance_id]
 					field.push(fieldlet)
 				else
 					field = fieldlet.class::FIELD.new(self)
@@ -137,11 +137,11 @@ module App
 				# update
 				fieldlet_hash.each do |instance_id,kinds_hash|
 					kinds_hash.each do |kind, value|
-						fieldlet = @fieldlets[instance_id.to_i][kind.to_i(16)]						
+						fieldlet = @fieldlets[instance_id][kind]						
 						
 						if(!fieldlet) # if there is no such fieldlet, create it
 							field = @instances[instance_id.to_i]
-							fieldlet = Fieldlet.get_subclass_by_id(kind.to_i(16)).new
+							fieldlet = Fieldlet.get_subclass_by_id(kind).new
 
 							field.push(fieldlet)
 						end
@@ -183,7 +183,7 @@ module App
 				# remove field instancess
 				remove_fields_hash ||= {}
 				remove_fields_hash.each do |instance, field_id|
-					@instances[field_id.to_i(16)][instance].mark_for_removel!
+					@instances[field_id][instance].mark_for_removel!
 				end
 				
 				return true
@@ -315,8 +315,8 @@ module App
 							args.delete options_hash
 						end
 						
-						# convert ids to int ids
-						ids = args.collect{|x| x.to_i}
+						# convert ids to int from hexs ids
+						ids = args.collect{|x| x.to_i(16)}
 					
 					
 						entities_to_load = {}
@@ -325,28 +325,16 @@ module App
 						
 						fieldlets_set = Fieldlet.order(:entity_id, :instance_id).filter!(:entity_id => ids)
 						
-						# Apply a fieldlets filter if given
-						fieldlets_set.filter!(options_hash[:fieldlets_filter]) if options_hash[:fieldlets_filter]
-						
-						# load only given fields
-						if options_hash[:only_fields]
-							fieldlets_field_filter = options_hash[:only_fields].collect do |field_cls| 
-								field_cls.fieldlet_kind_ids
-							end
-							fieldlets_field_filter.uniq!
-							
-							fieldlets_set.filter!(:kind => fieldlets_field_filter)
-						end						
-						
 						fieldlets = {}
 						
 						# Load all the fieldlets, push them to a hash by the entity_id
 						loaded_fieldlets = fieldlets_set.all
 						loaded_fieldlets.each do |fieldlet|
+							next if !fieldlet
 							fieldlet.entity_load_callback.call(entities_to_load) if fieldlet.entity_load_callback
 							
-							fieldlets[fieldlet.entity_id] ||= []
-							fieldlets[fieldlet.entity_id] << fieldlet
+							fieldlets[fieldlet[:entity_id]] ||= []
+							fieldlets[fieldlet[:entity_id]] << fieldlet
 						end
 						
 						# load all the entities
@@ -354,13 +342,14 @@ module App
 											
 						# iterate each loaded entity, run callbacks and push fieldlets
 						entities.each do |entity|
+							next if !entity
 							# run callbacks
-							if (!entities_to_load[entity.pk].empty?)
-								entities_to_load[entity.pk].each{|callback| callback.call(entity)}
+							if (!entities_to_load[entity[:id]].empty?)
+								entities_to_load[entity[:id]].each{|callback| callback.call(entity)}
 							end
 							
 							# init the fieldlets for the loaded entity, if there are fieldlets
-							entity.init_fieldlets(fieldlets[entity.pk] || []) if fieldlets[entity.pk] 
+							entity.init_fieldlets(fieldlets[entity[:id]] || []) if fieldlets[entity[:id]] 
 						end
 						
 						

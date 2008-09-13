@@ -6,7 +6,7 @@ module App
 			#UGLY
 			return latest if params[:id] == 'latest'
 		
-	    @schema = ::VM::Schema.loaded_schemas[params[:id].to_i(16)]
+	    @schema = ::VM::Schema.loaded_schemas[params[:id]]
 			display @schema
 	  end
 	  

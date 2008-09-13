@@ -171,7 +171,7 @@ Nifty.widgets.field = Ext.extend(Ext.DataView, {
 				var cmp = {identifier: 'f' + child, fieldLabel: schemaFieldlet.name};
 				Ext.apply(cmp,fieldlet.editCmp);
 				Ext.apply(cmp,Nifty.viewerInfo.elements[child]);
-				if(this.children.length === 1){Ext.applyIf(cmp, {anchor: '99%'})}
+				if(this.children.length === 1){Ext.applyIf(cmp, {anchor: '-5'})}
 				this.editorLayout.push(cmp);
 			},this);
 		};

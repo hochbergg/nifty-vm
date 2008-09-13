@@ -48,13 +48,13 @@ module App
 			
 			def to_json(*args)				
 				json_hash = {
-					:id => self.pk.to_s(16),
-					:type => self.kind.to_s(16),
-					:display => self.display,
-					:created_at => self.created_at,
-					:updated_at	=> self.updated_at,
+					:id => @values[:id].to_s(16),
+					:type => self.class::IDENTIFIER,
+					:display => @values[:display],
+					:created_at => @values[:created_at],
+					:updated_at	=> @values[:updated_at],
 					:fields => self.clean_fields(),
-					:schema => self.class::SCHEMA.to_s(16)
+					:schema => self.class::SCHEMA
 				}
 
 				return json_hash.to_json
@@ -63,7 +63,7 @@ module App
 			def clean_fields
 				fields = {}
 				self.fields.each do |key,field_instances|
-					fields[key.to_s(16)] = field_instances.reject{|x| !x.returned?}
+					fields[key] = field_instances.reject{|x| !x.returned?}
 				end
 				return fields
 			end

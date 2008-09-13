@@ -61,7 +61,7 @@ Ext.extend(Nifty.widgets.FieldEditor, Ext.Container, {
 		for(var k in this.currentRecord.data){
 			if(k === 'instance'){continue};
 			var fitem = this.find('identifier',k)[0];
-			fitem.setValue(this.currentRecord.get(k).value);
+			fitem.setValue(this.currentRecord.get(k));
 		}
 	},
 	
@@ -80,17 +80,19 @@ Ext.extend(Nifty.widgets.FieldEditor, Ext.Container, {
 	},
 	
 	unsetEvents: function(){
+		delete this.focusedItems;
 		this.items.each(function(item){
 			item.un('specialkey', this.specialKey, this);
-			item.un('blur', this.onItemBlur, this, {delay: 20});
+			item.un('blur', this.onItemBlur, this);
 			item.un('focus', this.onItemFocus, this);
 		},this);	
 	},
 	
 	onItemBlur: function(field){
-		if(!this.active){return}
+		if(!this.focusedItems){return;};
 		delete this.focusedItems[field.id]
 		var focus = false;
+		
 		for(var k in this.focusedItems){
 			focus = true;
 		}
@@ -111,16 +113,15 @@ Ext.extend(Nifty.widgets.FieldEditor, Ext.Container, {
 	},
 	
 	finishEdit: function(e){
-	   this.unsetEvents();
 	   for(var k in this.currentRecord.data){
 	   		if(k === 'instance'){continue};
 	   		var fitem = this.find('identifier',k)[0];
 
-			if(fitem.getValue() !== this.currentRecord.data[k].value){ // if the data has changed
+			if(fitem.getValue() !== this.currentRecord.data[k]){ // if the data has changed
 				if(!this.currentRecord.modified){this.currentRecord.modified = {}};
 				this.currentRecord.modified[k] = {};
 				Ext.apply(this.currentRecord.modified[k], this.currentRecord.data[k]);
-				this.currentRecord.data[k] =  {value: fitem.getValue()};
+				this.currentRecord.data[k] = fitem.getValue();
 				this.currentRecord.dirty = true;
 			}
 	   }
@@ -136,6 +137,7 @@ Ext.extend(Nifty.widgets.FieldEditor, Ext.Container, {
 	},
 	
 	hide: function(){
+		this.unsetEvents();
 		this.el.setVisible(false);
 	},
 	

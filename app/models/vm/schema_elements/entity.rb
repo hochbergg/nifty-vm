@@ -8,7 +8,7 @@ module VM
 			
 			def self.model_extra_constants(namespace,schema_element)
 				field_ids = schema_element.children_with_type(:field).
-																	  collect{|e| e.values[:guid]}
+																	  collect{|e| e.hex_guid}
 				field_names = field_ids.collect{|i| "Field#{i}"}
 				field_klasses = field_names.collect{|f| namespace.const_get(f)} 
 				
@@ -18,15 +18,14 @@ module VM
 				if(display)
 					display_lambda = proc do |fieldlets_value|
 						# replace all the guids with their ids
-						return display.gsub(/[a-f0-9]{16}/){|v| fieldlets_value[v.to_i(16)]}
+						return display.gsub(/[a-f0-9]{16}/){|v| fieldlets_value[v]}
 					end
 				end
 				
 				
 				{'DISPLAY_LAMBDA' => display_lambda,
 				 'FIELD_IDS'			=> field_ids,
-				 'FIELDS'					=> field_klasses
-				}
+				 'FIELDS'					=> field_klasses}
 			end
 		end
 	end

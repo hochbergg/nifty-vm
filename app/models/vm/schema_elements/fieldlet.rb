@@ -10,7 +10,7 @@ module VM
 				prefs = schema_element.prefs
 				
 				field	 = schema_element.parent
-				field_id = field.values[:guid]
+				field_id = field.hex_guid
 				type  = prefs['type']
 								
 				{

@@ -26,13 +26,24 @@ module VM
 			@children_of_element = {}
 			return false if self.new?
 			SchemaElement.filter(:schema => @values[:guid]).order(:parent_guid, :position).all.each do |schema_element|
-				
-				@elements[schema_element.values[:guid]] = schema_element
-
-				if parent_guid = schema_element.values[:parent_guid]
-					@children_of_element[parent_guid] ||= []
-					@children_of_element[parent_guid] << schema_element
-				end
+				self.push_schema_element(schema_element)
+			end
+		end
+		
+		def push_schema_element(schema_element)
+			hex_guid = schema_element.hex_guid
+			parent_hex_guid = schema_element[:parent_guid]
+			parent_hex_guid = parent_hex_guid.to_s(16) if parent_hex_guid
+			
+			parent_hex_guid = "0#{parent_hex_guid}" if parent_hex_guid && parent_hex_guid.size == 15
+			
+			
+			
+			@elements[hex_guid] = schema_element
+			
+			if parent_hex_guid
+				@children_of_element[parent_hex_guid] ||= []
+				@children_of_element[parent_hex_guid] << schema_element
 			end
 		end
 		
@@ -57,7 +68,7 @@ module VM
 		def load!
 				puts "Schema: Loading Schema classes..."
 				self.load_schema_elements()
-				@@loaded_schemas[@values[:guid]] = self
+				@@loaded_schemas[@values[:guid].to_s(16)] = self
 				
 				puts "Schema: Instansiating Schema..." 
 				self.instansiate()
@@ -75,7 +86,7 @@ module VM
 				App.send(:remove_const, klass.to_s.split('::').last.to_sym)
 			end
 			
-			@@loaded_schemas.delete @values[:guid]
+			@@loaded_schemas.delete @values[:guid].to_s(16)
 			
 			@generated = []
 		end
