@@ -14,6 +14,5 @@ module Merb
 		def ext_css_include_tag
 			css_include_tag('../ext/resources/css/ext-all.css', :bundle => 'ext')
 		end
-
   end
 end

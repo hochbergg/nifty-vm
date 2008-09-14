@@ -6,7 +6,7 @@
 <head>
 	<title></title>
 	<%= ext_css_include_tag %>
-	<%= css_include_tag '../viewer/info.css' %>
+	<%= css_include_tag("../viewer/#{@namespace::SCHEMA}/info") %>
 	<%= css_include_tag 'nifty-base.css',
 	 										'nifty/widgets/nifty_panel.css',
 											'nifty/widgets/nifty_tab_panel.css',
@@ -39,7 +39,7 @@
 	</div>	
 	
 	<%= js_include_tag('../ext/ext-base', "../ext/ext-all.js", :bundle => 'ext') %>
-  <%= js_include_tag('../viewer/info')%>	
+  <%= js_include_tag("../viewer/#{@namespace::SCHEMA}/info")%>	
 	<%= js_include_tag	'nifty/core',
 											'nifty/router',
 											'nifty/schema',

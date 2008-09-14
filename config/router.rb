@@ -19,17 +19,26 @@
 # You can also use regular expressions, deferred routes, and many other options.
 # See merb/specs/merb/router.rb for a fairly complete usage sample.
 
+module RoutingHelper
+	def self.nifty_routes(r)
+		r.resources('entities', 
+								:controller => 'app/entities', 
+								:collection => {:search => :get}) do |e|
+			e.resources 'lists', :controller => 'app/lists'
+		end
+
+		r.resources 'lists', :controller => 'app/lists'
+		r.match('/schema.:format').to(:controller => 'app/schemas', :action => 'show')
+		r.match('').to(:controller => 'app/home', :action =>'index')
+		r.match('/').to(:controller => 'app/home', :action =>'index')
+	end	
+end
+
+
 Merb.logger.info("Compiling routes...")
 Merb::Router.prepare do |r|
   # RESTful routes
-	r.resources('entities', 
-							:controller => 'app/entities', 
-							:collection => {:search => :get, 
-															:random => :get}) do |e|
-		e.resources 'lists', :controller => 'app/lists'
-	end
-	
-	r.resources 'lists', :controller => 'app/lists'
+
 
 	r.resources 'schemas', :controller => 'app/schemas'
 	
@@ -37,8 +46,14 @@ Merb::Router.prepare do |r|
   # This is fine for most cases.  If you're heavily using resource-based
   # routes, you may want to comment/remove this line to prevent
   # clients from calling your create or destroy actions with a GET
-  r.default_routes
   
   # Change this for your home page to be available at /
-  r.match('/').to(:controller => 'app/entities', :action =>'index')
+
+	r.match("/:directory") do |dr|
+		RoutingHelper::nifty_routes(dr)
+	end
+
+	RoutingHelper::nifty_routes(r)
+	
+	r.match('/').to(:controller => 'app/home', :action =>'index')
 end

@@ -25,21 +25,21 @@ module VM
 		# === Returns
 		# * schema<Schema>
 		def schema
-			@schema ||= Schema.loaded_schemas[@values[:schema].to_s(16)] || Schema.find(:guid => @values[:schema].to_s(16))
+			@schema ||= Schema.loaded_schemas["%016x" % @values[:schema]]
 		end
 		
 		# get the parent from the schema or load from the DB		
 		# === Returns
 		# * parent<SchemaElement>
 		def parent
-			@parent ||= self.schema[@values[:parent_guid].to_s(16)]# || SchemaElement.find(:schema => @values[:schema], :guid => @values[:parent_guid])
+			@parent ||= self.schema["%016x" % @values[:parent_guid]]# || SchemaElement.find(:schema => @values[:schema], :guid => @values[:parent_guid])
 		end
 		
 		# get all the children from the schema or load from the DB
 		# === Returns
 		# * [<SchemaElement>, ...] - Array of children schema elements
 		def children
-			@children ||= self.schema.children_of(@values[:guid].to_s(16))# || SchemaElement.filter(:parent_guid => @values[:guid]).all
+			@children ||= self.schema.children_of("%016x" % @values[:guid])# || SchemaElement.filter(:parent_guid => @values[:guid]).all
 		end
 		
 		def children_with_type(type)
@@ -85,9 +85,7 @@ module VM
 		end
 		
 		def hex_guid
-			@hex_guid ||= @values[:guid].to_s(16)
-			@hex_guid = "0#{@hex_guid}" if @hex_guid.size == 15
-			return @hex_guid
+			@hex_guid ||= "%016x" % @values[:guid]
 		end
 		
 		# representation

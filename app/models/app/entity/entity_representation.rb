@@ -48,7 +48,7 @@ module App
 			
 			def to_json(*args)				
 				json_hash = {
-					:id => @values[:id].to_s(16),
+					:id => "%016x" % @values[:id],
 					:type => self.class::IDENTIFIER,
 					:display => @values[:display],
 					:created_at => @values[:created_at],

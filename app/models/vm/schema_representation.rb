@@ -6,7 +6,7 @@ module VM
 		
 		def to_json
 			h = {
-				:id => @values[:guid].to_s(16),
+				:id => "%016x" % @values[:guid],
 				:name => @values[:name],
 				:preferences => self.prefs,
 				:elements => @elements

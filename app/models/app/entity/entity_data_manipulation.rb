@@ -141,7 +141,7 @@ module App
 						
 						if(!fieldlet) # if there is no such fieldlet, create it
 							field = @instances[instance_id.to_i]
-							fieldlet = Fieldlet.get_subclass_by_id(kind).new
+							fieldlet =  self.class::NAMESPACE::Fieldlet.get_subclass_by_id(kind).new
 
 							field.push(fieldlet)
 						end
@@ -154,7 +154,7 @@ module App
 				# add new fields
 				new_fields_hash ||= {}
 				new_fields_hash.values.each do |new_field_fieldlets_hash|					
-					field, fieldlets = Field.create_new_with_fieldlets(self, new_field_fieldlets_hash)
+					field, fieldlets = self.class::NAMESPACE::Field.create_new_with_fieldlets(self, new_field_fieldlets_hash)
 					
 					field.each do |fieldlet|
 						fieldlet.entity_create_callback.call(entities_to_load) if fieldlet.entity_create_callback
@@ -170,7 +170,7 @@ module App
 
 				entities = []
 				#load the required entities, and call the callbacks
-				entities = Entity.filter(:id => entities_to_load.keys).all if !entities_to_load.keys.empty?
+				entities = self.class::NAMESPACE::Entity.filter(:id => entities_to_load.keys).all if !entities_to_load.keys.empty?
 				
 				# iterate each loaded entity, run callbacks and push fieldlets
 				entities.each do |entity|
@@ -323,7 +323,7 @@ module App
 						## setup hash for entities loading and callbacks
 						ids.each{|id| entities_to_load.merge!(id => [])}
 						
-						fieldlets_set = Fieldlet.order(:entity_id, :instance_id).filter!(:entity_id => ids)
+						fieldlets_set = self::NAMESPACE::Fieldlet.order(:entity_id, :instance_id).filter!(:entity_id => ids)
 						
 						fieldlets = {}
 						
@@ -338,7 +338,7 @@ module App
 						end
 						
 						# load all the entities
-						entities = Entity.filter(:id => entities_to_load.keys).all
+						entities = self.filter(:id => entities_to_load.keys).all
 											
 						# iterate each loaded entity, run callbacks and push fieldlets
 						entities.each do |entity|

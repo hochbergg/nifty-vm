@@ -8,17 +8,18 @@ module App
 	  end
 	  
 	  def show
-	    @entity = Entity.find_with_fieldlets(params[:id])
+	    @entity = @namespace::Entity.find_with_fieldlets(params[:id])
+			raise NotFoundException if !@entity
 			display @entity
 	  end
 	  
 	  def new
-	    @entity = Entity.get_subclass_by_id(params[:id]).new
+	    @entity = @namespace::Entity.get_subclass_by_id(params[:id]).new
 	    display @entity
 	  end
 	  
 	  def create
-	    @entity = Entity.get_subclass_by_id(params[:id]).new
+	    @entity = @namespace::Entity.get_subclass_by_id(params[:id]).new
 			@entity.set_fieldlets(params[:entity])
 	    if @entity.save_changes
 				return render
@@ -28,12 +29,12 @@ module App
 	  end
 	  
 	  def edit
-	    @entity = Entity.find_with_fieldlets(params[:id])
+	    @entity = @namespace::Entity.find_with_fieldlets(params[:id])
 	    render
 	  end
 	  
 	  def update
-	    @entity = Entity.find_with_fieldlets(params[:id])
+	    @entity = @namespace::Entity.find_with_fieldlets(params[:id])
 			@entity.set_fieldlets(params[:entity])
 	    if @entity.save_changes
 				return render
@@ -43,7 +44,7 @@ module App
 	  end
 	  
 	  def destroy
-	    @entity = Entity[params[:id]]
+	    @entity = @namespace::Entity[params[:id]]
 	    if @entity.destroy
  				return render
 			else
@@ -54,7 +55,7 @@ module App
 	
 	
 		def search
-			entity_dataset = Entity.filter('`display` LIKE ?', "#{params[:search]}%")
+			entity_dataset = @namespace::Entity.filter('`display` LIKE ?', "#{params[:search]}%")
 			entity_dataset.filter!(:kind => params[:kind]) if params[:kind]
 			entity_dataset.limit!(30)
 			

@@ -109,7 +109,7 @@ Nifty.schema.Loader = function(){
 				
 				// Ajax Request
 				Ext.Ajax.request({
-				       url: '/schemas/' + options['id'] + '.js',
+				       url: 'schema.js',
 				       success: this.loadRecords,
 					   failure: this.failedLoading,
 				       method: 'get',

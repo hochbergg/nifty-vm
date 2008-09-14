@@ -12,18 +12,29 @@ module VM
 				@@has_models[self]
 			end
 			
+			def self.find_or_create_model_class(namespace)
+				 if (namespace.constants.include? @@model_class_name[self])
+						return namespace.const_get(@@model_class_name[self])
+  			 end
+
+				# not exist in the target namespace, duplicate it from the App namespace
+				model =  namespace.const_set(@@model_class_name[self], Class.new(::App.const_get(@@model_class_name[self])))
+				model.const_set('NAMESPACE',namespace)
+				return model
+			end
+			
 			def self.build_model(namespace, schema_element)
 				identifier = schema_element.hex_guid
 				preferences = schema_element.prefs #load prefs
 				preferences = preferences.dup if preferences
 				model_klass = namespace.const_set("#{@@model_class_name[self]}#{identifier}", 
-																Class.new(namespace.const_get(@@model_class_name[self])))
+																Class.new(self.find_or_create_model_class(namespace)))
 
 				# set class variables
 				model_klass.const_set('NAME', schema_element[:name].freeze)
 				model_klass.const_set('IDENTIFIER', identifier.freeze)
 				model_klass.const_set('PREFS', preferences.freeze)
-				model_klass.const_set('SCHEMA', schema_element[:schema].to_s(16).freeze)
+				model_klass.const_set('SCHEMA', "%016x" % schema_element[:schema].freeze)
 
 
 				

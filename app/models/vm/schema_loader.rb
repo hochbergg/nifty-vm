@@ -28,7 +28,9 @@ module VM
 			@new = @schema.new?
 			
 			@schema.guid = @schema_guid if @new
+			@schema.prefs = parse_preferences_items(@schema_xml.elements['preferences'])
 			@schema.load_schema_elements()
+			
 			
 			@entities = parse_elements(@entities_xml, 'entity') do |entity, entity_xml|
 				@fields.concat(parse_elements(entity_xml.elements['fields'], 'field', entity.values[:guid]) do |field, field_xml|
@@ -50,7 +52,7 @@ module VM
 			name = xml_element.attributes['name']
 			preferences = parse_preferences_items(xml_element.elements['preferences'])
 			
-			element = @schema[guid] || SchemaElement.new(:type => element_type)
+			element = @schema["%016x" % guid] || SchemaElement.new(:type => element_type)
 			if element.new? # not in the schema, we need to create one
 				element.schema = @schema_guid
 				element.guid 	 = guid

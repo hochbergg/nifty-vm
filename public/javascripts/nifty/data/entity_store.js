@@ -27,9 +27,10 @@ Nifty.data.EntityStore = function(){
 			options = options || {};
 			if(this.fireEvent("beforeload", this, options) === false){return false;};
 			
+			 
 			 // Ajax Request
 			 Ext.Ajax.request({
-			        url: '/entities/' + options.id + '.js',
+			        url: String.format('{0}/entities/{1}.js', this.getNamespace(), options.id),
 			        success: this.loadRecords,
 			 	   	failure: this.failedLoading,
 			        method: 'get',
@@ -37,6 +38,19 @@ Nifty.data.EntityStore = function(){
 			      });
 			
 			return true;
+		},
+		
+		
+		getNamespace: function(){
+			if(this.namespace){return this.namespace};
+			var schema = Nifty.schema.loaded;
+			
+			if(schema.preferences && schema.preferences.routing){
+				var ns = schema.preferences.routing.match(/^\/\w+/)
+				
+				if(ns){return this.namespace = ns}
+			}
+			return (this.namespace = '');
 		},
 		
 		

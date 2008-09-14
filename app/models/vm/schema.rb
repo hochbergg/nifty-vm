@@ -18,6 +18,7 @@ module VM
 			index :active
 			primary_key [:guid]
 		end
+		set_primary_key :guid
 		
 		
 		
@@ -33,9 +34,8 @@ module VM
 		def push_schema_element(schema_element)
 			hex_guid = schema_element.hex_guid
 			parent_hex_guid = schema_element[:parent_guid]
-			parent_hex_guid = parent_hex_guid.to_s(16) if parent_hex_guid
-			
-			parent_hex_guid = "0#{parent_hex_guid}" if parent_hex_guid && parent_hex_guid.size == 15
+			parent_hex_guid = "%016x" % parent_hex_guid if parent_hex_guid
+		
 			
 			
 			
@@ -59,22 +59,56 @@ module VM
 		def instansiate
 			elements = @elements.values
 			
-			@generated = elements.collect{|e| e.build_model()}
-			elements.each{|e| e.set_extras()}
+			@generated = elements.collect{|e| e.build_model(@namespace)}
+			elements.each{|e| e.set_extras(@namespace)}
 			
 			@generated
 		end
 		
+		def setup_namespace
+			@namespace = ::App.const_set("Schema#{"%016x" % @values[:guid]}", Module.new)
+			@namespace.const_set('SCHEMA', "%016x" % @values[:guid])
+		end	
+		
+		def register_routing
+			if self.prefs['routing'] == '*' || !self.prefs['routing'] # catch all
+				::App::SCHEMA_ROUTES[:catch_all] = @namespace
+				return
+			end
+			
+			
+			if self.prefs['routing'] =~ /^\/\w+$/ #directory
+				::App::SCHEMA_ROUTES[:directory][self.prefs['routing'].sub('/','')] = @namespace
+				return
+			end
+			
+			::App::SCHEMA_ROUTES[:hosts][self.prefs['routing']] = @namespace
+		end
+		
+		def remove_routing
+				if self.prefs['routing'] == '*' || !self.prefs['routing'] # catch all
+					::App::SCHEMA_ROUTES[:catch_all] = nil
+					return
+				end
+
+				if self.prefs['routing'] =~ /^\/\w+$/ #directory
+					::App::SCHEMA_ROUTES[:directory].delete self.prefs['routing'].sub('/','')
+					return
+				end
+
+				::App::SCHEMA_ROUTES[:hosts].delete self.prefs['routing']
+		end
+		
 		def load!
-				puts "Schema: Loading Schema classes..."
+				self.setup_namespace()
 				self.load_schema_elements()
-				@@loaded_schemas[@values[:guid].to_s(16)] = self
+				@@loaded_schemas["%016x" % @values[:guid]] = self
 				
-				puts "Schema: Instansiating Schema..." 
 				self.instansiate()
 			
-				puts "Schema: Generated #{@generated.size} models"
-								
+				puts "Loaded Schema #{"%016x" % @values[:guid]} (#{@generated.size} models) => #{self.prefs['routing']}"
+				
+				self.register_routing()
 				@generated
 		end
 
@@ -82,13 +116,11 @@ module VM
 		attr_accessor :generated
 		
 		def unload!
-			@generated.each do |klass|
-				App.send(:remove_const, klass.to_s.split('::').last.to_sym)
-			end
+			self.remove_routing()
 			
-			@@loaded_schemas.delete @values[:guid].to_s(16)
+			::App.send(:remove_const, "Schema#{"%016x" % @values[:guid]}".to_sym)
 			
-			@generated = []
+			@@loaded_schemas.delete("%016x" % @values[:guid])
 		end
 		
 		# load all the active schemas

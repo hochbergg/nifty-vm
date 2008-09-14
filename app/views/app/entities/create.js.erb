@@ -1,1 +1,1 @@
-{success: true, id: <%= @entity[:id].to_s(16) %>}
+{success: true, id: <%= "%016x" % @entity[:id] %>}

@@ -69,7 +69,7 @@ module App
 		
 		# return all the fieldlets in this field
 		def all_fieldlets
-			self.class::FIELDLET_IDS.collect{|kind_id| @fieldlets[kind_id] || Fieldlet.get_subclass_by_id(kind_id).new}
+			self.class::FIELDLET_IDS.collect{|kind_id| @fieldlets[kind_id] || self.class::NAMESPACE::Fieldlet.get_subclass_by_id(kind_id).new}
 		end
 
 		
@@ -123,7 +123,7 @@ module App
 			fieldlets = []
 			new_fieldlet_hash.each do |kind,value|
 	
-				fieldlet = Fieldlet.get_subclass_by_id(kind).new
+				fieldlet = self::NAMESPACE::Fieldlet.get_subclass_by_id(kind).new
 				fieldlet.value = value
 				# verify matching 
 				raise "FieldletKind mismatch: expected #{field_class} but got #{fieldlet.class::FIELD}" if field_class && (field_class != fieldlet.class::FIELD)

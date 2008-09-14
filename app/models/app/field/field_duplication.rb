@@ -15,7 +15,7 @@ module App
 		end
 		
 		def destroy_duplicates!(duplicant = @duplicant)
-			Fieldlet.filter(:instance_id => self.instance_id(), :entity_id => duplicant[:id]).delete
+			self.class::NAMESPACE::Fieldlet.filter(:instance_id => self.instance_id(), :entity_id => duplicant[:id]).delete
 		end
 		
 		def update_duplicates!(instance)
@@ -67,10 +67,10 @@ module App
 				
 				# now will create the fieldlet instances
 					if (my_fieldlet.new? || force_create)
-						target_fieldlet = Fieldlet.new
+						target_fieldlet = self.class::NAMESPACE::Fieldlet.new
 						target_fieldlet.values.merge!(values)
 					else
-						target_fieldlet = Fieldlet.load(values)
+						target_fieldlet = self.class::NAMESPACE::Fieldlet.load(values)
 					
 						my_fieldlet.changed_columns.each do |col|
 							target_fieldlet[col] = my_fieldlet[col]

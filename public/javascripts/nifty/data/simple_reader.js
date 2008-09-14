@@ -50,6 +50,7 @@ Ext.extend(Nifty.data.simpleReader, Ext.data.DataReader, {
 
 
         var records = [];
+		if(!array){array = []}
 		for(var i=0;i<array.length;i++){
 			var h = array[i];
 			
