@@ -56,5 +56,16 @@ Nifty.widgets.entity = Ext.extend(Nifty.widgets.page,{
 	},
 	
 	
+	//save chagnes before leave
+	beforeLeave: function(){
+		if(this.entityStore.new){
+			// stop because new and shit
+			
+		} else {
+			this.entityStore.saveTask.delay(1);
+			return true;
+		}
+	}
+	
 });
 	

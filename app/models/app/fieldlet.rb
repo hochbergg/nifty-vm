@@ -36,6 +36,8 @@ module App
 			
 			primary_key [:entity_id, :instance_id, :kind]
 		end
+		
+		set_primary_key :entity_id, :instance_id, :kind
 	
 		# Inheritance Mixin - for smart STI
 		include InheritanceMixin

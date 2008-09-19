@@ -147,7 +147,7 @@
 	<!-- GUID type -->
 	<xs:simpleType name="guid">
 		<xs:restriction base="xs:string">
-		    <xs:pattern value="[a-f0-9]{32}"/>
+		    <xs:pattern value="[a-f0-9]{16}"/>
 	  </xs:restriction>
 	</xs:simpleType>
 

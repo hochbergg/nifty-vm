@@ -59,7 +59,6 @@ Ext.extend(Nifty.widgets.FieldEditor, Ext.Container, {
 	
 	setData: function(){
 		for(var k in this.currentRecord.data){
-			if(k === 'instance'){continue};
 			var fitem = this.find('identifier',k)[0];
 			fitem.setValue(this.currentRecord.get(k));
 		}
@@ -114,7 +113,6 @@ Ext.extend(Nifty.widgets.FieldEditor, Ext.Container, {
 	
 	finishEdit: function(e){
 	   for(var k in this.currentRecord.data){
-	   		if(k === 'instance'){continue};
 	   		var fitem = this.find('identifier',k)[0];
 
 			if(fitem.getValue() !== this.currentRecord.data[k]){ // if the data has changed

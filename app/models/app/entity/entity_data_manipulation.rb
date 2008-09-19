@@ -84,7 +84,7 @@ module App
 					push_fieldlet_to_field(fieldlet)
 				
 					@fieldlets[fieldlet[:instance_id]] ||= {}
-					@fieldlets[fieldlet[:instance_id]][fieldlet[:kind]] = fieldlet
+					@fieldlets[fieldlet[:instance_id]][fieldlet.class::IDENTIFIER] = fieldlet
 					@fieldlets_by_type[fieldlet.class::IDENTIFIER] ||= fieldlet
 				end
 				
@@ -137,7 +137,7 @@ module App
 				# update
 				fieldlet_hash.each do |instance_id,kinds_hash|
 					kinds_hash.each do |kind, value|
-						fieldlet = @fieldlets[instance_id][kind]						
+						fieldlet = @fieldlets[instance_id.to_i][kind]						
 						
 						if(!fieldlet) # if there is no such fieldlet, create it
 							field = @instances[instance_id.to_i]
@@ -183,7 +183,7 @@ module App
 				# remove field instancess
 				remove_fields_hash ||= {}
 				remove_fields_hash.each do |instance, field_id|
-					@instances[field_id][instance].mark_for_removel!
+					@instances[field_id][instance.to_i].mark_for_removel!
 				end
 				
 				return true

@@ -95,10 +95,9 @@ module App
 		end
 		
 		
-		def destroy
-				self.each{|fieldlet| fieldlet.destroy} # remove all the fieldlets
-				
+		def destroy	
 				destroy_duplicates! if self.class::DUPLICATION
+				self.class::NAMESPACE::Fieldlet.filter(:entity_id => @entity[:id], :instance_id => self.instance_id()).delete
 		end
 
 		def valid?
@@ -108,7 +107,7 @@ module App
 
 		
 		def to_json(*args)
-			return @fieldlets.merge({:instance => self.instance_id()}).to_json(*args)
+			return @fieldlets.merge({:instance => self.instance_id().to_s}).to_json(*args)
 		end
 	
 	

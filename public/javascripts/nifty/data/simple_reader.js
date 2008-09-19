@@ -48,21 +48,23 @@ Ext.extend(Nifty.data.simpleReader, Ext.data.DataReader, {
          * @type Object
          */
 
-
         var records = [];
 		if(!array){array = []}
 		for(var i=0;i<array.length;i++){
 			var h = array[i];
+			var instance = null
 			
 			for(var k in h){
 				if(k !== 'instance'){
 					h['f' + k] = h[k];
-					delete h[k];
+				} else {
+					instance = h[k];
 				}
+				delete h[k];
 			}
-			
-			records.push(new this.recordType(h,h.instance));
+			records.push(new this.recordType(h,instance));
 		}
+		
 
 	    return {
 	        success : true,

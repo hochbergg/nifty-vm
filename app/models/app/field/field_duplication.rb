@@ -14,7 +14,8 @@ module App
 			self.link_fieldlet.entity.pk != self.link_fieldlet.old_entity.pk
 		end
 		
-		def destroy_duplicates!(duplicant = @duplicant)
+		def destroy_duplicates!(duplicant = self.duplicant())
+			
 			self.class::NAMESPACE::Fieldlet.filter(:instance_id => self.instance_id(), :entity_id => duplicant[:id]).delete
 		end
 		
