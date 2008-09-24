@@ -99,6 +99,19 @@ module VM
 				::App::SCHEMA_ROUTES[:hosts].delete self.prefs['routing']
 		end
 		
+		def setup_queue
+			queue = nil
+			
+			if queue_options = self.prefs[:queue_options]
+					queue = NiftyQ::Manager.new(queue_options[:provider], queue_options[:options])
+			end
+			
+			queue ||= NiftyQ::Manager.new(:sequel, {:db => @namespace::Entity.db})
+			
+			@namespace.const_set('QUEUE', queue)
+		end
+		
+		
 		def load!
 				self.setup_namespace()
 				self.load_schema_elements()
@@ -109,6 +122,7 @@ module VM
 				puts "Loaded Schema #{"%016x" % @values[:guid]} (#{@generated.size} models) => #{self.prefs['routing']}"
 				
 				self.register_routing()
+				self.setup_queue()
 				@generated
 		end
 

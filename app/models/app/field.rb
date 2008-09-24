@@ -10,6 +10,7 @@ Dir.glob(Merb.root / 'app'/ 'models' / 'app' / 'field' / '*.rb').each{|f| requir
 module App
 	class Field
 		include Enumerable	
+		include Namespacing
 		
 		def initialize(entity)
 			@entity = entity

@@ -56,6 +56,7 @@ Merb.push_path(:lib, Merb.root / "lib") # uses **/*.rb as path glob.
 # dependencies "RedCloth" => "> 3.0", "ruby-aes-cext" => "= 1.0"
 
 dependency 'merb-assets'
+dependency 'nifty-q'
 
 Merb::BootLoader.after_app_loads do
 	require 'lib/nifty_base_fieldlets/lib/nifty_base_fieldlets'
@@ -65,9 +66,7 @@ Merb::BootLoader.after_app_loads do
 	
 	# load schema
  	VM::Schema.load! if Merb.config[:auto_load_schema]
-	
-	# build JS
-	#VM::JsGenerator.build if Merb.config[:auto_generate_js]
+
 
   # dependency "magic_admin" # this gem uses the app's model classes
 end

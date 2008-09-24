@@ -7,5 +7,11 @@ Merb::Config.use { |c|
 
 	c[:auto_load_schema] = true
 	c[:auto_generate_js] = true
+	
+	c[:nifty_q] = {
+		:provider => :sequel,
+		:provider_options => {},
+		:use_default_db => true
+	}
 }
 

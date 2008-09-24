@@ -68,12 +68,6 @@ module App
 		# InstanceMethods			
 		
 			
-			# used for a cached access to loaded fieldlets. 
-			# if non loaded, load them
-			def fieldlets
-				@fieldlets || init_fieldlets
-			end
-			
 			
 			
 			def init_fieldlets(fieldlets=[])
@@ -192,66 +186,6 @@ module App
 			# alias
 			alias	 :fieldlets= :set_fieldlets
 
-			
-			# Accessor for the fields
-			# if no fieldls were initialized, initalize the fields
-			def fields
-				@fields ||= Hash.new{|hash, key| hash[key] = []}
-			end
-			
-		
-			# The display value of the entity
-			def display
-				@values[:display]
-			end
-			
-			# Saves the entity and the fieldlets
-			#
-			# ==== Returns
-			# <Boolean>:: true if save was successful, false if validation failed 
-			#
-			# ==== Notes
-			# * If no fieldets, saves only the entity
-			# * If the fieldlets do not validate, don't save and return false
-			# * Saves entity and fieldlets in a transaction
-			#
-			def save_changes
-				set_display_value()
-				return super unless @fields # if no fieldlets, save the normal way
-				return false unless self.fields.values.all?{|field| field.all?{|instance| instance.valid?}}
-				
-				self.db.transaction do
-					if(@new)
-						self.save
-					else	
-						super #call for the inherited save action - saves the entity
-					end
-					
-					self.fields.values.each{|field| field.each{|instance| instance.save}}
-				end
-				return true
-			end
-			
-			# sets the display value according to the given lambda
-			
-			def set_display_value
-				fieldlets = {}
-				@fieldlets_by_type.each do |k,v|
-					fieldlets[k] = v.value
-				end
-				self.display = self.class::DISPLAY_LAMBDA.call(fieldlets) if self.class::DISPLAY_LAMBDA
-			end
-	
-	
-			def generate_entity_pk
-				s = ""
-				8.times do
-					s << rand(256).to_s(16)
-				end
-				@values[:id] = s.to_i(16) # 64 bits random
-			end
-
-			
 		 # end InstanceMethods
 		
 		# ClassMethods

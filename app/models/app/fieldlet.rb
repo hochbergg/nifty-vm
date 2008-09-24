@@ -41,7 +41,7 @@ module App
 	
 		# Inheritance Mixin - for smart STI
 		include InheritanceMixin
-	
+		include Namespacing
 
 
 		# ==== Representations 
