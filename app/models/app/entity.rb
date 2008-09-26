@@ -1,3 +1,4 @@
+require 'namespacing'
 
 module App
 	class Entity < Sequel::Model
@@ -40,6 +41,14 @@ module App
 		# Inheritance Mixin - for smart STI
 		include InheritanceMixin
 		include Namespacing
+		
+		# setup all the instance variables
+		after_initialize do 
+			@fieldlets = Hash.new{|hash, key| hash[key] = {}}
+			@fields = Hash.new{|hash, key| hash[key] = []}
+			@instances = {}
+			@fieldlets_by_type = {}
+		end
 		
 	end
 end

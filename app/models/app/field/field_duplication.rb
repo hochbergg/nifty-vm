@@ -10,13 +10,13 @@ module App
 	
 		# InstanceMethods
 		def duplicant_changed? 
-			return false if not self.link_fieldlet.old_entity
-			self.link_fieldlet.entity.pk != self.link_fieldlet.old_entity.pk
+			return false if !self.link_fieldlet.old_entity
+			self.link_fieldlet.entity[:id] != self.link_fieldlet.old_entity[:id]
 		end
 		
 		def destroy_duplicates!(duplicant = self.duplicant())
-			
-			self.class::NAMESPACE::Fieldlet.filter(:instance_id => self.instance_id(), :entity_id => duplicant[:id]).delete
+			ns()::Fieldlet.filter(:instance_id => self.instance_id(), 
+														:entity_id => duplicant[:id]).delete
 		end
 		
 		def update_duplicates!(instance)
@@ -40,42 +40,38 @@ module App
 		def set_duplicants_values!(instance, force_create = false)
 			@duplicated_fieldlets = []
 			
-			my_fieldlets = self.all_fieldlets
+			fieldlets = self.all_fieldlets
 			target_fieldlet_ids = self.duplicants_fieldlet_ids
+
+			if target_fieldlet_ids.size != fieldlets.size
+				raise "duplicated fields should match!!" 
+			end
 			
-			raise "duplicated fields should match!!" if target_fieldlet_ids.size != my_fieldlets.size
-			
-			my_fieldlets.each_with_index do |my_fieldlet,i|
-				next if !my_fieldlet.value? #skip if the fieldlet is null
+			fieldlets.each_with_index do |fieldlet,i|
+				next if !fieldlet.value? #skip if the fieldlet is null
 			
 				# get the original values
-				values = my_fieldlet.values.dup #dup because hashes are mutable
-				
-				# if we are updating, don't use the original values, we'll set them later
-				# so we could use the 'save_changes' method
-				if !my_fieldlet.new? && !force_create
-					values.reject!{|k,v| my_fieldlet.changed_columns.include? k}
-				end
+				values = fieldlet.values.dup #dup because hashes are mutable
 				
 				# overide the kind and the entity_id values
-				values.merge!(:entity_id => duplicant.pk, :kind => target_fieldlet_ids[i].to_i(16), :instance_id => instance)
+				values.merge!(:entity_id => duplicant.pk, 
+											:kind => target_fieldlet_ids[i].to_i(16), 
+											:instance_id => instance)
 				
 				# if we're duplicating the link fieldlet, we need to revesrse it on the 
 				# duplicated version
-				if self.class::LINK_FIELDLET == my_fieldlet.class::IDENTIFIER
+				if self.class::LINK_FIELDLET == fieldlet.class::IDENTIFIER
 					values.merge!(:int_value => @entity[:id])
 				end
 				
 				# now will create the fieldlet instances
-					if (my_fieldlet.new? || force_create)
-						target_fieldlet = self.class::NAMESPACE::Fieldlet.new
+					if (fieldlet.new? || force_create)
+						target_fieldlet = ns()::Fieldlet.new
 						target_fieldlet.values.merge!(values)
 					else
-						target_fieldlet = self.class::NAMESPACE::Fieldlet.load(values)
+						target_fieldlet = ns()::Fieldlet.load(values)
 					
-						my_fieldlet.changed_columns.each do |col|
-							target_fieldlet[col] = my_fieldlet[col]
-						end
+						target_fieldlet.set_changed_columns(fieldlet.changed_columns)
 					end
 					@duplicated_fieldlets << target_fieldlet
 			end

@@ -18,7 +18,7 @@ module VM
 				if(display)
 					display_lambda = proc do |fieldlets_value|
 						# replace all the guids with their ids
-						return display.gsub(/[a-f0-9]{16}/){|v| fieldlets_value[v]}
+						return display.gsub(/[a-f0-9]{16}/){|v| fieldlets_value[v].value}
 					end
 				end
 				

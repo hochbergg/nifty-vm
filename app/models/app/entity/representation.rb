@@ -14,37 +14,6 @@ require 'builder'
 module App
 	class Entity < Sequel::Model
 		
-
-		
-		# InstanceMethods
-		
-			
-			def to_xml
-		    xml = Builder::XmlMarkup.new(:indent => 2)
-				xml.entity({:id => self.id, :type => self.kind}) do |xml|
-					[:display, :created_at, :updated_at].each do |att|
-						xml.tag!(att, self.send(att), :type => self.send(att).class)
-					end
-					xml << self.fields_xml
-				end
-		  end
-		
-			def fields_xml
-				xml = Builder::XmlMarkup.new(:indent => 2)
-				xml.fields do |xml|
-					self.clean_fields.each do |field_id,instances|
-						xml.field(:type => field_id) do |xml|
-							instances.each do |instance|
-								xml.instance(:id => instance.instance_id) do |xml|
-									instance.each do |fieldlet|
-										xml << fieldlet.to_xml
-									end
-								end
-							end
-						end
-					end
-				end
-			end
 			
 			def to_json(*args)				
 				json_hash = {
@@ -53,34 +22,21 @@ module App
 					:display => @values[:display],
 					:created_at => @values[:created_at],
 					:updated_at	=> @values[:updated_at],
-					:fields => self.clean_fields(),
+					:fields => self.only_fields_with_return_value(),
 					:schema => self.class::SCHEMA
 				}
 
-				return json_hash.to_json
+				return json_hash.to_json(*args)
 			end
 			
-			def clean_fields
+			def only_fields_with_return_value
 				fields = {}
 				self.fields.each do |key,field_instances|
-					fields[key] = field_instances.reject{|x| !x.returned?}
+					fields[key] = field_instances.reject{|x| !x.has_return_value?}
 				end
 				return fields
 			end
 		
 		# end  InstanceMethods
-	end
-end
-
-
-# UGLY monkey patch over here
-class Array
-	def to_xml
-		xml = Builder::XmlMarkup.new(:indent => 2)
-		xml.records do |xml|
-			self.each do |item|
-				xml << item.to_xml
-			end
-		end
 	end
 end

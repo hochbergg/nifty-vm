@@ -1,3 +1,4 @@
+require 'namespacing'
 require 'inheritance_mixin'
 
 module App
@@ -53,8 +54,8 @@ module App
 		
 		# JSON representation
 		# @overrideable
-		def to_json
-			self.value_to_json.to_json()
+		def to_json(*args)
+			self.value_to_json.to_json(*args)
 		end
 	
 		# XML representation
@@ -164,6 +165,17 @@ module App
 		
 		
 		def entity_update_callback
+		end
+		
+		
+		def extract_callback(callback_sym, entities_to_load)
+			if callback = self.send(callback_sym)		
+		 		callback.call(entities_to_load) 
+			end
+		end
+		
+		def set_changed_columns(changed_columns)
+			@changed_columns = changed_columns
 		end
 	end
 end

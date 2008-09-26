@@ -20,7 +20,7 @@ module App
 	  
 	  def create
 	    @entity = @namespace::Entity.get_subclass_by_id(params[:id]).new
-			@entity.set_fieldlets(params[:entity])
+			@entity.instances = (params[:entity])
 	    if @entity.save_changes
 				return render
 	    else
@@ -35,7 +35,7 @@ module App
 	  
 	  def update
 	    @entity = @namespace::Entity.find_with_fieldlets(params[:id])
-			@entity.set_fieldlets(params[:entity])
+			@entity.instances = (params[:entity])
 	    if @entity.save_changes
 				return render
 	    else
