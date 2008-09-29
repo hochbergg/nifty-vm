@@ -1,0 +1,5 @@
+public/viewer/*
+log/*
+public/javascripts/nifty.js
+public/javascripts/ext.js
+public/stylesheets/nifty.css
