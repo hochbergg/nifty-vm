@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- generated with yaml2schema -->
+<schema name="Amazonifty" id="d1d8ab47557f0f5a">
+	<preferences>
+		<item key="routing">*</item>
+	</preferences>
+	<entities>
+		<entity name="Person" id="fdae913172896bce">
+			<preferences>
+				<item key="pluralName">People</item>
+				<item key="displayLambda">dbb3b17c052b115f 244b48c76e2ce7a7</item>
+			</preferences>
+			<fields>
+				<field name="Name" id="dd8274e8bb043360">
+					<preferences>
+						<item key="maxInstance">1</item>
+						<item key="minInstance">1</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="First" id="dbb3b17c052b115f">
+							<preferences>
+								<item key="type">String</item>
+							</preferences>
+						</fieldlet>
+						<fieldlet name="Last" id="244b48c76e2ce7a7">
+							<preferences>
+								<item key="type">String</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+				<field name="Contributions" id="bd3ca4b17e13bf0b">
+					<preferences>
+						<item key="duplication">
+							<item key="target_classes">
+								<item key="1d03ca03e76d140e">1d5a79532c8ff7f7</item>
+							</item>
+							<item key="link_fieldlet">337e91ee1b425d7d</item>
+						</item>
+						<item key="minInstance">0</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="Product" id="337e91ee1b425d7d">
+							<preferences>
+								<item key="type">Link</item>
+							</preferences>
+						</fieldlet>
+						<fieldlet name="Role" id="a247f864b5337091">
+							<preferences>
+								<item key="type">String</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+			</fields>
+		</entity>
+		<entity name="Company" id="71aa43efd0fdd671">
+			<preferences>
+				<item key="pluralName">Companies</item>
+				<item key="displayLambda">0f843ee1c18d74a0</item>
+			</preferences>
+			<fields>
+				<field name="Name" id="26c24af2e134d3f9">
+					<preferences>
+						<item key="maxInstance">1</item>
+						<item key="minInstance">1</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="Name" id="0f843ee1c18d74a0">
+							<preferences>
+								<item key="type">String</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+				<field name="Products" id="24864cb27445ef74">
+					<preferences>
+						<item key="duplication">
+							<item key="target_classes">
+								<item key="1d03ca03e76d140e">f8d9a751b11f32f5</item>
+							</item>
+							<item key="link_fieldlet">344715e69dfefe30</item>
+						</item>
+						<item key="minInstance">0</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="Product" id="344715e69dfefe30">
+							<preferences>
+								<item key="type">Link</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+			</fields>
+		</entity>
+		<entity name="Product" id="1d03ca03e76d140e">
+			<preferences>
+				<item key="pluralName">Products</item>
+				<item key="displayLambda">4dde5fffb2ca29af</item>
+			</preferences>
+			<fields>
+				<field name="Title" id="d7ab61ad24519b82">
+					<preferences>
+						<item key="maxInstance">1</item>
+						<item key="minInstance">1</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="Title" id="4dde5fffb2ca29af">
+							<preferences>
+								<item key="type">String</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+				<field name="List Price" id="c3eaca4f1ad150d9">
+					<preferences>
+						<item key="maxInstance">1</item>
+						<item key="minInstance">1</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="List Price" id="9ec6e056b8bf203a">
+							<preferences>
+								<item key="type">String</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+				<field name="Type" id="2a1f35b7547e73a7">
+					<preferences>
+						<item key="maxInstance">1</item>
+						<item key="minInstance">1</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="Type" id="4589dcc19104b5ad">
+							<preferences>
+								<item key="type">String</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+				<field name="Contributors" id="1d5a79532c8ff7f7">
+					<preferences>
+						<item key="duplication">
+							<item key="target_classes">
+								<item key="fdae913172896bce">bd3ca4b17e13bf0b</item>
+							</item>
+							<item key="link_fieldlet">1d97f15ccd526b90</item>
+						</item>
+						<item key="minInstance">0</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="Person" id="1d97f15ccd526b90">
+							<preferences>
+								<item key="type">Link</item>
+							</preferences>
+						</fieldlet>
+						<fieldlet name="Role" id="228c9c108a81686b">
+							<preferences>
+								<item key="type">String</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+				<field name="Publisher" id="f8d9a751b11f32f5">
+					<preferences>
+						<item key="duplication">
+							<item key="target_classes">
+								<item key="71aa43efd0fdd671">24864cb27445ef74</item>
+							</item>
+							<item key="link_fieldlet">3d346ea5d84496bc</item>
+						</item>
+						<item key="minInstance">0</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="Company" id="3d346ea5d84496bc">
+							<preferences>
+								<item key="type">Link</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+				<field name="Publication Date" id="de614cd2b830d038">
+					<preferences>
+						<item key="maxInstance">1</item>
+						<item key="minInstance">1</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="Publication Date" id="4ec5d0e8ae9ffe9e">
+							<preferences>
+								<item key="type">String</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+				<field name="SalesRank" id="565f4687e3a91c9c">
+					<preferences>
+						<item key="maxInstance">1</item>
+						<item key="minInstance">1</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="SalesRank" id="7d25a2d2d51debd2">
+							<preferences>
+								<item key="type">String</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+				<field name="ASIN" id="6396d04d06f6d6aa">
+					<preferences>
+						<item key="maxInstance">1</item>
+						<item key="minInstance">1</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="ASIN" id="58911e1905ce1f41">
+							<preferences>
+								<item key="type">String</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+				<field name="Attributes" id="5bbe3d13c443372c">
+					<preferences>
+						<item key="minInstance">0</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="Type" id="2aab167708c27f7b">
+							<preferences>
+								<item key="type">String</item>
+							</preferences>
+						</fieldlet>
+						<fieldlet name="Value" id="2209ceaece034343">
+							<preferences>
+								<item key="type">String</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+				<field name="Subjects" id="6e436fc498ede989">
+					<preferences>
+						<item key="minInstance">0</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="Subject" id="521df08f37ce47a2">
+							<preferences>
+								<item key="type">String</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+				<field name="Reviews" id="5f9c00833dad6aae">
+					<preferences>
+						<item key="minInstance">0</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="Source" id="20ea1f8c74ed3125">
+							<preferences>
+								<item key="type">String</item>
+							</preferences>
+						</fieldlet>
+						<fieldlet name="Review" id="fd0816ebcab622ca">
+							<preferences>
+								<item key="type">Text</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+				<field name="Related Products" id="8ba8ae0d944a1187">
+					<preferences>
+						<item key="duplication">
+							<item key="target_classes">
+								<item key="1d03ca03e76d140e">8ba8ae0d944a1187</item>
+							</item>
+							<item key="link_fieldlet">fa7d917d1f2be9bb</item>
+						</item>
+						<item key="minInstance">0</item>
+					</preferences>
+					<fieldlets>
+						<fieldlet name="Product" id="fa7d917d1f2be9bb">
+							<preferences>
+								<item key="type">Link</item>
+							</preferences>
+						</fieldlet>
+					</fieldlets>
+				</field>
+			</fields>
+		</entity>
+	</entities>
+</schema>

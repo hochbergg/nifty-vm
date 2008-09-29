@@ -1,24 +1,19 @@
 module App
 	class Entity < Sequel::Model
-		# Writing related methods
-		# 
-		#
 		
-		# Updates the fieldlets and add new fieldlets to the fiedls
-		# 
-		# ==== Parameters
-    # instances_hash<Hash>:: a hash which will used to update the fieldlet hash
+		##
+		# Adds, updates and removes field instances for the entity
 		#
-		# ==== Example
+		# @param [Hash] instance_hash
 		#
-		# set_fieldlets({5691 => {10 => 'value'}, 'new' => [-1 => {10 => 'value', 11 => 'blalbla'}, -2 => {10 => 'value'}]})
+		# === instance_hash examples
+		# * Updating: {<InstanceID> => {<FieldletKind> => <FieldletValue>}}
+		# 						{'80044300905744541' => {'4589dcc19104b5ad' => 'Merb'}}
+		# 						{'80044300905278446' => {'2a1f35b7547e73a7' => {x: 12, y: 34}}}
 		#
-		# 
+		# * Adding: 	{'new' => {<UniqInstanceID> => {<FieldletKind> => <FieldletValue>}}}
+		# * Removing: {'remove' => {<InstanceID> => true}}
 		#
-
-		# set_fieldlets({'new' => {1 => {'9ae9d4f04db7012bad310014512145e8' => 'nifty'}}})
-		# 			Field instance id =^    Fieldlet guid =^					Fieldlet value =^ 
-		
 		def instances=(instances_hash)
 			@fieldlets_by_type ||= {} #for later lambda reference of the new fieldlets
 			@entities_to_load    = {}
@@ -32,7 +27,19 @@ module App
 			return true
 		end
 		
-		# create new instances from the given hash
+
+		##
+		# Adds field instances for the entity
+		#
+		# @param [Hash] instance_hash
+		#
+		# === instance_hash examples
+		# {<UniqInstanceID> => {<FieldletKind> => <FieldletValue>}}
+		# {'80044300905744541' => {'4589dcc19104b5ad' => 'Merb'}}
+		#
+		#
+		# The UniqInstanceID has no real usage, it is only used the group fieldlets
+		# from the same instance
 		def add_instances!(instances_hash)
 				return if !instances_hash
 				instances_hash.each do |uniq_id, fieldlets_hash|
@@ -60,6 +67,15 @@ module App
 		# instances_hash = {<instance_id> => <field_id>}
 		#
 
+		##
+		# Removes field instances for the entity
+		#
+		# @param [Hash] instance_hash
+		#
+		# === instance_hash examples
+		#  {<InstanceID> => true}
+		#  {'80044300905744541' => true}
+		#
 		def remove_instances!(instances_hash)	
 			return if !instances_hash		
 			instances_hash.each do |instance, value|
@@ -67,7 +83,16 @@ module App
 			end
 		end
 		
-		# instance_hash = {<instance_id> => {<fieldlet_kind> => <value>, ...}}
+		##
+		# Updates field instances for the entity
+		#
+		# @param [Hash] instance_hash
+		#
+		# === instance_hash examples
+		#  {<InstanceID> => {<FieldletKind> => <FieldletValue>}}
+		#  {'80044300905744541' => {'4589dcc19104b5ad' => 'Merb'}}
+		#  {'80044300905278446' => {'2a1f35b7547e73a7' => {x: 12, y: 34}}}
+		#
 		def update_instances!(instances_hash)
 			return if !instances_hash
 			
@@ -96,52 +121,56 @@ module App
 			end
 		end
 		
-		
-		#
-		# a place for improvement
-		#
-		
-			# Saves the entity and the fieldlets
-			#
-			# ==== Returns
-			# <Boolean>:: true if save was successful, false if validation failed 
-			#
-			# ==== Notes
-			# * If no fieldets, saves only the entity
-			# * If the fieldlets do not validate, don't save and return false
-			# * Saves entity and fieldlets in a transaction
-			#
-			def save_changes
-				set_display_value()
-				return super if !@fields # if no fieldlets, save the normal way
-				return false if !self.fields.values.all?{|field| field.all?{|instance| instance.valid?}}
-				
-				self.db.transaction do
-					if(@new)
-						self.save
-					else	
-						super #call for the inherited save action - saves the entity
-					end
-					
-					@fields.values.each{|field| field.each{|instance| instance.save}}
-				end
-				return true
-			end
-			
-			# sets the display value according to the given lambda
-			
-			def set_display_value
-				if self.class::DISPLAY_LAMBDA
-					self.display = self.class::DISPLAY_LAMBDA.call(@fieldlets_by_type) 
-				end
-			end
 	
-	
-			def generate_entity_pk
-				s = ""
-				8.times{s << rand(256).to_s(16)}
-				@values[:id] = s.to_i(16) # 64 bits random
-			end
-		
+		##
+	 	# Saves the entity and the fieldlets
+	 	# sets the display value of the entity based on the fieldlets
+		# 
+		# @return [Boolean] true if the entity saved correctly, false if the 
+		# 	validation Failed
+		#
+	 	# ==== Notes
+	 	# * If no fieldets, saves only the entity
+	 	# * If the fieldlets do not validate, don't save and return false
+	 	# * Saves entity and fieldlets in a transaction
+	 	#
+	 	def save_changes
+	 		set_display_value()
+	 		return super if !@fields # if no fieldlets, save the normal way
+	 		return false if !self.fields.values.all?{|field| field.all?{|instance| instance.valid?}}
+	 		
+	 		self.db.transaction do
+	 			if(@new)
+	 				self.save
+	 			else	
+	 				super #call for the inherited save action - saves the entity
+	 			end
+	 			
+	 			@fields.values.each{|field| field.each{|instance| instance.save}}
+	 		end
+	 		return true
+	 	end
+	 	
+	 	##
+		# Sets the 'display' column on the entity row to the evaluated proc
+		# stored in the DISPLAY_LAMBDA const of the class
+		#
+	 	def set_display_value
+	 		if self.class::DISPLAY_LAMBDA
+	 			self.display = self.class::DISPLAY_LAMBDA.call(@fieldlets_by_type) 
+	 		end
+	 	end
+	 	
+	 	##
+		# Generates a random 64bit integer for usage as a primary key for entities
+		#
+		# @return [Fixnum] 64bit random
+		#
+	 	def generate_entity_pk
+	 		s = ""
+	 		8.times{s << rand(256).to_s(16)}
+	 		@values[:id] = s.to_i(16) # 64 bits random
+	 	end
+	 	
 	end
 end

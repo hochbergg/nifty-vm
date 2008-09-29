@@ -1,23 +1,43 @@
 Dir.glob(Merb.root / 'app'/ 'models' / 'app' / 'field' / '*.rb').each{|f| require f}
-# = Field
-# The field class 
-#
-#
-#
-#
+
 
 module App
+  ##
+  # = Field
+  # Encapsulate field instance and link duplication behavior.
+  # Responsible for creating, updating and deleting instances and their linked instances
+  #
+  # === Usage
 	class Field
 		include Enumerable	
 		include Namespacing
 		
+		##
+		# Constructor
+		#
+		# @param [App::Entity] entity that the field belongs to
+		# @return [App::Field]
+		#
+		# === Notes
+		# * duplicant is for the other side of an optional link. @see Field#duplicant
 		def initialize(entity)
 			@entity = entity
 			@fieldlets = {} 
 			@duplicant = nil
 		end
 		
-		# push fieldlets
+    ##
+    # Push a given fieldlet to this field instance 
+    #
+    # @param [App::Fieldlet] fieldlet to be pushed
+    # @return [App::Fieldlet] the given fieldlet
+    #
+    # @raise [Exception] if the given fieldlet's field class don't match this
+    #                    instance's class
+    #
+    # === Notes
+    # * If the fieldlet have instance_id, it is set for the field instance's instance_id
+    #
 		def push(fieldlet)
 			if (self.class != fieldlet.class::FIELD)
 				raise "FieldletKind mismatch: expected #{self.class} but got #{fieldlet.class::FIELD}" 
@@ -30,23 +50,50 @@ module App
 		
 		alias :<< :push
 		
-		# for usage with Enumerable mixin
+    ##
+    # Each implementation required by the Enumerable mixin
+    #
+    # @yield a block for iterating on the filedlets in this instance
+    # @yieldparam [App::Fieldlet] the currently iterated fieldlet
+    #
 		def each(&block)
 			@fieldlets.values.each(&block)
 		end
-
+    
+    ##
+    # Returns or sets the 64bit instance_id "random"
+    #
+    # @return [Fixnum] 64bit instnace_id random
+    #
+    # === Notes
+    # * The left side of the number is the current time, the right side is a random number
+    #
 		def instance_id
 			@instance_id ||= ((Time.now.to_f * 1000).to_i << 16) + rand(1024 * 64)
 		end
 		
+		##
+		# Checks if this instance is empty or all its fieldlets are new
+		#
+		# @return [Boolean] true if there are no fieldlets or that non of the fieldlets is new
+		#
 		def new?
 			@fieldlets.empty? || self.all?{|x| x.new?} 
 		end
 		
+		## 
+		# Checks if all of the fieldlets have value
+		#
+		# @return [Boolean] true if all the fieldlets have no value, false otherwise
 		def null?
 			!self.all?{|x| x.value?}
 		end
 		
+		##
+		# Checks this instance is new and all the fieldlets have no value
+		#
+		# @return [Boolean] true if all the fieldlets have no value and this instance
+		#                   is new. otherwise instead
 		def clean?
 			self.new? && self.null?
 		end

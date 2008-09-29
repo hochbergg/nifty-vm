@@ -1,24 +1,12 @@
 == Client Side
 
-+ form submission & ajax saving
-+ "dirty" instances
-+ beforeLeaving event for pages
-+ 'entity is dirty' warning for saving changes
-+ fields with left labels
-* fieldsets
-+ side panel fields
-* all sorts of rendering issues
-+ entity-panel knows all the fields & fieldlets
-+ no save if not valid.
 * Smart-tabing between instances
 * blur & focus events for instances
 + color dirty instances
 + update displayItem with values, via handlers. 
-* field can be single or multiple
++ field can be single or multiple
 * show new empty instance on multiple edit fields
-* focus on the first editItem when editing instance
-* report for changes on the page
-+ ability to save changes - graphicaly
++ focus on the first editItem when editing instance
 
 + template-based markup generating for field, field-instnace & fieldlet, for using with grid (list)
 
@@ -71,52 +59,4 @@
 * many system fixtures
 * many stories
 * find a way to test fieldlets (maybe "interface-like" tests? (respond_to? :required_method))
-
-
-=== Fieldlets architecture
-
-+ no instantce_id anymore => round robin loading for filling instances
-* to delete instance => send every fieldlet in it to be NULL valued
-* fieldlets are not deleted, their values are set to null instead
-* instance is deleted only if all it's fieldlets values are null
-+ dual side links duplicates the instance also
-
-
-Entity Cycle:
-
-+ load: 
-		- fetch all the fieldlets by the entity_id(s)
- 		- iterate over fieldlets
-			- call load_callback
-			- push to the FieldFactory and add/create instances
-			- push to the entities_to_fieldlets<entity_id => [<fieldlet,...>]>
- 		
-		- fetch all entities required
-			- for each fieldlet in entities_to_fieldlets, call callback
-			- initiate with fields loaded
-		
-		- serve by fieldlet/field
-
-
-
-==== JS things:
-
-+ Make sure all the base classes are preconfigured
-* clean up some messy code
-* make the JIT tabs work, etc
-* clean up events
-+ refactor entity fields, instances & fieldlets
-
-* adding new field instance
-
-**********************
-
-* empty fieldlets in partialy filed fields should not be new but empty instead
-+ fix the 'latest' in schema
-+ move to 64 bit identifiers
-* load fieldlets with position priority
-
-
-
-
 
