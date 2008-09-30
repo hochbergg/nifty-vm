@@ -23,7 +23,7 @@ dependency 'merb-assets'
 dependency 'nifty-q'
 
 Merb::BootLoader.after_app_loads do
-	require 'lib/nifty_base_fieldlets/lib/nifty_base_fieldlets'
+  dependency 'nifty_base_fieldlets'
 
 	# load schema
  	VM::Schema.load! if Merb.config[:auto_load_schema]

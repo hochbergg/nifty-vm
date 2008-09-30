@@ -98,11 +98,22 @@ module App
 			self.new? && self.null?
 		end
 		
+		
+		##
+		# Checks if any of the fieldlets is changed
+		#
+		# @return [Boolean] if one or more fieldlets have changed
+		#
 		def changed?
 			self.any?{|f| !f.changed_columns.empty?}
 		end
 		
-		# schedual for removel on the next save
+		## 
+		# Sets the instance for removel 
+		#
+		# === Notes
+		# * Instances are removed upon save
+		#
 		def mark_for_removel!
 			@remove = true
 		end
@@ -116,7 +127,14 @@ module App
 			true
 		end
 		
-		# return all the fieldlets in this field
+		##
+		# Return all the fieldlets the instance have, existing and new ones
+		#
+		# @return [Array[App::Fieldlet]] fieldlets of the field instance
+		#
+		# === Notes
+		# * Non exist fieldlets are created
+		#
 		def all_fieldlets
 			self.class::FIELDLET_IDS.collect do |kind_id| 
 				@fieldlets[kind_id] || ns()::Fieldlet.get_subclass_by_id(kind_id).new
@@ -124,6 +142,16 @@ module App
 		end
 
 		
+		
+		##
+		# Saves the field instance
+		#
+		# @return [Boolean] true if saved, false if not
+		# === Notes
+		# * If the field is marked for removal, it will be removed @see App::Field#destroy
+		# * If the field hasn't change, return false and do nothing
+		# * Handles field duplication before saving the field instance
+		#
 		def save
 			return self.destroy() if @remove 
 			return false if !self.changed? || self.clean? # if new and null, we don't need to save anything	
@@ -140,8 +168,16 @@ module App
 				fieldlet.save_changes
 			end
 			@new = false
+			
+			return true
 		end
 		
+		##
+		# Set the duplication 
+		#
+		# === Notes
+		# * If the field is not duplicated, return nil
+		# * If the instance is new, call Field#create_duplicates!, else call Field#update_duplicaes!
 		def save_duplication!
 			# duplication
 			if self.class::DUPLICATION
@@ -150,17 +186,31 @@ module App
 		end
 		
 		
+		##
+		# Remove the duplicates if the field is duplicated, delete the field instance
+		#
+		#
 		def destroy	
 				destroy_duplicates! if self.class::DUPLICATION
 				ns()::Fieldlet.filter(:entity_id => @entity[:id], 
 															:instance_id => self.instance_id).delete
+				
+				return true
 		end
 
 		
 		# = ClassMethods
 	
 		
-		# create new field with new fieldlets hash
+    ##
+    # Creates new field instance and its fieldlets from the given fieldlets_hash
+    # and pushes to the given entity
+    #
+    # @param [App::Entity] entity the entity to add the field to
+    # @param [Hash] new_fieldlets_hash, contains the information for the new fieldlets, 
+    # @see Field::create_fieldlets_from_fieldlets_hash
+    # 
+    # @return [App::Field, Array[App::Fieldlet]] field and fieldlets created
 		def self.create_new_with_fieldlets(entity, new_fieldlets_hash)
 			fieldlets = create_fieldlets_from_fieldlets_hash(new_fieldlets_hash)
 			field_class = fieldlets.first.class::FIELD
@@ -173,6 +223,13 @@ module App
 		end
 		
 		protected
+		##
+		# Create new fieldlets from the given fieldlets hash
+		#
+		# @param [Hash] new_fieldlets_hash, contains the information for the new fieldlets
+		# 
+		# @return [Array[App::Fieldlet]] the created fieldlets
+		#
 		def self.create_fieldlets_from_fieldlets_hash(new_fieldlets_hash)
 			field_class = nil
 			# initialize the fieldlets	

@@ -9,16 +9,29 @@ module App
 		attr_accessor :old_duplicant
 	
 		# InstanceMethods
+		##
+		# Checks if the linked entity has changed, and we need to delete the duplicates
+		# and recreate them for the new entity
+		#
+		# @return [Boolean] true if the duplicant has changed
 		def duplicant_changed? 
 			return false if !self.link_fieldlet.old_entity
 			self.link_fieldlet.entity[:id] != self.link_fieldlet.old_entity[:id]
 		end
 		
+		##
+		# Delete the duplicates for the given duplicant
+		#
+		# @param [App::Entity] duplicant (optional)
+		#
 		def destroy_duplicates!(duplicant = self.duplicant())
 			ns()::Fieldlet.filter(:instance_id => self.instance_id(), 
 														:entity_id => duplicant[:id]).delete
 		end
 		
+		##
+		# 
+		#
 		def update_duplicates!(instance)
 			if duplicant_changed? 
 				destroy_duplicates!(self.link_fieldlet.old_entity)
