@@ -45,7 +45,7 @@ module App
 		# setup all the instance variables
 		after_initialize do 
 			@fieldlets = Hash.new{|hash, key| hash[key] = {}}
-			@fields = Hash.new{|hash, key| hash[key] = []}
+			@fields = FieldContainer.new(self.class::FIELDS)
 			@instances = {}
 			@fieldlets_by_type = {}
 		end

@@ -18,47 +18,14 @@ module App
 		#
 		def init_fieldlets(fieldlets=[])
 			fieldlets.each do |fieldlet|
-				push_fieldlet_to_field(fieldlet)
+				@instances[fieldlet[:instance_id]] = @fields.push(fieldlet)
     
 				@fieldlets[fieldlet[:instance_id]][fieldlet.class::IDENTIFIER] = fieldlet
 				@fieldlets_by_type[fieldlet.class::IDENTIFIER] ||= fieldlet
 			end
 		end
     
-		##
-		# Push the given fieldlet to its field class
-		#
-		# @param [App::Fieldlet] the fieldlet to push
-		#
-		# === Notes
-		# * The last instance of the fieldlet's field class is chosen
-		#
-		# * If there are no instances for the field class, or the 
-		#   instance_id of the fieldlet is different from the fieldlet's instance_id
-		#   a new field instance will be created.
-		#
-		# * The fieldlet is pushed into the instance (@see Field#push)
-		#
-		# * We assume that all the fieldlets are order by the instance_id, 
-		#   so when the instance_id changes, we KNOW that we should move
-		#   to another instance
-		#
-		def push_fieldlet_to_field(fieldlet)
-    
-			field = @fields[fieldlet.class::FIELD_ID].last
-			if field && field.instance_id == fieldlet[:instance_id]
-				return field << fieldlet
-			end 
-    
-			field = fieldlet.class::FIELD.new(self)
-			field << fieldlet
-    
-			@fields[fieldlet.class::FIELD_ID] << field
-    
-			# set up instances
-			@instances[fieldlet[:instance_id]] = field
-		end
-		
+	
 		
 		## == ClassMethods
 		

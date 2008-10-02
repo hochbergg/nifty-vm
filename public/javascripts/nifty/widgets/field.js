@@ -75,11 +75,14 @@ Nifty.widgets.field = Ext.extend(Ext.DataView, {
 		} else {
 			this.tpl = Nifty.cache.elements[this.identifier] = new Ext.XTemplate(this.buildTemplate());
 		}
+		
+		this.emptyText = 'No instances. <a href="http://microsoft.com">add one</a>';
 				
 		// call the to superclass 
 		Nifty.widgets.field.superclass.initComponent.call(this);
 		
 		this.editor = this.buildEditor();
+		
 		
 		this.on('render', this.setupActionTab, this, {delay:20});
 	},

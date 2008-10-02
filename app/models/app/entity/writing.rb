@@ -136,8 +136,8 @@ module App
 	 	#
 	 	def save_changes
 	 		set_display_value()
-	 		return super if !@fields # if no fieldlets, save the normal way
-	 		return false if !self.fields.values.all?{|field| field.all?{|instance| instance.valid?}}
+	 		return super if @fields.empty? # if no fieldlets, save the normal way
+	 		return false if !@fields.valid?
 	 		
 	 		self.db.transaction do
 	 			if(@new)
@@ -146,7 +146,7 @@ module App
 	 				super #call for the inherited save action - saves the entity
 	 			end
 	 			
-	 			@fields.values.each{|field| field.each{|instance| instance.save}}
+	 			@fields.save
 	 		end
 	 		return true
 	 	end

@@ -107,7 +107,7 @@ Nifty.data.EntityStore = function(){
 		storeCallbacks: {
 			onRemove: function(store, record, index){
 				this.removedRecords[record.id] = store.storeId;
-				if(this.autoFlush){this.saveTask.delay(5000);} // send saveChanges
+				if(this.autoFlush){this.saveTask.delay(10);} // send saveChanges
 			},
 			
 			onAdd: function(store, records, index){
@@ -122,7 +122,7 @@ Nifty.data.EntityStore = function(){
 					recordHash[k.slice(1)] = changes[k];
 				}
 				this.updatedRecords[record.id] = recordHash;
-				if(this.autoFlush){this.saveTask.delay(5000);} // send saveChanges
+				if(this.autoFlush){this.saveTask.delay(10);} // send saveChanges
 			}
 		},
 		
