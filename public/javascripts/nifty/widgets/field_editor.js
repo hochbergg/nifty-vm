@@ -24,8 +24,8 @@ Nifty.widgets.FieldEditor = function(field, config){
 Ext.extend(Nifty.widgets.FieldEditor, Ext.Container, {
     layout: 'fieldeditorlayout',
 
+
 	startEdit: function(itemIndex){
-		this.index = itemIndex;
 		// render if not rendered yet
 		if(!this.renderd){
 			this.applyToMarkup('nifty-field-editor-' + this.field.fieldId);

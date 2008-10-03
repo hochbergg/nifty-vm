@@ -76,7 +76,7 @@ Nifty.widgets.field = Ext.extend(Ext.DataView, {
 			this.tpl = Nifty.cache.elements[this.identifier] = new Ext.XTemplate(this.buildTemplate());
 		}
 		
-		this.emptyText = 'No instances. <a href="http://microsoft.com">add one</a>';
+		this.emptyText = this.generateEmptyField();
 				
 		// call the to superclass 
 		Nifty.widgets.field.superclass.initComponent.call(this);
@@ -85,6 +85,22 @@ Nifty.widgets.field = Ext.extend(Ext.DataView, {
 		
 		
 		this.on('render', this.setupActionTab, this, {delay:20});
+		this.on('render', this.setupEmptyActions, this, {delay:20});
+	},
+	
+	isEmpty: function(){
+		return (this.store.getRange().length < 1)
+	},
+	
+	setupEmptyActions: function(){
+		if(!this.isEmpty()){return;} // do nothing if it's not empty
+		this.emptyAddNewEl = Ext.get('nifty-empty-' + this.fieldId);
+		
+		this.emptyAddNewEl.on('click', this.addNewInstance, this);
+	},
+	
+	addNewInstance: function(){
+		alert('New instance')
 	},
 	
 	setupActionTab: function(){
@@ -104,6 +120,10 @@ Nifty.widgets.field = Ext.extend(Ext.DataView, {
 	},
 	
 	
+	generateEmptyField: function(){
+		string =  '<div class="x-nifty-field-instance x-nifty-empty-field">No data. <a href="javascript:void(null)" class="x-nifty-field-empty-add" id="nifty-empty-{0}">Add</a></div>'
+		return String.format(string,this.fieldId);
+	},
 	
 	tabEvents: {
 		// called when the mouse enter

@@ -22,7 +22,9 @@ module App
     #
     #
 	  def validate_fieldlets!
-	    
+	    self.each do |fieldlet|
+	       @errors << fieldlet.validate() 
+	    end
     end 
 	  
 	end

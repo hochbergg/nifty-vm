@@ -15,7 +15,7 @@ Nifty.data.EntityCRUD.prototype =  {
 	read: function(entity_id, options){	
 		 // Ajax Request
 		 Ext.Ajax.request({
-		        url: String.format('{0}/entities/{1}.js', this.namespace, entity_id),
+		        url: String.format('{0}/entities/{1}.json', this.namespace, entity_id),
 		        success: options.onSuccess,
 		 	   	failure: options.onFailure,
 		        method: 'get',
@@ -26,7 +26,7 @@ Nifty.data.EntityCRUD.prototype =  {
 	create: function(jsonData, options){
 	  // Ajax Request
 	  Ext.Ajax.request({
-	        url: String.format('{0}/entities.js', this.namespace),
+	        url: String.format('{0}/entities.json', this.namespace),
 	        success: options.onSuccess,
 	  	   	failure: options.onFailure,
 	        method: 'post',
@@ -39,7 +39,7 @@ Nifty.data.EntityCRUD.prototype =  {
 	update: function(entity_id, jsonData, options){
 	  // Ajax Request
 	  Ext.Ajax.request({
-	        url: String.format('{0}/entities/{1}.js', this.namespace, entity_id),
+	        url: String.format('{0}/entities/{1}.json', this.namespace, entity_id),
 	        success: options.onSuccess,
 	  	   	failure: options.onFailure,
 	        method: 'put',
@@ -51,7 +51,7 @@ Nifty.data.EntityCRUD.prototype =  {
 	destroy: function(entity_id, options){
 	  // Ajax Request
 	  Ext.Ajax.request({
-         	url: String.format('{0}/entities/{1}.js', this.namespace, entity_id),
+         	url: String.format('{0}/entities/{1}.json', this.namespace, entity_id),
 	        success: options.onSuccess,
 	  	   	failure: options.onFailure,
 	        method: 'delete',

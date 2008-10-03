@@ -45,6 +45,11 @@ module App
 		include Namespacing
 
 
+
+    @@validations_hash = {
+      'required' => proc{|fieldlet, args| return false if !fieldlet.value? && args == 'true'; return true}
+    }
+
 		# ==== Representations 
 		#
 		# Every fieldlet must provide to_xml & to_json methods
@@ -177,5 +182,42 @@ module App
 		def set_changed_columns(changed_columns)
 			@changed_columns = changed_columns
 		end
+		
+		##
+		# Iterate over the defined validations, and return errors if there are 
+		# any
+		#
+		# @return [Array] list of errors
+		def validate
+		  @errors = []
+		  
+		  self.class::VALIDATIONS.each do |key, args|
+		    validate_value!(key, args)
+		  end
+		
+		  return @errors
+		end
+				
+		protected
+		
+		##
+		# Finds the requested validation and run it's proc
+		# with the given args
+		#
+		# @param [String] key, for the validations hash
+		# @param [String, Hash] args, args for the validation proc
+		#
+		def validate_value!(key, args)
+		  validation = self.class.validations[key]
+		  raise "No validation was found for #{key}" if !validation
+		  @errors << {:key => key} if !validation.call(args)
+		end
+		
+		
+		
+		def self.validations
+		 @@validations_hash
+		end
+		
 	end
 end

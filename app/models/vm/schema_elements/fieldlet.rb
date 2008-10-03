@@ -12,11 +12,13 @@ module VM
 				field	 = schema_element.parent
 				field_id = field.hex_guid
 				type  = prefs['type']
+				validations = prefs['validation'] || []
 								
 				{
 				 'FIELD'			=> field.generated(namespace),
 				 'TYPE'				=> type,
-				 'FIELD_ID' 	=> field_id
+				 'FIELD_ID' 	=> field_id,
+				 'VALIDATIONS'=> validations
 				}
 			end
 			

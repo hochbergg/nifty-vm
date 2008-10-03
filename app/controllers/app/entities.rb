@@ -1,6 +1,7 @@
 module App
 	class Entities < AppController
-	  provides :html, :xml, :js
+	  provides :xml, :json
+	  layout false # no layouts
 	  
 	  def index
 	    @entities = [] #Entity.all_with_fieldlets
@@ -10,6 +11,7 @@ module App
 	  def show
 	    @entity = @namespace::Entity.find_with_fieldlets(params[:id])
 			raise NotFoundException if !@entity
+			set_last_modified_headers()
 			display @entity
 	  end
 	  
@@ -65,7 +67,18 @@ module App
 				:total => @entities.size
 			}.to_json
 		end
-	
+		
+		
+    protected
+    
+    ##
+    # Sets the last modified headers for the entity
+    #
+	  def set_last_modified_headers
+	   # turned off due to weird FF3 bug
+	   #self.headers['Last-modified'] = @entity[:updated_at].httpdate 
+	  end
+	  
 	
 	end
 end

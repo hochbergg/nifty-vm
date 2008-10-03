@@ -16,11 +16,12 @@ module App
     # Intialize the field container
     #
     # @param [Array[App::Field]] fields to be served on the container
+    # @param [App::Entity]  entity, the entity scope we works on
     #
-    def initialize(fields)
+    def initialize(fields, entity)
       @fields = {}
       @prefs = {}
-      
+      @entity = entity
       fields.each do |field|
         @fields[field::IDENTIFIER] = []
         @prefs[field::IDENTIFIER] = field::PREFS
@@ -64,7 +65,7 @@ module App
   			return field << fieldlet
   		end 
     
-  		field = fieldlet.class::FIELD.new(self)
+  		field = fieldlet.class::FIELD.new(@entity)
   		field << fieldlet
     
   		@fields[fieldlet.class::FIELD_ID] << field
@@ -116,23 +117,16 @@ module App
     
     def validate_instance_numbers!
       @prefs.each do |field_id, prefs_hash|
-        validate_minimum!(field_id, prefs_hash)
-        validate_maximum!(field_id, prefs_hash)
+        validate_instance_numer!(field_id, prefs_hash['minInstance'], :>)
+        validate_instance_numer!(field_id, prefs_hash['maxInstance'], :<)
       end
     end
     
-    def validate_minimum!(field_id, prefs_hash)
-       if extract_from_prefs(prefs_hash['minInstance']) > @fields[field_id].size
-            @errors << {:id => field_id, :error => :min}
-        end
+    def validate_instance_numer!(field_id, value,op)
+      if extract_from_prefs(value) && extract_from_prefs(value).send(op,@fields[field_id].size)
+        @errors << {:id => field_id, :error => op.to_s}
+      end
     end
-    
-    def validate_maximum!(field_id, prefs_hash)
-       if extract_from_prefs(prefs_hash['maxInstance']) < @fields[field_id].size
-            @errors << {:id => field_id, :error => :max}
-        end
-    end
-    
     
     def extract_from_prefs(value)
       return nil if !value

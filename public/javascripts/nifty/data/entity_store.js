@@ -111,7 +111,6 @@ Nifty.data.EntityStore = function(){
 			},
 			
 			onAdd: function(store, records, index){
-				
 			},
 			
 			onUpdate: function(store, record, operation){

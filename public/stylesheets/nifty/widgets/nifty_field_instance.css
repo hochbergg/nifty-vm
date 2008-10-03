@@ -42,3 +42,17 @@ div.x-nifty-field-instance-before-delete{
 	border: 1px solid #F0211E !important;
 	background: #FFD1CE !important;
 }
+
+/*  Empty field instance*/
+
+div.x-nifty-empty-field{
+	color: gray;
+}
+
+div.x-nifty-empty-field a{
+	color: gray;
+}
+
+div.x-nifty-empty-field a:hover{
+	color: #494949;
+}
