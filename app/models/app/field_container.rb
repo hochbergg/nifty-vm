@@ -152,7 +152,7 @@ module App
     end
     
     def count_instances(field_id)
-      @fields[field_id].find_all{|i| !i.marked_for_removal?}
+      @fields[field_id].find_all{|i| !i.marked_for_removal?}.size
     end
     
     

@@ -66,9 +66,9 @@ module VM
 				element.guid 	 = guid
 			end
 			
-			element.set(:name => name) # set the name
-			element.set(:parent_guid => parent_guid) if parent_guid
-			element.set(:position => position) if position
+			element[:name] = name # set the name
+			element[:parent_guid] = parent_guid if parent_guid
+			element[:position] = position if position
 			
 			element.prefs = preferences
 			block.call(element, xml_element) if block
