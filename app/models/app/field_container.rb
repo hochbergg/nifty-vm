@@ -113,6 +113,22 @@ module App
       end
     end
     
+    
+    ##
+    # Returns only fields which return value
+    #
+    # @return [Hash{String => Array[App::Field]}] fields which return value
+    #
+    def with_return_value
+      fields = {}
+      @fields.each do |field_id, instances|
+        fields[field_id] = instances.reject{ |i| !i.has_return_value? }
+      end
+      return fields
+    end
+    
+    
+    
     protected
     
     def validate_instance_numbers!
@@ -123,7 +139,7 @@ module App
     end
     
     def validate_instance_numer!(field_id, value,op)
-      if extract_from_prefs(value) && extract_from_prefs(value).send(op,@fields[field_id].size)
+      if extract_from_prefs(value) && extract_from_prefs(value).send(op,self.count_instances(field_id))
         @errors << {:id => field_id, :error => op.to_s}
       end
     end
@@ -133,6 +149,10 @@ module App
       value = value.to_i
       return false if value == 0
       return value
+    end
+    
+    def count_instances(field_id)
+      @fields[field_id].find_all{|i| !i.marked_for_removal?}
     end
     
     

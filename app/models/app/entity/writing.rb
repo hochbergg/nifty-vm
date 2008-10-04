@@ -79,7 +79,7 @@ module App
 		def remove_instances!(instances_hash)	
 			return if !instances_hash		
 			instances_hash.each do |instance, value|
-				@instances[instance.to_i].mark_for_removel!
+				@instances[instance.to_i].mark_for_removal!
 			end
 		end
 		
@@ -137,7 +137,7 @@ module App
 	 	def save_changes
 	 		set_display_value()
 	 		return super if @fields.empty? # if no fieldlets, save the normal way
-	 		
+	 	  return false if !self.valid?
 	 		self.db.transaction do
 	 			if(@new)
 	 				self.save
@@ -166,7 +166,7 @@ module App
 	 	# @return [Boolean] true if the entity is valid
 	 	#
 	 	def valid? 
-	 	  @fields.valid?
+	 	  @valid ||= @fields.valid?
  	  end
  	  
  	  ##

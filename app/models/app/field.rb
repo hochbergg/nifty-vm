@@ -109,14 +109,23 @@ module App
 		end
 		
 		## 
-		# Sets the instance for removel 
+		# Sets the instance for removal 
 		#
 		# === Notes
 		# * Instances are removed upon save
 		#
-		def mark_for_removel!
+		def mark_for_removal!
 			@remove = true
 		end
+		
+		##
+		# Checks if the instance is marked for deletion
+		#
+		# @return [Boolean] true if marked for deletion
+		def marked_for_removal?
+		  @remove
+	  end
+		
 		
 		# should we return this field? 
 		# if linked, and have link value => returned. 
