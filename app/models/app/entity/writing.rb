@@ -137,7 +137,6 @@ module App
 	 	def save_changes
 	 		set_display_value()
 	 		return super if @fields.empty? # if no fieldlets, save the normal way
-	 		return false if !@fields.valid?
 	 		
 	 		self.db.transaction do
 	 			if(@new)
@@ -160,6 +159,24 @@ module App
 	 			self.display = self.class::DISPLAY_LAMBDA.call(@fieldlets_by_type) 
 	 		end
 	 	end
+	 	
+	 	##
+	 	# Overides the valid? method of Sequel::Model
+	 	#
+	 	# @return [Boolean] true if the entity is valid
+	 	#
+	 	def valid? 
+	 	  @fields.valid?
+ 	  end
+ 	  
+ 	  ##
+ 	  # Overides the errors method of Sequel::Model
+ 	  #
+ 	  # @return [Array] of errors
+ 	  def errors
+ 	    @fields.errors
+    end
+	 	
 	 	
 	 	##
 		# Generates a random 64bit integer for usage as a primary key for entities
