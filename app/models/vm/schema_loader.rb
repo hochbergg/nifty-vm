@@ -40,6 +40,14 @@ module VM
 					
 		end
 		
+		##
+		# Unload the current schema if it's not new
+		#
+		def unload!
+		  return if @schema.new?
+		  @schema.unload!
+	  end
+		
 		def parse_elements(xml_elements,element_type,  parent_guid = nil, &block)
 			elements = []
 			i = 0
@@ -79,6 +87,14 @@ module VM
 			return hash
 		end
 		
+		def set_active!
+		  @schema[:active] = true
+	  end
+	  
+	  def save!
+	    @schema.save_changes
+    end
+		
 		attr_reader :document, :schema, :entities, :fields, :fieldlets, :pages, :lists, :filters
 		
 		def commit!
@@ -99,9 +115,10 @@ module VM
 		def self.load!(xml_path)
 			s = SchemaLoader.new(xml_path)
 			s.parse!
+      s.unload!
 			s.commit!
-			s.schema.active = true
-			s.schema.save_changes
+			s.set_active!
+			s.save!
 			return s.schema
 		end
 	end

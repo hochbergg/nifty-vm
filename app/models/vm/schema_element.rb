@@ -18,6 +18,7 @@ module VM
 			primary_key [:schema, :guid]
 		end
 		
+		set_primary_key :schema, :guid
 		
 		
 		# schema assocc:

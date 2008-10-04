@@ -20,13 +20,21 @@ module VM
 		end
 		set_primary_key :guid
 		
+		one_to_many(:schema_elements,
+		            :key => :schema,
+		            :class => VM::SchemaElement) do |ds|
+		              ds.order(:parent_guid, :position)
+		            end
+		
+		before_destroy :unload! # unload before destroying
+		after_destroy  :destroy_schema_elements_on_destruction
 		
 		
 		def load_schema_elements
 			@elements = {}
 			@children_of_element = {}
 			return false if self.new?
-			SchemaElement.filter(:schema => @values[:guid]).order(:parent_guid, :position).all.each do |schema_element|
+			self.schema_elements().each do |schema_element|
 				self.push_schema_element(schema_element)
 			end
 		end
@@ -126,6 +134,13 @@ module VM
 				@generated
 		end
 
+    ##
+    # Remove the schema's schema elements after destruction of 
+    # the schema
+    #
+    def destroy_schema_elements_on_destruction
+      
+    end
 	
 		attr_accessor :generated
 		
