@@ -57,7 +57,13 @@ module App
 		# 
 
 		
-		# JSON representation
+		##
+		# Renders to field in JSON
+		#
+		# @param [*] *args, args to pass to the to_json method
+		#
+		# @return [String] json encoded field instance
+		#
 		# @overrideable
 		def to_json(*args)
 			self.value_to_json.to_json(*args)

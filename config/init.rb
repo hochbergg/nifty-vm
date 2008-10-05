@@ -20,7 +20,6 @@ Merb.push_path(:lib, Merb.root / "lib") # uses **/*.rb as path glob.
 # ==== Dependencies
 
 dependency 'merb-assets'
-dependency 'nifty-q'
 
 Merb::BootLoader.after_app_loads do
   dependency 'nifty_base_fieldlets'
