@@ -14,18 +14,18 @@ module App
 		# * Adding: 	{'new' => {<UniqInstanceID> => {<FieldletKind> => <FieldletValue>}}}
 		# * Removing: {'remove' => {<InstanceID> => true}}
 		#
-		def instances=(instances_hash)
-			@fieldlets_by_type ||= {} #for later lambda reference of the new fieldlets
-			@entities_to_load    = {}
-			
-			add_instances!		instances_hash.delete('new')
-			remove_instances! instances_hash.delete('remove')
-			update_instances! instances_hash
-			self.class.fetch_entities_with_callbacks(@entities_to_load)
-
-			
-			return true
-		end
+		#def instances=(instances_hash)
+		#	@fieldlets_by_type ||= {} #for later lambda reference of the new fieldlets
+		#	@entities_to_load    = {}
+		#	
+		#	add_instances!		instances_hash.delete('new')
+		#	remove_instances! instances_hash.delete('remove')
+		#	update_instances! instances_hash
+		#	self.class.fetch_entities_with_callbacks(@entities_to_load)
+    #
+		#	
+		#	return true
+		#end
 		
 
 		##
@@ -43,22 +43,22 @@ module App
 		def add_instances!(instances_hash)
 				return if !instances_hash
 				instances_hash.each do |uniq_id, fieldlets_hash|
-				field, fieldlets = ns()::Field.create_new_with_fieldlets(self, 
-																																fieldlets_hash)
-				
-				@fields[field.class::IDENTIFIER] << field
-				
-				# iterate fieldlets, execute load callbacks																														
-				fieldlets.each do |fieldlet|
-					# fetch and call any callback related to deferred loading of 
-					# entities
-					if callback = fieldlet.entity_create_callback
-						callback.call(@entities_to_lad)
-					end
-					
-					# for later usage with the display generations
-					@fieldlets_by_type[fieldlet.class::IDENTIFIER] ||= fieldlet
-				end																						
+				  field, fieldlets = ns()::Field.create_new_with_fieldlets(self, 
+				  																												fieldlets_hash)
+				  
+				  @fields[field.class::IDENTIFIER] << field
+				  
+				  # iterate fieldlets, execute load callbacks																														
+				  fieldlets.each do |fieldlet|
+				  	# fetch and call any callback related to deferred loading of 
+				  	# entities
+				  	if callback = fieldlet.entity_create_callback
+				  		callback.call(@entities_to_load)
+				  	end
+				  	
+				  	# for later usage with the display generations
+				  	@fieldlets_by_type[fieldlet.class::IDENTIFIER] ||= fieldlet
+				  end																						
 			end
 		end
 		

@@ -1,9 +1,11 @@
 module VM
 	module SchemaElementTypes
 		class AbstractSchemaElementType
-			@@has_models = {}
-			@@model_class_name = {}
-			
+			@@has_models            ||= {}
+			@@model_class_name      ||= {}
+	    @@should_set_parent     ||= {}
+	    @@schema_elements_types ||= {}
+	    
 			def self.has_model!
 				@@has_models[self] = true
 			end
@@ -81,7 +83,65 @@ module VM
 			
 			def self.register(symbol)
 				SchemaElement.register_element_type(symbol, self)
+				@@schema_elements_types[self] = symbol.to_s
 			end
+			
+			##
+			# Register the schema element for parsing tags as the given symbol
+			#
+			def self.register_parser_for(symbol)
+			  SchemaLoader.register_parser(symbol, self)
+		  end
+		  
+		  ##
+		  # accessor for @@should_set_parent
+		  #
+		  def self.set_parent?
+		    @@should_set_parent[self]
+		  end
+		  
+		  ##
+		  # sets the @@should_set_parent to true
+		  #
+		  def self.set_parent!
+		    @@should_set_parent[self] = true
+	    end
+	    
+	    ##
+	    # Parse the given xml node. can be overriden by subclasses
+	    #
+	    # @param [SchemaElement, Schema] parent_element the element which children
+	    #                                we parse
+	    #
+	    # @param [LibXML::XML::Node] xml_node the xml node we parse
+	    # 
+	    # @param [Schema] schema The schema object
+	    #
+	    # @overrideable
+	    #
+	    def self.parse(parent_element,xml_node, schema)
+        xml_node.children.each_with_index do |element_node, position|
+          element = schema["%016x" % element_node['id'].to_i(16)]
+          element ||= SchemaElement.new(:type => @@schema_elements_types[self])
+          element[:guid] = element_node['id'].to_i(16) if element.new?
+          element[:name] = element_node['name']
+          element[:position] = position
+          
+          self.extra_parsing(element,
+                             element_node,
+                             position,
+                             parent_element,
+                             schema) if self.respond_to? :extra_parsing
+          
+          if self.respond_to? :dont_parse_children
+            yield nil,nil
+          else
+            yield element, element_node
+          end
+        end
+	    end
+	    
+	    
 		end
 	end
 end

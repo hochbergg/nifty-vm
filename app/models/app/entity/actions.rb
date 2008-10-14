@@ -5,6 +5,65 @@
 module App
 	class Entity < Sequel::Model
 
-		# TODO: Implement
+    attr_reader :actions
+    
+    ##
+    # Execute the actions in the given actions hash
+    #
+    # @param [Hash{String => Hash}] action_hash a hash with the action
+    #                                           information recived from
+    #                                           the client.
+    #
+    # === actions_hash sample
+    # {<action_guid> => <parameters_hash>}
+		#   { '71aa43efd0fdd671' => {'instances' => 
+		#               [{'80044300905744541' => {'4589dcc19104b5ad' => 'Merb'}}]
+		#                           }
+    #   }
+    #
+    def apply_actions!(actions_hash) 
+      actions_hash = extract_action_klasses(actions_hash)
+      
+      # check security
+      validate_actions_permissions!(actions_hash.keys)
+      
+      # execute actions
+      actions_hash.each do |action, params|
+        @actions << action.new(self,params)
+      end
+      
+      # load all the required entities
+      self.class.fetch_entities_with_callbacks(@entities_to_load)
+    end
+    
+    
+    protected
+    
+    ##
+    # Validates that we can run all the given classes
+    #
+    # @param [Array[Class]] klasses classes to validate security on
+    #
+    def validate_actions_permissions!(klasses)
+      # todo
+    end
+   
+    ##
+    # Create a hash from the action class to the paramters
+    #
+    # @param [Hash] actions_hash a hash with the action information
+    #
+    def extract_action_klasses(actions_hash)
+      hash = {}
+        
+      actions_hash.each do |guid, params|
+        action = self.class::ACTIONS["%016x" % guid.to_i(16)]
+        raise "BadActionType #{guid}" if !action
+        hash.merge!({ action => params})
+      end
+      
+      return hash
+    end
+    
 	end
 end

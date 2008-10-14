@@ -53,6 +53,20 @@
 					</fieldlets>
 				</field>
 			</fields>
+			<actions>
+				<action name="my action" id="bbfd5623bc375e4">
+					<params>
+						<param name="what" type="String"/>
+					</params>
+					<steps>
+						<step type="print">
+							<params>
+								<param name="what" value="@what" />
+							</params>
+						</step>
+					</steps>
+				</action>
+			</actions>
 		</entity>
 		<entity name="Company" id="71aa43efd0fdd671">
 			<preferences>

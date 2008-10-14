@@ -4,11 +4,21 @@ module VM
 			register 	:entity
 			set_model_class_name 'Entity'
 			has_model!
-			
+			register_parser_for :entities
 			
 			def self.model_extra_constants(namespace,schema_element)
 				field_ids = schema_element.children_with_type(:field).
 																	  collect{|e| e.hex_guid}
+				
+				action_ids = schema_element.children_with_type(:action).
+                  								  collect{|e| e.hex_guid}
+
+        actions = {}
+        
+        action_ids.each do |id|
+          actions[id] = namespace.const_get("Action#{id}")
+        end
+        
 				field_names = field_ids.collect{|i| "Field#{i}"}
 				field_klasses = field_names.collect{|f| namespace.const_get(f)} 
 				
@@ -25,8 +35,14 @@ module VM
 				
 				{'DISPLAY_LAMBDA' => display_lambda,
 				 'FIELD_IDS'			=> field_ids,
-				 'FIELDS'					=> field_klasses}
+				 'FIELDS'					=> field_klasses,
+				 'ACTIONS'        => actions}
 			end
+			
+			
+			
+
+			
 		end
 	end
 end

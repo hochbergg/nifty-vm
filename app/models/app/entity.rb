@@ -48,6 +48,8 @@ module App
 			@fields = FieldContainer.new(self.class::FIELDS,self)
 			@instances = {}
 			@fieldlets_by_type = {}
+			@entities_to_load = {}
+			@actions = []
 		end
 		
 	end

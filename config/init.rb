@@ -36,12 +36,17 @@ use_orm :sequel
 # TESTING
 use_test :rspec
 
+# TEMPLATES
+use_template_engine :erb
+
+
 #
 # ==== Set up your basic configuration
 #
 
 Merb::Config.use do |c|
 
+  c[:use_mutex] = false
   # Sets up a custom session id key which is used for the session persistence
   # cookie name.  If not specified, defaults to '_session_id'.
   c[:session_id_key] = '_nifty_session_id'

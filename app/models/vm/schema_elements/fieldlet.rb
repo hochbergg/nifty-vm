@@ -4,7 +4,8 @@ module VM
 			register 	:fieldlet
 			set_model_class_name 'Fieldlet'
 			has_model!
-			
+			register_parser_for :fieldlets
+  		set_parent!
 			
 			def self.model_extra_constants(namespace, schema_element)
 				prefs = schema_element.prefs

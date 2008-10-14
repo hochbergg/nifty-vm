@@ -9,10 +9,10 @@ module App
 	  end
 	  
 	  def show
-	    @entity = @namespace::Entity.find_with_fieldlets(params[:id])
-			raise NotFoundException if !@entity
-			set_last_modified_headers()
-			display @entity
+	      @entity = @namespace::Entity.find_with_fieldlets(params[:id])
+			  raise NotFoundException if !@entity
+			  set_last_modified_headers()
+			  display @entity
 	  end
 	  
 	  def new
@@ -22,7 +22,7 @@ module App
 	  
 	  def create
 	    @entity = @namespace::Entity.get_subclass_by_id(params[:id]).new
-			@entity.instances = (params[:entity])
+			@entity.apply_actions!(params[:entity])
 	    if @entity.save_changes
 				return render
 	    else
@@ -37,7 +37,7 @@ module App
 	  
 	  def update
 	    @entity = @namespace::Entity.find_with_fieldlets(params[:id])
-			@entity.instances = (params[:entity])
+			@entity.apply_actions!(params[:entity])
 	    if @entity.save_changes
 				return render
 	    else

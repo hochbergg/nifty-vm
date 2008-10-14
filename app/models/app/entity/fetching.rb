@@ -5,7 +5,7 @@ module App
 		#
 		# accessors
 		#
-		attr_accessor :fields, :fieldlets, :instances
+		attr_accessor :fields, :fieldlets, :instances, :fieldlets_by_type
 		
 		
 		##

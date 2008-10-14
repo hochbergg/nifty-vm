@@ -6,10 +6,15 @@
   :username: root
   :password: 
   :host: localhost
+  :port: 3306
 
 :test:
   <<: *defaults
   :database: niftykm_testing
+  
+:debug:
+  <<: *defaults
+  
 
 :production:
   <<: *defaults

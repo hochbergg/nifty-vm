@@ -4,7 +4,8 @@ module VM
 			register 	:field
 			set_model_class_name 'Field'
 			has_model!
-			
+			register_parser_for :fields
+			set_parent!
 			
 			def self.model_extra_constants(namespace,schema_element)
 				fieldlet_ids = schema_element.children_with_type(:fieldlet).

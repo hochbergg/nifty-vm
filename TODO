@@ -1,3 +1,32 @@
+Client Side
+===========
+
+* Transform Nifty.app ot Nifty.BootLoadr class
+* Clean up and document Nifty.data
+* Implement nifty panel in a cleaner way, with support for footers and special extra header thingis
+* Clean up and document Nifty.widgets
+* Field & Fieldeditor with event based interactions
+* Simple validations for fields, auto marking for required fields
+* Extra field information and data, to be added on the side, under field name.
+* Empty entity
+* BigButton implementation 
+* Saving new entity
+* Add new fieldlets
+
+* info for offline server
+* info for not-found entity
+* sample index page with list of x items
+
+Server Side
+===========
+
+* Return errors for bad data.
+
+
+
+
+
+
 == Client Side
 
 * Smart-tabing between instances
