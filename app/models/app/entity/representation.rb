@@ -19,7 +19,7 @@ module App
 				json_hash = {
 					:id => "%016x" % @values[:id],
 					:type => self.class::IDENTIFIER,
-					:display => @values[:display],
+					:title => @values[:title],
 					:created_at => @values[:created_at],
 					:updated_at	=> @values[:updated_at],
 					:fields => @fields.with_return_value(),

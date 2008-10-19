@@ -26,7 +26,7 @@ module VM
         end
         
         prefs['params'] = params 
-        parent_element = prefs
+        parent_element.prefs = prefs
         yield nil,nil
 	    end
 

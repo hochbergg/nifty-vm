@@ -135,7 +135,7 @@ module App
 	 	# * Saves entity and fieldlets in a transaction
 	 	#
 	 	def save_changes
-	 		set_display_value()
+	 		set_title_value()
 	 		return super if @fields.empty? # if no fieldlets, save the normal way
 	 	  return false if !self.valid?
 	 		self.db.transaction do
@@ -151,12 +151,12 @@ module App
 	 	end
 	 	
 	 	##
-		# Sets the 'display' column on the entity row to the evaluated proc
-		# stored in the DISPLAY_LAMBDA const of the class
+		# Sets the 'title' column on the entity row to the evaluated proc
+		# stored in the TITLE_FORMAT const of the class
 		#
-	 	def set_display_value
-	 		if self.class::DISPLAY_LAMBDA
-	 			self.display = self.class::DISPLAY_LAMBDA.call(@fieldlets_by_type) 
+	 	def set_title_value
+	 		if self.class::TITLE_FORMAT
+	 			self[:title] = self.class::TITLE_FORMAT.call(@fieldlets_by_type) 
 	 		end
 	 	end
 	 	

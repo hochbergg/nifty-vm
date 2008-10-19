@@ -68,8 +68,11 @@ module VM
 				end
 				
 				# load extra methods
-				model_klass.class_eval &model_extension(namespace,schema_element) if respond_to?(:model_extension)
-
+				if respond_to?(:model_extension)
+				  to_eval = model_extension(namespace,schema_element)
+				  model_klass.class_eval &to_eval if to_eval.class == Proc
+				  model_klass.class_eval to_eval  if to_eval.class == String				
+        end
 			end
 			
 			def self.set_model_class_name(model_name)

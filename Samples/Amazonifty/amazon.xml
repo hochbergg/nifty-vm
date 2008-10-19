@@ -8,7 +8,7 @@
 		<entity name="Person" id="fdae913172896bce">
 			<preferences>
 				<item key="pluralName">People</item>
-				<item key="displayLambda">dbb3b17c052b115f 244b48c76e2ce7a7</item>
+				<item key="titleFormat">{dbb3b17c052b115f} {244b48c76e2ce7a7}</item>
 			</preferences>
 			<fields>
 				<field name="Name" id="dd8274e8bb043360">
@@ -35,7 +35,6 @@
 							<item key="target_classes">
 								<item key="1d03ca03e76d140e">1d5a79532c8ff7f7</item>
 							</item>
-							<item key="link_fieldlet">337e91ee1b425d7d</item>
 						</item>
 						<item key="minInstance">0</item>
 					</preferences>
@@ -54,24 +53,43 @@
 				</field>
 			</fields>
 			<actions>
-				<action name="my action" id="bbfd5623bc375e4">
-					<params>
-						<param name="what" type="String"/>
-					</params>
-					<steps>
-						<step type="print">
+				<action id="a247f864b5337095" name="invite">
+					<prototype>
+						<param name="name" type="String" />
+						<param name="last_name" type="String" />
+						<return name="test" type="String" />
+						<block>
+							<param name="test" type="String" />
+						</block>
+					</prototype>
+					<cond>
+							<eq>
+								<var name="name" />
+								<var name="last_name" />
+							</eq>
+					</cond>
+					<do>
+						<action href="print">
 							<params>
-								<param name="what" value="@what" />
+								<param name="print"><var name="name"/></param>
 							</params>
-						</step>
-					</steps>
+							<do>
+								<action href="print">
+									<params>
+										<param name="print">shlomi</param>
+									</params>
+								</action>
+							</do>
+						</action>
+					</do>
 				</action>
 			</actions>
+			
 		</entity>
 		<entity name="Company" id="71aa43efd0fdd671">
 			<preferences>
 				<item key="pluralName">Companies</item>
-				<item key="displayLambda">0f843ee1c18d74a0</item>
+				<item key="titleFormat">{0f843ee1c18d74a0}</item>
 			</preferences>
 			<fields>
 				<field name="Name" id="26c24af2e134d3f9">
@@ -96,7 +114,6 @@
 							<item key="target_classes">
 								<item key="1d03ca03e76d140e">f8d9a751b11f32f5</item>
 							</item>
-							<item key="link_fieldlet">344715e69dfefe30</item>
 						</item>
 						<item key="minInstance">0</item>
 					</preferences>
@@ -113,7 +130,7 @@
 		<entity name="Product" id="1d03ca03e76d140e">
 			<preferences>
 				<item key="pluralName">Products</item>
-				<item key="displayLambda">4dde5fffb2ca29af</item>
+				<item key="titleFormat">{4dde5fffb2ca29af}</item>
 			</preferences>
 			<fields>
 				<field name="Title" id="d7ab61ad24519b82">
@@ -161,7 +178,6 @@
 							<item key="target_classes">
 								<item key="fdae913172896bce">bd3ca4b17e13bf0b</item>
 							</item>
-							<item key="link_fieldlet">1d97f15ccd526b90</item>
 						</item>
 						<item key="minInstance">0</item>
 					</preferences>
@@ -184,7 +200,6 @@
 							<item key="target_classes">
 								<item key="71aa43efd0fdd671">24864cb27445ef74</item>
 							</item>
-							<item key="link_fieldlet">3d346ea5d84496bc</item>
 						</item>
 						<item key="minInstance">0</item>
 					</preferences>
@@ -287,7 +302,6 @@
 							<item key="target_classes">
 								<item key="1d03ca03e76d140e">8ba8ae0d944a1187</item>
 							</item>
-							<item key="link_fieldlet">fa7d917d1f2be9bb</item>
 						</item>
 						<item key="minInstance">0</item>
 					</preferences>

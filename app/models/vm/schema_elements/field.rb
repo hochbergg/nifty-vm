@@ -16,8 +16,12 @@ module VM
 				
 				fieldlet_names 	 = fieldlet_ids.collect{|i| "Fieldlet#{i}"}
 				fieldlet_klasses = fieldlet_names.collect{|f| namespace.const_get(f)} 
-				link_fieldlet 	 = duplication['link_fieldlet'] if duplication && duplication['link_fieldlet']
-
+				
+				if(duplication)
+				  # find link fieldlet
+				  link_fieldlet = fieldlet_klasses.find{|f| f::PREFS['type'] == 'Link'}::IDENTIFIER
+        end
+      
 				duplication_hash = nil
 				if duplication
 					duplication_hash = {}

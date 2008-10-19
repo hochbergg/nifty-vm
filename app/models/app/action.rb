@@ -1,70 +1,48 @@
-require 'params_validation'
-
 module App
-  ##
-  # = Action 
-  # Contain steps which updates the entity. 
+  ## 
+  # = Action
+  #
   #
   class Action
-    include Namespacing
-    include ParamsValidation
-    @@registerd_steps ||= {}
-    
-    attr_reader :params
-    
-    ##
-    # Create a new instance of the action, validates the given params
-    # and executes the steps
-    #
-    # @param [App::Entity] entity the entity which runs the actions
-    # @param [Hash] params the given action params
-    #
-    def initialize(entity, params)
-      @entity, @params = entity, params
-      @steps = []
-      init_params!(self.class::PARAMS)
-      run_steps!
-    end
-    
-    
- 
+		include Namespacing
+    @@actions ||= {}
     
     
     ##
-    # Runs the predefined steps
+    # register the action class with the given name
     #
-    def run_steps!
-      self.class::STEPS.each do |step|
-        step_klass = @@registerd_steps[step[:type]]
-        @steps << step_klass.new(@entity,self,step[:param_procs])
-      end
-    end
-    
-    # == Class methods
-    
-    ##
-    # Registers a given step class 
-    # 
-    # @param [Symbol] symbol The symbol to represent the step
-    # @param [App::Step] step_klass The step class
-    #
-    def self.register_step(symbol, step_klass)
-      @@registerd_steps[symbol] = step_klass
+    # @param [String] name the name to register the class with
+    # @param [Class] klass a class to register with
+    def self.register(name, klass = self)
+      @@actions[name] = klass
     end
     
     ##
-    # accessor for @@registerd_steps
+    # register a proc as an action 
     #
-    # @return [Hash] the registerd steps hash
-    def self.steps
-      @@registerd_steps
+    # @param [String] name the name to register the proc with
+    # @param [Proc] proc  the proc to register as an action
+    def self.register_proc(name, &proc)
+      @@actions[name] = proc
     end
     
-    protected :init_params!, 
-              :validate_params_type!,
-              :validate_required_params!,
-              :run_steps!
+    ##
+    # accessor for @@actions#[]
+    #
+    # @param [String] name the name of the action
+    def self.[](name)
+      raise "ActionNotFoundError" if !action = @@actions[name]
+      return action
+    end
+
+    ##
+    # Initialize the action
+    # must be overiden
+    def initialize(params, entity = nil)
+      raise NotImplementedError
+    end
     
-    
+    def validate_vars!(vars)
+    end
   end
 end

@@ -32,10 +32,10 @@ module App
 			bigint			:kind, :unsigned => true, :null => false
 			timestamp		:created_at
 			timestamp		:updated_at
-			varchar			:display
+			varchar			:title
 
 			primary_key [:id]
-			index				[:display,:kind]
+			index				[:title,:kind]
 		end
 		
 		# Inheritance Mixin - for smart STI
@@ -50,6 +50,13 @@ module App
 			@fieldlets_by_type = {}
 			@entities_to_load = {}
 			@actions = []
+		end
+		
+		
+		## utility
+		
+		def fwf
+		  self.class.find_with_fieldlets(self.pk.to_s(16))
 		end
 		
 	end

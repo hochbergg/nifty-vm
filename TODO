@@ -1,3 +1,19 @@
+Actions
+=======
+
+
+* Action parser and evaluator
+* params parser
+* cond parser
+* prototype parser
+* can action yield? 
+* Entity actions
+* Constructors 
+* Actions returning values
+
+
+
+
 Client Side
 ===========
 
@@ -22,6 +38,10 @@ Server Side
 
 * Return errors for bad data.
 
+DataModel
+=========
++ Change DisplayLambda into Title format
++ Change Entity[:display] => Entity[:title]
 
 
 

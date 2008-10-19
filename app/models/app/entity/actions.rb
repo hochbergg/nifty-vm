@@ -29,7 +29,7 @@ module App
       
       # execute actions
       actions_hash.each do |action, params|
-        @actions << action.new(self,params)
+        @actions << action.new(*params)
       end
       
       # load all the required entities
@@ -56,10 +56,11 @@ module App
     def extract_action_klasses(actions_hash)
       hash = {}
         
-      actions_hash.each do |guid, params|
-        action = self.class::ACTIONS["%016x" % guid.to_i(16)]
-        raise "BadActionType #{guid}" if !action
-        hash.merge!({ action => params})
+      actions_hash.each do |key, params|
+        action = ns()::Action[self.class::ACTIONS["%016x" % key.to_i(16)]]
+        action ||= ns()::Action[key]
+        raise "BadActionType #{key}" if !action
+        hash.merge!({ action => action::PARAMS_PROC.call(params,self)})
       end
       
       return hash

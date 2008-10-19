@@ -208,7 +208,7 @@ module App
 		end
 
 		
-		# = ClassMethods
+		# == ClassMethods
 	
 		
     ##

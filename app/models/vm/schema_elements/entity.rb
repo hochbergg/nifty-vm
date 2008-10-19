@@ -22,18 +22,20 @@ module VM
 				field_names = field_ids.collect{|i| "Field#{i}"}
 				field_klasses = field_names.collect{|f| namespace.const_get(f)} 
 				
-				display = schema_element.prefs['displayLambda']
+				title_format = schema_element.prefs['titleFormat']
 				
-				display_lambda = nil
-				if(display)
-					display_lambda = proc do |fieldlets_value|
+				title_format_proc = nil
+				if(title_format)
+					title_format_proc = proc do |fieldlets_value|
 						# replace all the guids with their ids
-						return display.gsub(/[a-f0-9]{16}/){|v| fieldlets_value[v].value}
+						return title_format.gsub(/\{[a-f0-9]{16}\}/) do |v|
+						  fieldlets_value[v.sub('}','').sub('{','')].value
+					  end
 					end
 				end
 				
 				
-				{'DISPLAY_LAMBDA' => display_lambda,
+				{'TITLE_FORMAT' => title_format_proc,
 				 'FIELD_IDS'			=> field_ids,
 				 'FIELDS'					=> field_klasses,
 				 'ACTIONS'        => actions}
