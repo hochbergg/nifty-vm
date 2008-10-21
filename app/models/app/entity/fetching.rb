@@ -25,7 +25,14 @@ module App
 			end
 		end
     
-	
+    ##
+    # a shorthand for 
+    # self.class.fetch_entities_with_callbacks(@entities_to_load)
+    #
+    #
+    def fetch_entities_to_load
+	    self.class.fetch_entities_with_callbacks(@entities_to_load) 
+		end
 		
 		## == ClassMethods
 		

@@ -18,15 +18,6 @@ module App
     end
     
     ##
-    # register a proc as an action 
-    #
-    # @param [String] name the name to register the proc with
-    # @param [Proc] proc  the proc to register as an action
-    def self.register_proc(name, &proc)
-      @@actions[name] = proc
-    end
-    
-    ##
     # accessor for @@actions#[]
     #
     # @param [String] name the name of the action
@@ -38,11 +29,30 @@ module App
     ##
     # Initialize the action
     # must be overiden
-    def initialize(params, entity = nil)
+    def initialize(*args)
       raise NotImplementedError
     end
     
     def validate_vars!(vars)
     end
+    
+    
+    ##
+    # order a given params hash as an array of parameters to send
+    # to the constructor of the action
+    #
+    # @param [Hash] param_hash the parameters to send to the action
+    # @return [Array] array array of parameters to send to the action constructor
+    #
+    def self.order_params(params_hash)
+      params = []
+      self::PARAMS.each do |p|
+        param = parmas_hash[p.first]
+        raise ArgumentError if !param
+        params << param
+      end
+    end
   end
+
+  
 end

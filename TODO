@@ -1,15 +1,23 @@
 Actions
 =======
 
-
-* Action parser and evaluator
-* params parser
++ Action parser and evaluator
++ params parser
 * cond parser
-* prototype parser
++ prototype parser
 * can action yield? 
 * Entity actions
 * Constructors 
 * Actions returning values
+
+Rewriting action parsing and generating
+
+* Action parsing, block parsing, cond parsing, var parsing
+* Complex cases, Hashes, Blocks, validations
+* Action yields
+* Action generation, and generationlets
+* Return values
+
 
 
 

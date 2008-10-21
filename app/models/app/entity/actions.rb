@@ -6,6 +6,7 @@ module App
 	class Entity < Sequel::Model
 
     attr_reader :actions
+    attr_reader :async_actions
     
     ##
     # Execute the actions in the given actions hash
@@ -22,6 +23,7 @@ module App
     #   }
     #
     def apply_actions!(actions_hash) 
+      @async_actions = []
       actions_hash = extract_action_klasses(actions_hash)
       
       # check security
@@ -29,15 +31,52 @@ module App
       
       # execute actions
       actions_hash.each do |action, params|
+        if action::ASYNC
+          set_async_action(action, params) 
+          next
+        end
         @actions << action.new(*params)
       end
       
       # load all the required entities
-      self.class.fetch_entities_with_callbacks(@entities_to_load)
+      self.fetch_entities_to_load()
     end
     
     
     protected
+    
+    ##
+    # accessor for the async_actions
+    # return false if no async actions were found
+    #
+    # @return [Array[Proc], false] a list of procs or false if no async 
+    #                              actions
+    #
+    def async_actions
+      return false if !@async_actions || @async_actions.empty?
+      return @async_actions
+    end
+    
+    
+    ##
+    # add the action call as a proc to the async actions queue
+    #
+    # @param [Class] action the action to execute
+    # @param [Array] params the action params
+    #
+    def set_async_action(action, params)
+      async_proc = proc do 
+        action.new(*params)
+        
+        # load all the required entities
+        self.fetch_entities_to_load()
+
+        # save changes
+        self.save_changes
+      end
+      
+      @async_actions << async_proc
+    end
     
     ##
     # Validates that we can run all the given classes
@@ -60,7 +99,7 @@ module App
         action = ns()::Action[self.class::ACTIONS["%016x" % key.to_i(16)]]
         action ||= ns()::Action[key]
         raise "BadActionType #{key}" if !action
-        hash.merge!({ action => action::PARAMS_PROC.call(params,self)})
+        hash.merge!({ action => action::order_params(params)})
       end
       
       return hash

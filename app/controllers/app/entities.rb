@@ -23,6 +23,7 @@ module App
 	  def create
 	    @entity = @namespace::Entity.get_subclass_by_id(params[:id]).new
 			@entity.apply_actions!(params[:entity])
+			set_async_actions!
 	    if @entity.save_changes
 				return render
 	    else
@@ -38,6 +39,7 @@ module App
 	  def update
 	    @entity = @namespace::Entity.find_with_fieldlets(params[:id])
 			@entity.apply_actions!(params[:entity])
+			set_async_actions!
 	    if @entity.save_changes
 				return render
 	    else
@@ -80,5 +82,16 @@ module App
 	  end
 	  
 	
+	  ##
+	  # queues the async actions of the current @entity, if given
+	  #
+	  # 
+	  def set_async_actions!
+	    return if !@entity.async_actions
+	    
+	    async_actions.each do |async_proc|
+	      run_later(&async_proc)
+      end
+	  end
 	end
 end

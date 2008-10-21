@@ -54,37 +54,33 @@
 			</fields>
 			<actions>
 				<action id="a247f864b5337095" name="invite">
+					<preferences>
+						<item key="async">true</item>
+					</preferences>
 					<prototype>
-						<param name="name" type="String" />
-						<param name="last_name" type="String" />
-						<return name="test" type="String" />
+						<param name="name" type="String"/>
+						<param name="last_name" type="String"/>
+						<return name="test" type="String"/>
 						<block>
-							<param name="test" type="String" />
+							<param name="test" type="String"/>
 						</block>
 					</prototype>
-					<cond>
-							<eq>
-								<var name="name" />
-								<var name="last_name" />
-							</eq>
-					</cond>
 					<do>
 						<action href="print">
 							<params>
-								<param name="print"><var name="name"/></param>
+								<var name="name"/>
 							</params>
-							<do>
+							<block params="shlomi">
 								<action href="print">
 									<params>
-										<param name="print">shlomi</param>
+										<var name="shlomi"/>
 									</params>
 								</action>
-							</do>
+							</block>
 						</action>
 					</do>
 				</action>
 			</actions>
-			
 		</entity>
 		<entity name="Company" id="71aa43efd0fdd671">
 			<preferences>

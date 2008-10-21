@@ -43,7 +43,7 @@ module VM
             hash[:block] = parse_prototype(node.children)
             next 
           end
-          hash[(node.name + 's').to_sym] << {node['name'].to_sym => node['type']}
+          hash[(node.name + 's').to_sym] << [node['name'].to_sym,node['type']]
         end
         
         return hash
