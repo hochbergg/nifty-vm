@@ -25,6 +25,8 @@ module App
 					:fields => @fields.with_return_value(),
 					:schema => self.class::SCHEMA
 				}
+				
+				json_hash[:new] = true if @new
 
 				return json_hash.to_json(*args)
 			end

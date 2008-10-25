@@ -17,13 +17,14 @@ module App
 	  
 	  def new
 	    @entity = @namespace::Entity.get_subclass_by_id(params[:id]).new
+	    @entity.apply_constructor!
+	    apply_actions!
 	    display @entity
 	  end
 	  
 	  def create
 	    @entity = @namespace::Entity.get_subclass_by_id(params[:id]).new
-			@entity.apply_actions!(params[:entity])
-			set_async_actions!
+	    apply_actions!
 	    if @entity.save_changes
 				return render
 	    else
@@ -38,8 +39,7 @@ module App
 	  
 	  def update
 	    @entity = @namespace::Entity.find_with_fieldlets(params[:id])
-			@entity.apply_actions!(params[:entity])
-			set_async_actions!
+	    apply_actions!
 	    if @entity.save_changes
 				return render
 	    else
@@ -85,7 +85,6 @@ module App
 	  ##
 	  # queues the async actions of the current @entity, if given
 	  #
-	  # 
 	  def set_async_actions!
 	    return if !@entity.async_actions
 	    
@@ -93,5 +92,12 @@ module App
 	      run_later(&async_proc)
       end
 	  end
+	  
+	  ##
+	  # a shortcut to applying actions on the currently loaded entity
+	  def apply_actions!
+	    @entity.apply_actions!(params[:entity])
+			set_async_actions!
+    end
 	end
 end

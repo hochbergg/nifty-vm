@@ -34,11 +34,13 @@ module VM
 					end
 				end
 				
+				constructor = schema_element.prefs['constructor']
 				
-				{'TITLE_FORMAT' => title_format_proc,
+				{'TITLE_FORMAT'   => title_format_proc,
 				 'FIELD_IDS'			=> field_ids,
 				 'FIELDS'					=> field_klasses,
-				 'ACTIONS'        => actions}
+				 'ACTIONS'        => actions,
+				 'CONSTRUCTOR'    => constructor}
 			end
 			
 			

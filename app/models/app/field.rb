@@ -12,6 +12,8 @@ module App
 		include Enumerable	
 		include Namespacing
 		
+    attr_accessor :fieldlets
+		
 		##
 		# Constructor
 		#

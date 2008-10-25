@@ -104,6 +104,18 @@ module App
       
       return hash
     end
+   
+   ##
+   # Runs the constructor action, defined in the entity schema if 
+   # defined
+   #
+   # == Notes:
+   # * Constructor action must recive the current entity
+   def apply_constructor!
     
+     return if !self.class::CONSTRUCTOR
+     
+     self.class::CONSTRUCTOR.new(self)
+   end
 	end
 end
