@@ -5,7 +5,7 @@ module App
   # 
   # Create new instance in the given entity and field_id
   #
-  class ActionEachInstance < Action
+  class ActionNewInstance < Action
     register 'new_instance'
     
     ASYNC = false

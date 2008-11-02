@@ -65,6 +65,8 @@ Ext.extend(Nifty.Router, Ext.util.Observable, {
 			// default 
 			if (url == null || url == '')
 				url = "#"
+
+			var result = false;
 			
 			// iterate over the routers
 			Ext.each(this.routes, function(route){
@@ -82,7 +84,8 @@ Ext.extend(Nifty.Router, Ext.util.Observable, {
 					return; 
 				}				
 			},this);
-			
+
+			if(result){return}; // if we found a route, exit
 			// if no route was found
 			this.routingError(url);
 		},
@@ -101,17 +104,17 @@ Ext.extend(Nifty.Router, Ext.util.Observable, {
 		 * Check if the current page can be left, and if the url hasn't change
 		 */ 
 		route: function(){
-			if (current_hash == document.location.hash){ return;};
+			if (this.current_hash == document.location.hash){ return;};
 			
 			// call the beforeLeave handler for the current page
 			if (Nifty.pages.current && Nifty.pages.current.beforeLeave && (Nifty.pages.current.beforeLeave() === false))
 			{
-				document.location.hash = current_hash;
+				document.location.hash = this.current_hash;
 				return;
 			}
 				
 
-			current_hash = document.location.hash;
+			this.current_hash = document.location.hash;
 
 			this.routeAndCall(document.location.hash);
 		},
@@ -123,7 +126,7 @@ Ext.extend(Nifty.Router, Ext.util.Observable, {
 		 */ 
 		registerUrlPolling: function(){
 			  this.route();
-			  window.setInterval(this.route.apply(this)), 100);
+			  window.setInterval(this.route.createDelegate(this), 100);
 		},
 		
 		/**
@@ -145,15 +148,15 @@ Ext.extend(Nifty.Router, Ext.util.Observable, {
 			// Setup pages
 			Ext.each(Nifty.viewerInfo.pageAddresses, function(pageAddress){
 				this.add(new RegExp("#/" + pageAddress), function(){
-					Nifty.pages.fetchAndLoad(pageAddress);
+					Nifty.app.loadPage(pageAddress);
 				});
 			}, this);
 
 			// Setup home page
 			this.add(/#/, function(){
-				Nifty.pages.fetchAndLoad('/');
+				Nifty.app.loadPage('/');
 			});		
-		};
+		}
 		
 		
 }); // End of extending Nifty.router

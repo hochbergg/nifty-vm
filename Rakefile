@@ -37,3 +37,14 @@ task :default => 'spec'
 # ADD YOUR CUSTOM TASKS IN /lib/tasks
 # NAME YOUR RAKE FILES file_name.rake
 ##############################################################################
+
+desc "Init the schema "
+task :init_schema  => :merb_env do
+  [VM::Schema,
+   VM::SchemaElement,
+   App::Entity, 
+   App::Fileldet].each{|m| m.create_table!}  
+end
+
+
+

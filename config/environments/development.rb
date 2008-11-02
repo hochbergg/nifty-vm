@@ -11,6 +11,9 @@ Merb::Config.use { |c|
 	c[:auto_load_schema] = true
 	c[:auto_generate_js] = true
 	
+	c[:log_stream] = STDOUT
+  c[:log_file]   = nil
+  
 	c[:nifty_q] = {
 		:provider => :sequel,
 		:provider_options => {},

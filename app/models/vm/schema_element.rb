@@ -2,7 +2,7 @@ module VM
 	class SchemaElement < Sequel::Model
 		include PreferencesTools
 		
-		@@element_types = {}
+		@@element_types ||= {}
 		
 		set_schema do
 			bigint  :schema, :unsigned => true, :null => false			
@@ -52,6 +52,8 @@ module VM
 		
 		def schema_element_type
 			@schema_element_type ||= SchemaElement.element_types[@values[:type].to_sym]
+			raise "No schema element type :#{@values[:type]}" if !@schema_element_type
+			return @schema_element_type
 		end
 		
 		def has_model?

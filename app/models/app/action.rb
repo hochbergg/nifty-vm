@@ -35,8 +35,7 @@ module App
     
     def validate_vars!(vars)
     end
-    
-    
+
     ##
     # order a given params hash as an array of parameters to send
     # to the constructor of the action

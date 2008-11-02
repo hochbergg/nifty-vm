@@ -120,6 +120,8 @@ module VM
 		#end
 		
 		
+	
+		
 		def load!
 				self.setup_namespace()
 				self.load_schema_elements()

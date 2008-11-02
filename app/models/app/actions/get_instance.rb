@@ -5,7 +5,7 @@ module App
   # 
   # Get an instance from a given entity using an instance_id
   #
-  class ActionEachInstance < Action
+  class ActionGetInstance < Action
     register 'get_instance'
     
     ASYNC = false

@@ -1,14 +1,5 @@
-#
-# ==== Structure of Merb initializer
-#
-# 1. Load paths.
-# 2. Dependencies configuration.
-# 3. Libraries (ORM, testing tool, etc) you use.
-# 4. Application-specific configuration.
+require 'config/dependencies.rb'
 
-#
-# ==== Set up load paths
-#
 
 # Add the app's "gems" directory to the gem load path.
 Gem.clear_paths

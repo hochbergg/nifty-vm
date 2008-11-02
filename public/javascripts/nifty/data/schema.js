@@ -99,7 +99,7 @@ Nifty.data.Schema.prototype = {
 	 * 
 	 * @return {Object} constructor for the given element
 	 */ 
-	createConstructor: function(element) {
+	createConstructor: function(element){
 		if(element['type'] === 'fieldlet'){return;} //pass if fieldlet
 		
 		var constructor = Nifty.widgets[element['type']];
@@ -116,5 +116,5 @@ Nifty.data.Schema.prototype = {
 		
 		// call on dependent siblings
 		return klass;
-	};
+	}
 };

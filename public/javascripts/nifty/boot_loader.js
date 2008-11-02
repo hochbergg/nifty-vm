@@ -81,7 +81,7 @@ Nifty.BootLoader.prototype = {
 	 *
 	 * @param {Nifty.data.Schema} loaded_schema The loaded Schema
    */
-	finishSchemaLoading: function(loaded_schema){
+	finishSchemaLoading: function(loader,loaded_schema){
 		// Sets the current schema
 		this.schema = loaded_schema;
 		
@@ -107,7 +107,7 @@ Nifty.BootLoader.prototype = {
    * Sets the application title according to the loaded schema
    */
 	setApplicationTitle: function(){
-		Ext.fly('app-name').update(this.schema.loaded['name']);
+		Ext.fly('app-name').update(this.schema.name);
 	},
 	
 	/**
@@ -116,7 +116,17 @@ Nifty.BootLoader.prototype = {
 	setExtBaseOptions: function(){
 		// reference local blank image
 		Ext.BLANK_IMAGE_URL = '/ext/resources/images/default/s.gif';
-		
+		//init qtips
+    Ext.QuickTips.init();
+	},
+	
+	/**
+	 * Loads the page with the given id
+	 *
+	 * @param {String} id the page id to load 
+	 */ 
+	loadPage: function(id){
+		    new Nifty.widgets.page(Nifty.viewerInfo.pages[id]);
 	}
 };
  

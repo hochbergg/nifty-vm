@@ -1,0 +1,90 @@
+/**
+ * Nifty Pane css 
+ * 
+ */ 
+
+
+/* main wrapper */
+DIV.x-nifty-pane{
+	background: #fff;
+	border: 1px solid #9E9E9E;
+	border-top: 0;
+	border-left:0;
+}
+
+/* header */
+DIV.x-nifty-pane-header{
+	background: #a2a8b3;
+	color: #fff;
+	padding:10px;
+	border-bottom: 2px solid #DEDEDE;
+}
+
+DIV.x-nifty-pane-title{
+	font-size:30px;
+
+}
+
+DIV.x-nifty-pane-subtitle{
+	font-size:14px;
+
+}
+
+DIV.x-nifty-pane-toolbox{
+	float:right;
+}
+
+/* toolbox toolbar */
+DIV.x-nifty-pane-toolbox .x-toolbar{
+	background:#fff;
+	border:none;
+	color:#fff;
+	-moz-border-radius: 5px;
+}
+
+
+DIV.x-nifty-pane-graphic{
+	float:left;
+	margin-right:10px;
+	background: url(/images/product.png) no-repeat center center;
+	width: 64px;
+	height:64px;
+}
+
+
+DIV.x-nifty-pane-topContainer{
+	
+}
+
+/* footer */
+
+DIV.x-nifty-pane-footer{
+	padding:10px;
+	background: url(/images/pane/footer.png) repeat-x top right;
+	border:1px solid #EEEEEE;
+	font-size:12px;
+	color: #555555;
+}
+
+/* body */
+DIV.x-nifty-pane-body{
+	padding:10px;
+	
+}
+
+/* temppppp */
+.icon-tag{
+	background-image:url(/images/icons/tag.png) !important;
+}
+
+/* temppppp */
+.icon-flag-red{
+	background-image:url(/images/icons/flag_red.png) !important;
+}
+.icon-flag-blue{
+	background-image:url(/images/icons/flag_blue.png) !important;
+}
+/* temppppp */
+.icon-star{
+	background-image:url(/images/icons/star.png) !important;
+}
